@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="EquipItem" load_steps=8 format=3 uid="uid://d3r74pf5m36f2"]
+
+[ext_resource type="Script" path="res://Source/Data/EquipItem.cs" id="1_14aj8"]
+[ext_resource type="PackedScene" uid="uid://dsla03tgnh2wv" path="res://Objects/Effects/slash2.tscn" id="1_fjthh"]
+[ext_resource type="Script" path="res://Source/Character/Action.cs" id="2_rus2a"]
+[ext_resource type="PackedScene" uid="uid://b88gkok61fpu6" path="res://Objects/Effects/slash1.tscn" id="3_gtlel"]
+
+[sub_resource type="Resource" id="Resource_or36t"]
+script = ExtResource("2_rus2a")
+displayName = "Attack"
+actionDelay = 0.5
+endDelay = 0.5
+actionState = &"attackAir"
+effect = ExtResource("1_fjthh")
+
+[sub_resource type="Resource" id="Resource_8qoq6"]
+script = ExtResource("2_rus2a")
+displayName = "Attack 1"
+actionDelay = 0.2
+endDelay = 0.1
+actionState = &"attack1"
+effect = ExtResource("3_gtlel")
+
+[sub_resource type="Resource" id="Resource_g27hr"]
+script = ExtResource("2_rus2a")
+displayName = "Attack 2"
+actionDelay = 0.5
+endDelay = 0.1
+actionState = &"attack2"
+effect = ExtResource("1_fjthh")
+
+[resource]
+script = ExtResource("1_14aj8")
+EquipKind = 1
+AttackActions = Array[Object]([SubResource("Resource_8qoq6"), SubResource("Resource_g27hr")])
+AirAttackActions = Array[Object]([SubResource("Resource_or36t")])
+HPPlus = 0
+StrPlus = 2
+ConPlus = 0
+IntPlus = 0
+DisplayName = "Knife"
+IconIndex = 1

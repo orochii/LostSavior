@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=4 uid="uid://db0c5ftapdirs"]
+[gd_scene load_steps=30 format=4 uid="uid://db0c5ftapdirs"]
 
 [ext_resource type="Texture2D" uid="uid://d1oidtyp5v6kh" path="res://Graphics/Backgrounds/mountain.png" id="1_4vfh8"]
 [ext_resource type="Script" path="res://Source/World.cs" id="1_k0u2v"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://Source/Objects/DestructibleBarrier.cs" id="8_2vo7d"]
 [ext_resource type="Script" path="res://Source/Objects/Trigger.cs" id="9_vw6wv"]
 [ext_resource type="Texture2D" uid="uid://rau50bym3exh" path="res://Graphics/Objects/paintedMarks.png" id="10_yusrx"]
+[ext_resource type="Texture2D" uid="uid://c7jqywh24tyfh" path="res://Graphics/Objects/barrier_body.png" id="13_k1lbn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rftk5"]
 size = Vector2(2, 6)
@@ -58,6 +59,9 @@ size = Vector2(8, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnaoo"]
 size = Vector2(58, 176)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8jdbc"]
+size = Vector2(16, 64)
 
 [node name="Worldmap" type="Node2D" node_paths=PackedStringArray("PlayerStart")]
 texture_filter = 1
@@ -706,6 +710,20 @@ onlyOnce = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Node/Area2D"]
 shape = SubResource("RectangleShape2D_hnaoo")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Node"]
+texture_filter = 1
+position = Vector2(-1224, 576)
+
+[node name="BarrierBody" type="Sprite2D" parent="Node/StaticBody2D"]
+position = Vector2(0, -32)
+texture = ExtResource("13_k1lbn")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node/StaticBody2D"]
+position = Vector2(0, -32)
+shape = SubResource("RectangleShape2D_8jdbc")
 
 [node name="Node2D" type="Node2D" parent="."]
 position = Vector2(-512, 208)

@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://badilxhnulp4n"]
+
+[ext_resource type="Script" path="res://Source/UI/ItemEntry.cs" id="1_w3xnc"]
+[ext_resource type="FontFile" uid="uid://esmov650nrwv" path="res://Fonts/m3x6.ttf" id="2_sovwh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0cq2g"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a6pgo"]
+bg_color = Color(0.135617, 0.135617, 0.135617, 1)
+
+[node name="ItemEntry" type="Button"]
+custom_minimum_size = Vector2(0, 12)
+theme_override_styles/focus = SubResource("StyleBoxFlat_0cq2g")
+theme_override_styles/normal = SubResource("StyleBoxFlat_a6pgo")
+script = ExtResource("1_w3xnc")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+custom_minimum_size = Vector2(0, 9)
+layout_mode = 2
+offset_left = 2.0
+offset_top = -1.0
+offset_right = 102.0
+offset_bottom = 12.0
+theme_override_fonts/normal_font = ExtResource("2_sovwh")
+bbcode_enabled = true
+text = "[img region=0,8,8,8]res://Graphics/System/icons_s.png[/img] Potion"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[connection signal="pressed" from="." to="." method="OnPressed"]

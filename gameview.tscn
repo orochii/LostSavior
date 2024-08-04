@@ -1,25 +1,46 @@
-[gd_scene load_steps=10 format=3 uid="uid://bx5i6m54tjhk4"]
+[gd_scene load_steps=23 format=3 uid="uid://bx5i6m54tjhk4"]
 
 [ext_resource type="Script" path="res://Source/Game.cs" id="1_5onwa"]
 [ext_resource type="PackedScene" uid="uid://cybqiaksbhgx6" path="res://Objects/player.tscn" id="1_qbwex"]
 [ext_resource type="PackedScene" uid="uid://db0c5ftapdirs" path="res://Maps/world.tscn" id="3_ijwsy"]
 [ext_resource type="Texture2D" uid="uid://bw3hu5egje1ne" path="res://Graphics/System/HUD.png" id="4_rk0md"]
+[ext_resource type="Script" path="res://Source/UI/DebugInput.cs" id="5_2xvuv"]
 [ext_resource type="Script" path="res://Source/UI/Worldmap.cs" id="5_40ipd"]
+[ext_resource type="FontFile" uid="uid://esmov650nrwv" path="res://Fonts/m3x6.ttf" id="5_q2rvt"]
+[ext_resource type="Texture2D" uid="uid://tnuk0mbk5cnd" path="res://Graphics/System/icons.png" id="5_x4pfh"]
 [ext_resource type="Texture2D" uid="uid://6s7m2l2cnjys" path="res://Graphics/System/mmap_loc.png" id="6_exkm1"]
+[ext_resource type="Script" path="res://Source/UI/GameMenu.cs" id="8_51av8"]
+[ext_resource type="Texture2D" uid="uid://d2080nxrrk121" path="res://Graphics/System/equipmentScreen.png" id="10_8l84u"]
+[ext_resource type="Script" path="res://Source/UI/Equipment.cs" id="11_iesmq"]
+[ext_resource type="Script" path="res://Source/UI/CharStatsPanel.cs" id="13_q3l4n"]
+[ext_resource type="Script" path="res://Source/UI/CharEquipsPanel.cs" id="14_vcv0q"]
+[ext_resource type="Script" path="res://Source/UI/InventoryPanel.cs" id="15_t6oxk"]
+[ext_resource type="PackedScene" uid="uid://badilxhnulp4n" path="res://Objects/UI/item_entry.tscn" id="16_j84up"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0flm7"]
 atlas = ExtResource("4_rk0md")
 region = Rect2(0, 0, 96, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_r1l8n"]
+atlas = ExtResource("5_x4pfh")
+region = Rect2(0, 0, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_esw0t"]
 atlas = ExtResource("4_rk0md")
 region = Rect2(0, 192, 40, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_gr51g"]
-atlas = ExtResource("4_rk0md")
-region = Rect2(240, 168, 80, 72)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tm8mc"]
+bg_color = Color(1, 1, 1, 1)
 
-[node name="GameView" type="Control" node_paths=PackedStringArray("viewport", "camera")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_17dh3"]
+content_margin_left = 2.0
+bg_color = Color(0.0189402, 0.0189402, 0.0189402, 1)
+
+[sub_resource type="Theme" id="Theme_e6ywk"]
+VScrollBar/styles/grabber = SubResource("StyleBoxFlat_tm8mc")
+VScrollBar/styles/scroll = SubResource("StyleBoxFlat_17dh3")
+
+[node name="GameView" type="Control" node_paths=PackedStringArray("viewport", "camera", "gameMenu")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -32,6 +53,7 @@ worldTemplate = ExtResource("3_ijwsy")
 viewport = NodePath("SubViewportContainer/SubViewport")
 camera = NodePath("SubViewportContainer/SubViewport/Camera2D")
 cameraOffset = Vector2(0, -32)
+gameMenu = NodePath("CanvasLayer/Root/GameMenu")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 texture_filter = 1
@@ -50,71 +72,256 @@ snap_2d_transforms_to_pixel = true
 snap_2d_vertices_to_pixel = true
 canvas_item_default_texture_filter = 0
 canvas_cull_mask = 4293950495
-size = Vector2i(1280, 720)
+size = Vector2i(960, 540)
 size_2d_override = Vector2i(480, 270)
 size_2d_override_stretch = true
 render_target_update_mode = 4
 
 [node name="Camera2D" type="Camera2D" parent="SubViewportContainer/SubViewport"]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="SubViewportContainer/SubViewport"]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+scale = Vector2(2, 2)
+transform = Transform2D(2, 0, 0, 2, 0, 0)
 
-[node name="Control" type="Control" parent="SubViewportContainer/SubViewport/CanvasLayer"]
+[node name="Root" type="Control" parent="CanvasLayer"]
+texture_filter = 1
 layout_mode = 3
+anchors_preset = 0
+offset_right = 480.0
+offset_bottom = 270.0
+
+[node name="Control" type="Control" parent="CanvasLayer/Root"]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Health" type="TextureRect" parent="SubViewportContainer/SubViewport/CanvasLayer/Control"]
-layout_mode = 1
-offset_right = 96.0
-offset_bottom = 28.0
-texture = SubResource("AtlasTexture_0flm7")
-stretch_mode = 2
-
-[node name="Deck" type="TextureRect" parent="SubViewportContainer/SubViewport/CanvasLayer/Control"]
+[node name="Char" type="TextureRect" parent="CanvasLayer/Root/Control"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -48.0
-offset_right = 40.0
+offset_top = -32.0
+offset_right = 96.0
 grow_vertical = 0
-texture = SubResource("AtlasTexture_esw0t")
+texture = SubResource("AtlasTexture_0flm7")
 stretch_mode = 2
 
-[node name="Hand" type="TextureRect" parent="SubViewportContainer/SubViewport/CanvasLayer/Control"]
+[node name="Health" type="NinePatchRect" parent="CanvasLayer/Root/Control/Char"]
+layout_mode = 0
+offset_left = 37.0
+offset_top = 4.0
+offset_right = 87.0
+offset_bottom = 8.0
+texture = ExtResource("4_rk0md")
+region_rect = Rect2(32, 48, 50, 4)
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Root/Control/Char"]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 10.0
+offset_right = 52.0
+offset_bottom = 26.0
+texture = SubResource("AtlasTexture_r1l8n")
+stretch_mode = 2
+
+[node name="Skill1" type="TextureRect" parent="CanvasLayer/Root/Control"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -80.0
-offset_top = -72.0
+offset_left = -60.0
+offset_top = -44.0
+offset_right = -20.0
+offset_bottom = 4.0
 grow_horizontal = 0
 grow_vertical = 0
-texture = SubResource("AtlasTexture_gr51g")
+texture = SubResource("AtlasTexture_esw0t")
 stretch_mode = 2
 
-[node name="Worldmap" type="Control" parent="SubViewportContainer/SubViewport/CanvasLayer" node_paths=PackedStringArray("thisViewport", "parentViewport", "minimapCamera", "playerSprite")]
-process_mode = 2
-visible = false
-layout_mode = 3
+[node name="Skill2" type="TextureRect" parent="CanvasLayer/Root/Control"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -36.0
+offset_top = -60.0
+offset_right = 4.0
+offset_bottom = -12.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = SubResource("AtlasTexture_esw0t")
+stretch_mode = 2
+
+[node name="DebugInput" type="Control" parent="CanvasLayer/Root/Control" node_paths=PackedStringArray("controls")]
+process_mode = 3
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("5_2xvuv")
+controls = [NodePath("HBoxContainer/L"), NodePath("HBoxContainer/R"), NodePath("HBoxContainer/U"), NodePath("HBoxContainer/D"), NodePath("HBoxContainer/Jump"), NodePath("HBoxContainer/Dash"), NodePath("HBoxContainer/Attk"), NodePath("HBoxContainer/Pause")]
+actions = Array[StringName]([&"move_left", &"move_right", &"move_up", &"move_down", &"jump", &"dash", &"attack", &"pause"])
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Root/Control/DebugInput"]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("5_40ipd")
-thisViewport = NodePath("Container/Mask/SubViewportContainer/SubViewport")
-parentViewport = NodePath("../..")
-minimapCamera = NodePath("Container/Mask/SubViewportContainer/SubViewport/MinimapCam")
-playerSprite = NodePath("Container/Mask/PlayerPosOffset/PlayerPos")
+alignment = 1
 
-[node name="Overlay" type="ColorRect" parent="SubViewportContainer/SubViewport/CanvasLayer/Worldmap"]
+[node name="L" type="ColorRect" parent="CanvasLayer/Root/Control/DebugInput/HBoxContainer"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+color = Color(0.0859838, 0.0859838, 0.0859838, 1)
+
+[node name="Label" type="Label" parent="CanvasLayer/Root/Control/DebugInput/HBoxContainer/L"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_q2rvt")
+text = "L"
+horizontal_alignment = 1
+
+[node name="R" type="ColorRect" parent="CanvasLayer/Root/Control/DebugInput/HBoxContainer"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+color = Color(0.0859838, 0.0859838, 0.0859838, 1)
+
+[node name="Label" type="Label" parent="CanvasLayer/Root/Control/DebugInput/HBoxContainer/R"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_q2rvt")
+text = "R"
+horizontal_alignment = 1
+
+[node name="U" type="ColorRect" parent="CanvasLayer/Root/Control/DebugInput/HBoxContainer"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+color = Color(0.0859838, 0.0859838, 0.0859838, 1)
+
+[node name="Label" type="Label" parent="CanvasLayer/Root/Control/DebugInput/HBoxContainer/U"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_q2rvt")
+text = "U"
+horizontal_alignment = 1
+
+[node name="D" type="ColorRect" parent="CanvasLayer/Root/Control/DebugInput/HBoxContainer"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+color = Color(0.0859838, 0.0859838, 0.0859838, 1)
+
+[node name="Label" type="Label" parent="CanvasLayer/Root/Control/DebugInput/HBoxContainer/D"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_q2rvt")
+text = "D"
+horizontal_alignment = 1
+
+[node name="Jump" type="ColorRect" parent="CanvasLayer/Root/Control/DebugInput/HBoxContainer"]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+color = Color(0.0859838, 0.0859838, 0.0859838, 1)
+
+[node name="Label" type="Label" parent="CanvasLayer/Root/Control/DebugInput/HBoxContainer/Jump"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_q2rvt")
+text = "Jump"
+horizontal_alignment = 1
+
+[node name="Dash" type="ColorRect" parent="CanvasLayer/Root/Control/DebugInput/HBoxContainer"]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+color = Color(0.0859838, 0.0859838, 0.0859838, 1)
+
+[node name="Label" type="Label" parent="CanvasLayer/Root/Control/DebugInput/HBoxContainer/Dash"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_q2rvt")
+text = "Dash"
+horizontal_alignment = 1
+
+[node name="Attk" type="ColorRect" parent="CanvasLayer/Root/Control/DebugInput/HBoxContainer"]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+color = Color(0.0859838, 0.0859838, 0.0859838, 1)
+
+[node name="Label" type="Label" parent="CanvasLayer/Root/Control/DebugInput/HBoxContainer/Attk"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_q2rvt")
+text = "Attack"
+horizontal_alignment = 1
+
+[node name="Pause" type="ColorRect" parent="CanvasLayer/Root/Control/DebugInput/HBoxContainer"]
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+color = Color(0.0859838, 0.0859838, 0.0859838, 1)
+
+[node name="Label" type="Label" parent="CanvasLayer/Root/Control/DebugInput/HBoxContainer/Pause"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_q2rvt")
+text = "Pause"
+horizontal_alignment = 1
+
+[node name="GameMenu" type="Control" parent="CanvasLayer/Root" node_paths=PackedStringArray("screens")]
+process_mode = 3
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("8_51av8")
+screens = [NodePath("Worldmap"), NodePath("Equipment")]
+
+[node name="Overlay" type="ColorRect" parent="CanvasLayer/Root/GameMenu"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -123,7 +330,22 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.25098)
 
-[node name="Container" type="Control" parent="SubViewportContainer/SubViewport/CanvasLayer/Worldmap"]
+[node name="Worldmap" type="Control" parent="CanvasLayer/Root/GameMenu" node_paths=PackedStringArray("thisViewport", "parentViewport", "minimapCamera", "playerSprite")]
+process_mode = 2
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_40ipd")
+thisViewport = NodePath("Container/Mask/SubViewportContainer/SubViewport")
+parentViewport = NodePath("../../../../SubViewportContainer/SubViewport")
+minimapCamera = NodePath("Container/Mask/SubViewportContainer/SubViewport/MinimapCam")
+playerSprite = NodePath("Container/Mask/PlayerPosOffset/PlayerPos")
+
+[node name="Container" type="Control" parent="CanvasLayer/Root/GameMenu/Worldmap"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -135,7 +357,7 @@ offset_bottom = -32.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Background" type="ColorRect" parent="SubViewportContainer/SubViewport/CanvasLayer/Worldmap/Container"]
+[node name="Background" type="ColorRect" parent="CanvasLayer/Root/GameMenu/Worldmap/Container"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -144,7 +366,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.25098)
 
-[node name="Mask" type="ColorRect" parent="SubViewportContainer/SubViewport/CanvasLayer/Worldmap/Container"]
+[node name="Mask" type="ColorRect" parent="CanvasLayer/Root/GameMenu/Worldmap/Container"]
 clip_children = 1
 layout_mode = 1
 anchors_preset = 15
@@ -153,7 +375,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="SubViewportContainer/SubViewport/CanvasLayer/Worldmap/Container/Mask"]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer/Root/GameMenu/Worldmap/Container/Mask"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -162,17 +384,17 @@ grow_horizontal = 2
 grow_vertical = 2
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer/SubViewport/CanvasLayer/Worldmap/Container/Mask/SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="CanvasLayer/Root/GameMenu/Worldmap/Container/Mask/SubViewportContainer"]
 transparent_bg = true
 handle_input_locally = false
 canvas_cull_mask = 4293918751
 size = Vector2i(448, 206)
 render_target_update_mode = 0
 
-[node name="MinimapCam" type="Camera2D" parent="SubViewportContainer/SubViewport/CanvasLayer/Worldmap/Container/Mask/SubViewportContainer/SubViewport"]
+[node name="MinimapCam" type="Camera2D" parent="CanvasLayer/Root/GameMenu/Worldmap/Container/Mask/SubViewportContainer/SubViewport"]
 zoom = Vector2(0.1, 0.1)
 
-[node name="PlayerPosOffset" type="Control" parent="SubViewportContainer/SubViewport/CanvasLayer/Worldmap/Container/Mask"]
+[node name="PlayerPosOffset" type="Control" parent="CanvasLayer/Root/GameMenu/Worldmap/Container/Mask"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -182,5 +404,186 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PlayerPos" type="Sprite2D" parent="SubViewportContainer/SubViewport/CanvasLayer/Worldmap/Container/Mask/PlayerPosOffset"]
+[node name="PlayerPos" type="Sprite2D" parent="CanvasLayer/Root/GameMenu/Worldmap/Container/Mask/PlayerPosOffset"]
 texture = ExtResource("6_exkm1")
+
+[node name="Equipment" type="Control" parent="CanvasLayer/Root/GameMenu" node_paths=PackedStringArray("charStats", "charEquips", "inventory")]
+process_mode = 2
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("11_iesmq")
+charStats = NodePath("TextureRect/CharStats")
+charEquips = NodePath("TextureRect/CharEquips")
+inventory = NodePath("TextureRect/Inventory")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Root/GameMenu/Equipment"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -120.0
+offset_right = 160.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_8l84u")
+
+[node name="CharStats" type="Control" parent="CanvasLayer/Root/GameMenu/Equipment/TextureRect" node_paths=PackedStringArray("statsLabel")]
+anchors_preset = 0
+offset_left = 56.0
+offset_top = 55.0
+offset_right = 141.0
+offset_bottom = 103.0
+script = ExtResource("13_q3l4n")
+statsLabel = NodePath("Stats")
+
+[node name="TOP" type="Label" parent="CanvasLayer/Root/GameMenu/Equipment/TextureRect/CharStats"]
+layout_mode = 0
+offset_right = 61.0
+offset_bottom = 13.0
+theme_override_colors/font_color = Color(0.956863, 0.709804, 0.121569, 1)
+theme_override_constants/line_spacing = -4
+theme_override_fonts/font = ExtResource("5_q2rvt")
+theme_override_font_sizes/font_size = 16
+text = "CHARACTER STATS"
+
+[node name="Statics" type="Label" parent="CanvasLayer/Root/GameMenu/Equipment/TextureRect/CharStats"]
+layout_mode = 0
+offset_top = 9.0
+offset_right = 61.0
+offset_bottom = 49.0
+theme_override_colors/font_color = Color(0.858824, 0.917647, 0.619608, 1)
+theme_override_constants/line_spacing = -4
+theme_override_fonts/font = ExtResource("5_q2rvt")
+theme_override_font_sizes/font_size = 16
+text = "HP
+Str
+Con
+Int"
+
+[node name="Stats" type="Label" parent="CanvasLayer/Root/GameMenu/Equipment/TextureRect/CharStats"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -61.0
+offset_top = -15.0
+offset_bottom = 25.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/line_spacing = -4
+theme_override_fonts/font = ExtResource("5_q2rvt")
+theme_override_font_sizes/font_size = 16
+text = "0000/0000
+00
+00
+00"
+horizontal_alignment = 1
+
+[node name="CharEquips" type="Control" parent="CanvasLayer/Root/GameMenu/Equipment/TextureRect" node_paths=PackedStringArray("statsLabel")]
+anchors_preset = 0
+offset_left = 48.0
+offset_top = 111.0
+offset_right = 133.0
+offset_bottom = 159.0
+script = ExtResource("14_vcv0q")
+statsLabel = NodePath("RichTextLabel")
+
+[node name="TOP" type="Label" parent="CanvasLayer/Root/GameMenu/Equipment/TextureRect/CharEquips"]
+layout_mode = 0
+offset_right = 61.0
+offset_bottom = 13.0
+theme_override_colors/font_color = Color(0.956863, 0.709804, 0.121569, 1)
+theme_override_constants/line_spacing = -4
+theme_override_fonts/font = ExtResource("5_q2rvt")
+theme_override_font_sizes/font_size = 16
+text = "EQUIPMENT"
+
+[node name="Statics" type="Label" parent="CanvasLayer/Root/GameMenu/Equipment/TextureRect/CharEquips"]
+layout_mode = 0
+offset_top = 9.0
+offset_right = 61.0
+offset_bottom = 49.0
+theme_override_colors/font_color = Color(0.858824, 0.917647, 0.619608, 1)
+theme_override_constants/line_spacing = -4
+theme_override_fonts/font = ExtResource("5_q2rvt")
+theme_override_font_sizes/font_size = 16
+text = "Wpn
+Body
+Relics"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/Root/GameMenu/Equipment/TextureRect/CharEquips"]
+offset_left = 24.0
+offset_top = 9.0
+offset_right = 85.0
+offset_bottom = 49.0
+theme_override_constants/line_separation = -4
+theme_override_fonts/normal_font = ExtResource("5_q2rvt")
+bbcode_enabled = true
+text = "Knifee
+Robee
+---e
+---e :)"
+
+[node name="ItemDesc" type="Control" parent="CanvasLayer/Root/GameMenu/Equipment/TextureRect"]
+anchors_preset = 0
+offset_left = 48.0
+offset_top = 167.0
+offset_right = 88.0
+offset_bottom = 207.0
+
+[node name="Desc" type="RichTextLabel" parent="CanvasLayer/Root/GameMenu/Equipment/TextureRect/ItemDesc"]
+layout_mode = 0
+offset_right = 217.0
+offset_bottom = 40.0
+theme_override_constants/line_separation = -4
+theme_override_fonts/normal_font = ExtResource("5_q2rvt")
+text = "This card does this thing and that thing oh!
+Hope two or three lines are enough :mildpanic:
+More text here! I think they need moar space."
+
+[node name="Inventory" type="Control" parent="CanvasLayer/Root/GameMenu/Equipment/TextureRect" node_paths=PackedStringArray("scroll", "container")]
+anchors_preset = 0
+offset_left = 168.0
+offset_top = 55.0
+offset_right = 274.0
+offset_bottom = 160.0
+script = ExtResource("15_t6oxk")
+itemEntryTemplate = ExtResource("16_j84up")
+scroll = NodePath("ScrollContainer")
+container = NodePath("ScrollContainer/VBoxContainer")
+
+[node name="TOP" type="Label" parent="CanvasLayer/Root/GameMenu/Equipment/TextureRect/Inventory"]
+offset_left = 2.0
+offset_right = 63.0
+offset_bottom = 13.0
+theme_override_colors/font_color = Color(0.956863, 0.709804, 0.121569, 1)
+theme_override_constants/line_spacing = -4
+theme_override_fonts/font = ExtResource("5_q2rvt")
+theme_override_font_sizes/font_size = 16
+text = "INVENTORY"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Root/GameMenu/Equipment/TextureRect/Inventory"]
+layout_mode = 0
+offset_top = 17.0
+offset_right = 104.0
+offset_bottom = 97.0
+theme = SubResource("Theme_e6ywk")
+follow_focus = true
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Root/GameMenu/Equipment/TextureRect/Inventory/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0

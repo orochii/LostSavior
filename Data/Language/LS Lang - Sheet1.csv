@@ -1,0 +1,19 @@
+,en,es
+CHARACTER STATS,,ESTADOS PERSONAJE
+"HP
+Str
+Con
+Int",,"PV
+Frz
+Con
+Int"
+EQUIPMENT,,EQUIPAMENTO
+"Wpn
+Body
+Relics",,"Arma
+Prot.
+Otros"
+INVENTORY,,INVENTARIO
+,,
+Equip/Knife,Knife,Cuchillo
+Equip/Robe,Robe,Manto

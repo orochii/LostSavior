@@ -27,6 +27,8 @@ public partial class Player : CharacterBody2D
 	public const float CoyoteTime = 0.1f;
 
 	[Export] public AnimatedSprite2D graphic;
+	[Export] public Action[] defaultAttackActions;
+	[Export] public Action[] defaultAirAttackActions;
 
 	private bool isGrounded;
 	private float canJump;
@@ -46,17 +48,23 @@ public partial class Player : CharacterBody2D
     }
 
     private void OnAnimationFinished() {
-		switch (actionState) {
-			case "attack1":
-			case "attack2":
-				CancelAction(0.5f);
-				break;
+		if (lastAction != null) {
+			lastAction.Finish(this);
+		}
+		else {
+			CancelAction(0.1f);
 		}
 	}
-	private void CancelAction(float delay) {
+	public void SetAction(StringName state, float delay) {
+		actionDelay = delay;
+		actionState = state;
+		graphic.Animation = "default";
+	}
+	public void CancelAction(float delay) {
 		actionDelay = delay;
 		actionState = "default";
 		actionCounter = 0;
+		lastAction = null;
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -64,16 +72,14 @@ public partial class Player : CharacterBody2D
 		var horz = Input.GetAxis("move_left","move_right");
 		var jump = Input.IsActionJustPressed("jump");
 		var jumpHeld = Input.IsActionPressed("jump");
-		var pause = Input.IsActionJustPressed("pause");
-		
-		if (pause) TogglePause();
 
 		if (jump) jumpRequest = JumpBuffer;
 		ProcessAttack(delta);
 
 		Vector2 velocity = Velocity;
-
+		var lastGrounded = isGrounded;
 		isGrounded = IsOnFloor();
+		var justLanded = lastGrounded != isGrounded && isGrounded==true;
 		
 		if (!isGrounded)
 		{
@@ -90,10 +96,12 @@ public partial class Player : CharacterBody2D
 				if (!jumpHeld) velocity.Y = 0;
 			}
 		} else {
+			if (justLanded) CancelAction(0f);
 			canJump = CoyoteTime;
 		}
-		if (jumpRequest>0 && canJump>0)
+		if (jumpRequest>0 && canJump>0 && !IsActing())
 		{
+			CancelAction(0f);
 			velocity.Y = JumpVelocity;
 			jumpRequest = 0;
 			canJump = 0;
@@ -101,9 +109,10 @@ public partial class Player : CharacterBody2D
 		
 		if (horz != 0)
 		{
-			velocity.X = horz * Speed;
+			if(!isGrounded || !IsActing()) velocity.X = horz * Speed;
+			else velocity.X = 0;
 			if(isGrounded) moveState = "walk";
-			graphic.FlipH = horz < 0;
+			if (!IsActing()) graphic.FlipH = horz < 0;
 		}
 		else
 		{
@@ -117,46 +126,50 @@ public partial class Player : CharacterBody2D
 		RefreshAnimation();
 	}
 
+	public bool IsActing() {
+		return actionDelay >= 0 || lastAction != null;
+	}
+	public int GetHorzDirection() {
+		return graphic.FlipH ? -1 : 1;
+	}
+
 	private void ProcessAttack(double delta) {
-		if (actionDelay > 0) {
+		if (actionDelay >= 0) {
 			actionDelay -= (float)delta;
 			return;
 		}
 		var attack = Input.IsActionJustPressed("attack");
+		if (CanHold()) attack = Input.IsActionPressed("attack");
 		if (attack) {
-			switch (actionCounter) {
-				case 0:
-					actionDelay = 0.2f;
-					actionState = "attack1";
-					graphic.Animation = "default";
-					actionCounter = 1;
-					break;
-				default:
-					actionDelay = 0.5f;
-					actionState = "attack2";
-					graphic.Animation = "default";
-					actionCounter = 2;
-					break;
+			var _actions = GetAttackActions();
+			if (_actions.Length > actionCounter) {
+				var action = _actions[actionCounter];
+				action.Execute(this);
+				lastAction = action;
 			}
+			actionCounter += 1;
 		}
 	}
 
+	private Action lastAction = null;
+	private bool CanHold() {
+		var w = Game.State.GetWeapon();
+		if (w != null) return w.CanHold;
+		return false;
+	}
+	private Action[] GetAttackActions() {
+		var w = Game.State.GetWeapon();
+		if (!isGrounded) {
+			if (w != null) return w.AirAttackActions;
+			return defaultAirAttackActions;
+		}
+		if (w != null) return w.AttackActions;
+		return defaultAttackActions;
+	}
 	private void RefreshAnimation() {
 		var c = moveState;
 		if (actionState != "default") c = actionState;
 		if (c != graphic.Animation) graphic.Play(c);
 	}
 
-	public async void TogglePause() {
-		if (Worldmap.Instance != null) {
-			GetTree().Paused = !GetTree().Paused;
-			//var timer = GetTree().CreateTimer(.5f);
-			//await ToSignal(timer, "timeout");
-			await ToSignal(GetTree(), "process_frame");
-			await ToSignal(GetTree(), "process_frame");
-			Worldmap.Instance.Reposition();
-			Worldmap.Instance.Visible = GetTree().Paused;
-			GD.Print("Paused?: ", GetTree().Paused);
-		}
-	}
 }

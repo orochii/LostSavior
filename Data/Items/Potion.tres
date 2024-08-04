@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="InventoryItem" load_steps=2 format=3 uid="uid://f3rigqlnv831"]
+
+[ext_resource type="Script" path="res://Source/Data/InventoryItem.cs" id="1_g6kny"]
+
+[resource]
+script = ExtResource("1_g6kny")
+IconIndex = 16

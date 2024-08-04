@@ -4,6 +4,8 @@ using System;
 public partial class Game : Control
 {
 	static Game game;
+	public static GameState State = new GameState();
+	public static Game Instance => game;
 	public static Player Player {
 		get {
 			if (game == null) return null;
@@ -16,6 +18,7 @@ public partial class Game : Control
 	[Export] public SubViewport viewport;
 	[Export] public Camera2D camera;
 	[Export] public Vector2 cameraOffset;
+	[Export] GameMenu gameMenu;
 	
 	Player _player;
 	World _world;
@@ -41,5 +44,18 @@ public partial class Game : Control
 	public override void _Process(double delta)
 	{
 		if(_player != null) camera.Position = _player.Position + cameraOffset;
+	}
+
+	public static void TogglePause() {
+		if (game != null) game.TogglePauseInternal();
+	}
+	public async void TogglePauseInternal() {
+		if (gameMenu != null) {
+			GetTree().Paused = !GetTree().Paused;
+			await ToSignal(GetTree(), "process_frame");
+			await ToSignal(GetTree(), "process_frame");
+			if (GetTree().Paused) gameMenu.Open();
+			else gameMenu.Close();
+		}
 	}
 }

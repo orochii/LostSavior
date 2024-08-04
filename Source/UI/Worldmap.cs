@@ -3,8 +3,6 @@ using System;
 
 public partial class Worldmap : Control
 {
-	public static Worldmap Instance;
-
 	[Export] SubViewport thisViewport;
 	[Export] SubViewport parentViewport;
 	[Export] Camera2D minimapCamera;
@@ -12,7 +10,6 @@ public partial class Worldmap : Control
 	
 	public override void _Ready()
 	{
-		Instance = this;
 		thisViewport.World2D = parentViewport.World2D;
 	}
 
@@ -24,10 +21,7 @@ public partial class Worldmap : Control
 
 	public override void _Process(double delta)
 	{
-		if (!Visible) return;
-
-		var pause = Input.IsActionJustPressed("pause");
-		if (pause) Game.Player.TogglePause();
+		if (!IsVisibleInTree()) return;
 
 		if (Game.Player != null) {
 			var pos = Game.Player.Position;
@@ -43,5 +37,9 @@ public partial class Worldmap : Control
 		var horz = Input.GetAxis("move_left","move_right");
 		var vert = Input.GetAxis("move_up","move_down");
 		minimapCamera.Position += new Vector2(horz,vert) * (float)delta * 256;
+	}
+
+	public void Refresh() {
+		Reposition();
 	}
 }
