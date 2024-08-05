@@ -1,0 +1,277 @@
+[gd_scene load_steps=25 format=3 uid="uid://dh1a6nisssexh"]
+
+[ext_resource type="Script" path="res://Source/Character/Enemy.cs" id="1_rkvoy"]
+[ext_resource type="Texture2D" uid="uid://dtg1xf301pnp0" path="res://Graphics/Character/troll.png" id="2_bghuw"]
+[ext_resource type="Shader" path="res://Source/Shaders/enemy.gdshader" id="2_pt0kj"]
+[ext_resource type="Shader" path="res://Source/Shaders/healthBar.gdshader" id="3_30cap"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eyw4s"]
+shader = ExtResource("2_pt0kj")
+shader_parameter/percent = 0.0
+shader_parameter/disappear = 0.0
+shader_parameter/width = 32.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ivcm"]
+atlas = ExtResource("2_bghuw")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s6lqt"]
+atlas = ExtResource("2_bghuw")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f4dpn"]
+atlas = ExtResource("2_bghuw")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vr6t6"]
+atlas = ExtResource("2_bghuw")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bpq8e"]
+atlas = ExtResource("2_bghuw")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qcg37"]
+atlas = ExtResource("2_bghuw")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nbr0k"]
+atlas = ExtResource("2_bghuw")
+region = Rect2(64, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rxk2n"]
+atlas = ExtResource("2_bghuw")
+region = Rect2(96, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cb120"]
+atlas = ExtResource("2_bghuw")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ciaga"]
+atlas = ExtResource("2_bghuw")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e6w2d"]
+atlas = ExtResource("2_bghuw")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gxgxi"]
+atlas = ExtResource("2_bghuw")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_v8ks1"]
+animations = [{
+"frames": [{
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_3ivcm")
+}, {
+"duration": 4.0,
+"texture": SubResource("AtlasTexture_s6lqt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f4dpn")
+}, {
+"duration": 8.0,
+"texture": SubResource("AtlasTexture_vr6t6")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 16.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bpq8e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qcg37")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nbr0k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rxk2n")
+}],
+"loop": true,
+"name": &"dead",
+"speed": 16.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cb120")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cb120")
+}],
+"loop": true,
+"name": &"fall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cb120")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ciaga")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e6w2d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gxgxi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e6w2d")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 8.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8x517"]
+radius = 8.0
+height = 26.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_11gmq"]
+radius = 5.0
+height = 10.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5mpw1"]
+shader = ExtResource("3_30cap")
+shader_parameter/percent = 0.616
+
+[sub_resource type="Animation" id="Animation_72m0h"]
+resource_name = "dead"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Node2D/Troll:material:shader_parameter/percent")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 1.0, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Node2D/Troll:material:shader_parameter/disappear")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 1.0]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_eo8us"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Node2D/Troll:material:shader_parameter/percent")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Node2D/Troll:material:shader_parameter/disappear")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fj2m0"]
+_data = {
+"RESET": SubResource("Animation_eo8us"),
+"dead": SubResource("Animation_72m0h")
+}
+
+[node name="Goblin" type="CharacterBody2D" node_paths=PackedStringArray("detectionArea", "healthDisplay", "aliveShape", "deadShape", "graphic", "animation")]
+texture_filter = 1
+floor_snap_length = 8.0
+script = ExtResource("1_rkvoy")
+MaxHealth = 40
+detectionArea = NodePath("DetectArea")
+healthDisplay = NodePath("ColorRect")
+aliveShape = NodePath("AliveShape")
+deadShape = NodePath("DeadShape")
+graphic = NodePath("Node2D/Troll")
+animation = NodePath("AnimationPlayer")
+faction = 2
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(0, -16)
+
+[node name="Troll" type="AnimatedSprite2D" parent="Node2D"]
+material = SubResource("ShaderMaterial_eyw4s")
+sprite_frames = SubResource("SpriteFrames_v8ks1")
+autoplay = "default"
+frame_progress = 0.899684
+
+[node name="AliveShape" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, -13)
+shape = SubResource("CapsuleShape2D_8x517")
+
+[node name="DeadShape" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, -5)
+shape = SubResource("CapsuleShape2D_11gmq")
+
+[node name="DetectArea" type="Area2D" parent="."]
+visible = false
+position = Vector2(0, -15)
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="DetectArea"]
+polygon = PackedVector2Array(117, -149, -14, -9, -14, 15, 108, 122, 233, 41, 233, -61)
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+z_index = 4096
+material = SubResource("ShaderMaterial_5mpw1")
+offset_left = -20.0
+offset_top = 3.0
+offset_right = 20.0
+offset_bottom = 6.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_fj2m0")
+}

@@ -19,8 +19,6 @@ public partial class ItemEntry : Button
 			}
 		}
 	}
-
-	public void OnPressed() {
-		GD.Print("uh pressed." + item.GetDisplayName());
-	}
+	public InventoryItem Item => item;
+	public int Index => index;
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=4 uid="uid://db0c5ftapdirs"]
+[gd_scene load_steps=17 format=4 uid="uid://db0c5ftapdirs"]
 
 [ext_resource type="Texture2D" uid="uid://d1oidtyp5v6kh" path="res://Graphics/Backgrounds/mountain.png" id="1_4vfh8"]
 [ext_resource type="Script" path="res://Source/World.cs" id="1_k0u2v"]
@@ -6,12 +6,10 @@
 [ext_resource type="Texture2D" uid="uid://dx4742joydml5" path="res://Graphics/Backgrounds/start_area.png" id="3_26mof"]
 [ext_resource type="Script" path="res://Source/ParallaxFixer.cs" id="4_c7fvn"]
 [ext_resource type="Texture2D" uid="uid://carv8557py87w" path="res://Graphics/Objects/chainLink.png" id="4_cyoxg"]
-[ext_resource type="Texture2D" uid="uid://dlv224cwgb41a" path="res://Graphics/Objects/barrier.png" id="4_k00q5"]
 [ext_resource type="Texture2D" uid="uid://cldc476h02pih" path="res://Graphics/Lights/circle.png" id="4_xswm2"]
 [ext_resource type="Script" path="res://Source/WindArea.cs" id="6_n5iq4"]
-[ext_resource type="Script" path="res://Source/Objects/DestructibleBarrier.cs" id="8_2vo7d"]
-[ext_resource type="Script" path="res://Source/Objects/Trigger.cs" id="9_vw6wv"]
 [ext_resource type="Texture2D" uid="uid://rau50bym3exh" path="res://Graphics/Objects/paintedMarks.png" id="10_yusrx"]
+[ext_resource type="PackedScene" uid="uid://dh1a6nisssexh" path="res://Objects/Enemies/goblin.tscn" id="11_udk5o"]
 [ext_resource type="Texture2D" uid="uid://c7jqywh24tyfh" path="res://Graphics/Objects/barrier_body.png" id="13_k1lbn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rftk5"]
@@ -27,39 +25,6 @@ noise = SubResource("FastNoiseLite_n1lo1")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ca1d4"]
 size = Vector2(338, 152)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_wsm4j"]
-size = Vector2(8, 8)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_n0veb"]
-size = Vector2(8, 16)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_lhcer"]
-size = Vector2(8, 16)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_okilo"]
-size = Vector2(8, 8)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_pspd5"]
-size = Vector2(8, 8)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_y2n7u"]
-size = Vector2(8, 16)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_d4wkp"]
-size = Vector2(8, 16)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_3rlih"]
-size = Vector2(8, 16)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_d4i58"]
-size = Vector2(8, 8)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_0q6qn"]
-size = Vector2(8, 16)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_hnaoo"]
-size = Vector2(58, 176)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8jdbc"]
 size = Vector2(16, 64)
 
@@ -68,7 +33,7 @@ texture_filter = 1
 script = ExtResource("1_k0u2v")
 PlayerStart = NodePath("PlayerStart")
 
-[node name="Tilemap" type="Node" parent="."]
+[node name="Tilemap" type="Node2D" parent="."]
 
 [node name="FartherLayer" type="Parallax2D" parent="Tilemap"]
 light_mask = 1024
@@ -122,7 +87,7 @@ tile_set = ExtResource("2_2cqfa")
 [node name="PlayerStart" type="Node2D" parent="."]
 position = Vector2(-1480, 656)
 
-[node name="Lights" type="Node" parent="."]
+[node name="Lights" type="Node2D" parent="."]
 
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="Lights"]
 position = Vector2(-104, -64)
@@ -209,526 +174,31 @@ shape = SubResource("RectangleShape2D_ca1d4")
 
 [node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenNotifier2D" parent="WindArea"]
 
-[node name="Node" type="Node" parent="."]
+[node name="Objects" type="Node2D" parent="."]
 
-[node name="PaintedMarks" type="Sprite2D" parent="Node"]
+[node name="PaintedMarks" type="Sprite2D" parent="Objects"]
 texture_filter = 1
 position = Vector2(-1480, 640)
 texture = ExtResource("10_yusrx")
 
-[node name="Crumbled Barrier" type="Node2D" parent="Node"]
-position = Vector2(-1560, 960)
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Node/Crumbled Barrier"]
+[node name="StaticBody2D" type="StaticBody2D" parent="Objects"]
 texture_filter = 1
-position = Vector2(-46, 56)
-rotation = -0.431893
+position = Vector2(-1286, 650)
+rotation = 0.788683
 
-[node name="Barrier" type="Sprite2D" parent="Node/Crumbled Barrier/StaticBody2D"]
-texture = ExtResource("4_k00q5")
-centered = false
-region_enabled = true
-region_rect = Rect2(0, 128, 16, 16)
-
-[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Node/Crumbled Barrier/StaticBody2D"]
-polygon = PackedVector2Array(1, 0, 8, 0, 8, 4, 9, 5, 9, 6, 5, 10, 2, 10, 1, 11, 0, 11, 0, 1)
-
-[node name="StaticBody2D2" type="StaticBody2D" parent="Node/Crumbled Barrier"]
-texture_filter = 1
-position = Vector2(-96, 100)
-rotation = -2.04371
-
-[node name="Barrier2" type="Sprite2D" parent="Node/Crumbled Barrier/StaticBody2D2"]
-texture = ExtResource("4_k00q5")
-centered = false
-region_enabled = true
-region_rect = Rect2(16, 128, 16, 32)
-
-[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Node/Crumbled Barrier/StaticBody2D2"]
-polygon = PackedVector2Array(8, 9, 8, 10, 7, 11, 7, 12, 8, 13, 8, 17, 9, 18, 9, 19, 7, 23, 5, 25, 0, 25, 0, 12, 2, 10, 5, 10, 6, 9)
-
-[node name="StaticBody2D3" type="StaticBody2D" parent="Node/Crumbled Barrier"]
-texture_filter = 1
-position = Vector2(-75, 99)
-rotation = -2.36351
-
-[node name="Barrier3" type="Sprite2D" parent="Node/Crumbled Barrier/StaticBody2D3"]
-position = Vector2(0, 16)
-texture = ExtResource("4_k00q5")
-centered = false
-region_enabled = true
-region_rect = Rect2(32, 128, 16, 32)
-
-[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Node/Crumbled Barrier/StaticBody2D3"]
-polygon = PackedVector2Array(6, 24, 7, 24, 8, 26, 9, 30, 9, 32, 8, 33, 8, 36, 9, 38, 9, 39, 7, 41, 7, 42, 5, 44, 4, 46, 3, 47, 0, 47, 0, 26, 2, 25, 5, 25)
-
-[node name="StaticBody2D4" type="StaticBody2D" parent="Node/Crumbled Barrier"]
-texture_filter = 1
-position = Vector2(-18, -24)
-
-[node name="Barrier4" type="Sprite2D" parent="Node/Crumbled Barrier/StaticBody2D4"]
-position = Vector2(0, 32)
-texture = ExtResource("4_k00q5")
-centered = false
-region_enabled = true
-region_rect = Rect2(48, 128, 16, 32)
-
-[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Node/Crumbled Barrier/StaticBody2D4"]
-polygon = PackedVector2Array(0, 48, 3, 47, 4, 47, 5, 49, 7, 50, 9, 52, 9, 56, 7, 58, 6, 60, 4, 61, 3, 63, 2, 64, 1, 64, 0, 63)
-
-[node name="StaticBody2D5" type="StaticBody2D" parent="Node/Crumbled Barrier"]
-texture_filter = 1
-position = Vector2(-73, 79)
-rotation = -2.0113
-
-[node name="Barrier5" type="Sprite2D" parent="Node/Crumbled Barrier/StaticBody2D5"]
-position = Vector2(0, 32)
-texture = ExtResource("4_k00q5")
-centered = false
-region_enabled = true
-region_rect = Rect2(64, 128, 16, 32)
-
-[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Node/Crumbled Barrier/StaticBody2D5"]
-polygon = PackedVector2Array(6, 43, 7, 43, 8, 44, 9, 47, 9, 49, 8, 50, 7, 50, 5, 49, 4, 47, 4, 46, 5, 44)
-
-[node name="StaticBody2D6" type="StaticBody2D" parent="Node/Crumbled Barrier"]
-texture_filter = 1
-position = Vector2(-25, 29)
-rotation = 1.1211
-
-[node name="Barrier6" type="Sprite2D" parent="Node/Crumbled Barrier/StaticBody2D6"]
-texture = ExtResource("4_k00q5")
-centered = false
-region_enabled = true
-region_rect = Rect2(16, 160, 16, 32)
-
-[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Node/Crumbled Barrier/StaticBody2D6"]
-polygon = PackedVector2Array(9, 0, 15, 0, 16, 1, 16, 19, 14, 21, 12, 21, 8, 17, 8, 13, 7, 12, 7, 11, 8, 10, 8, 7, 9, 6, 9, 5, 8, 4, 8, 1)
-
-[node name="StaticBody2D7" type="StaticBody2D" parent="Node/Crumbled Barrier"]
-texture_filter = 1
-position = Vector2(-102, 81)
-rotation = -1.18342
-
-[node name="Barrier7" type="Sprite2D" parent="Node/Crumbled Barrier/StaticBody2D7"]
-position = Vector2(0, 16)
-texture = ExtResource("4_k00q5")
-centered = false
-region_enabled = true
-region_rect = Rect2(32, 160, 16, 32)
-
-[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Node/Crumbled Barrier/StaticBody2D7"]
-polygon = PackedVector2Array(15, 20, 16, 20, 16, 35, 14, 36, 12, 36, 10, 34, 8, 34, 8, 33, 9, 32, 9, 30, 8, 26, 7, 24, 7, 23, 9, 19, 10, 19, 12, 21, 14, 21)
-
-[node name="StaticBody2D8" type="StaticBody2D" parent="Node/Crumbled Barrier"]
-texture_filter = 1
-position = Vector2(-25, -25)
-
-[node name="Barrier8" type="Sprite2D" parent="Node/Crumbled Barrier/StaticBody2D8"]
-position = Vector2(0, 32)
-texture = ExtResource("4_k00q5")
-centered = false
-region_enabled = true
-region_rect = Rect2(48, 176, 16, 16)
-
-[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Node/Crumbled Barrier/StaticBody2D8"]
-polygon = PackedVector2Array(8, 35, 11, 35, 12, 36, 16, 36, 16, 48, 13, 48, 9, 47, 8, 44, 7, 43, 7, 42, 8, 40, 9, 39, 9, 38, 8, 36)
-
-[node name="StaticBody2D9" type="StaticBody2D" parent="Node/Crumbled Barrier"]
-texture_filter = 1
-position = Vector2(-8, -64)
-
-[node name="Barrier9" type="Sprite2D" parent="Node/Crumbled Barrier/StaticBody2D9"]
-position = Vector2(0, 48)
-texture = ExtResource("4_k00q5")
-centered = false
-region_enabled = true
-region_rect = Rect2(64, 160, 16, 16)
-
-[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Node/Crumbled Barrier/StaticBody2D9"]
-polygon = PackedVector2Array(6, 60, 7, 60, 8, 62, 8, 63, 7, 64, 3, 64, 3, 63, 4, 61)
-
-[node name="StaticBody2D10" type="StaticBody2D" parent="Node/Crumbled Barrier"]
-texture_filter = 1
-position = Vector2(60, -39)
-rotation = 1.18566
-
-[node name="Barrier10" type="Sprite2D" parent="Node/Crumbled Barrier/StaticBody2D10"]
-position = Vector2(0, 48)
-texture = ExtResource("4_k00q5")
-centered = false
-region_enabled = true
-region_rect = Rect2(64, 176, 16, 16)
-
-[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Node/Crumbled Barrier/StaticBody2D10"]
-polygon = PackedVector2Array(10, 48, 13, 48, 16, 49, 16, 63, 15, 64, 8, 64, 8, 62, 7, 60, 7, 58, 9, 56, 9, 52, 8, 51, 8, 50)
-
-[node name="Crumbled Barrier2" type="Node2D" parent="Node"]
-position = Vector2(-1664, 976)
-script = ExtResource("8_2vo7d")
-forceDirection = Vector2(1000, 0)
-forceRandomness = 100.0
-useForcePosition = true
-forcePositionOffset = Vector2(0, -24)
-
-[node name="StaticBody2D" type="RigidBody2D" parent="Node/Crumbled Barrier2"]
-texture_filter = 1
-position = Vector2(-8, -64)
-gravity_scale = 0.0
-center_of_mass_mode = 1
-center_of_mass = Vector2(4, 4)
-
-[node name="Barrier" type="Sprite2D" parent="Node/Crumbled Barrier2/StaticBody2D"]
-texture = ExtResource("4_k00q5")
-centered = false
-region_enabled = true
-region_rect = Rect2(0, 128, 16, 16)
-
-[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Node/Crumbled Barrier2/StaticBody2D"]
-polygon = PackedVector2Array(1, 0, 8, 0, 8, 0, 7, 1, 7, 4, 8, 5, 8, 6, 4, 10, 2, 9, 0, 11, 0, 1)
-
-[node name="StaticBody2D2" type="RigidBody2D" parent="Node/Crumbled Barrier2"]
-texture_filter = 1
-position = Vector2(-8, -56)
-gravity_scale = 0.0
-center_of_mass_mode = 1
-center_of_mass = Vector2(4, 10)
-
-[node name="Barrier2" type="Sprite2D" parent="Node/Crumbled Barrier2/StaticBody2D2"]
-position = Vector2(0, -8)
-texture = ExtResource("4_k00q5")
-centered = false
-region_enabled = true
-region_rect = Rect2(16, 128, 16, 32)
-
-[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Node/Crumbled Barrier2/StaticBody2D2"]
-position = Vector2(0, -8)
-polygon = PackedVector2Array(7, 10, 6, 11, 8, 14, 7, 17, 8, 19, 7, 22, 5, 24, 0, 25, 0, 12, 2, 10, 4, 11, 6, 9)
-
-[node name="StaticBody2D3" type="RigidBody2D" parent="Node/Crumbled Barrier2"]
-texture_filter = 1
-position = Vector2(-8, -40)
-gravity_scale = 0.0
-center_of_mass_mode = 1
-center_of_mass = Vector2(4, 12)
-
-[node name="Barrier3" type="Sprite2D" parent="Node/Crumbled Barrier2/StaticBody2D3"]
-position = Vector2(0, -8)
-texture = ExtResource("4_k00q5")
-centered = false
-region_enabled = true
-region_rect = Rect2(32, 128, 16, 32)
-
-[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Node/Crumbled Barrier2/StaticBody2D3"]
-position = Vector2(0, -24)
-polygon = PackedVector2Array(6, 24, 8, 27, 8, 30, 8, 32, 7, 36, 8, 38, 8, 39, 7, 41, 6, 42, 4, 44, 3, 46, 0, 47, 0, 26, 2, 25, 5, 25)
-
-[node name="StaticBody2D4" type="RigidBody2D" parent="Node/Crumbled Barrier2"]
-texture_filter = 1
-position = Vector2(-8, -16)
-gravity_scale = 0.0
-center_of_mass_mode = 1
-center_of_mass = Vector2(4, 6)
-
-[node name="Barrier4" type="Sprite2D" parent="Node/Crumbled Barrier2/StaticBody2D4"]
-position = Vector2(0, 32)
-texture = ExtResource("4_k00q5")
-centered = false
-offset = Vector2(0, -48)
-region_enabled = true
-region_rect = Rect2(48, 128, 16, 32)
-
-[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Node/Crumbled Barrier2/StaticBody2D4"]
-position = Vector2(0, -48)
-polygon = PackedVector2Array(0, 48, 3, 47, 5, 50, 7, 51, 8, 52, 8, 56, 7, 57, 4, 61, 2, 64, 1, 64, 0, 63)
-
-[node name="StaticBody2D5" type="RigidBody2D" parent="Node/Crumbled Barrier2"]
-texture_filter = 1
-position = Vector2(-8, -24)
-gravity_scale = 0.0
-center_of_mass_mode = 1
-center_of_mass = Vector2(7, 7)
-
-[node name="Barrier5" type="Sprite2D" parent="Node/Crumbled Barrier2/StaticBody2D5"]
-position = Vector2(0, -8)
-texture = ExtResource("4_k00q5")
-centered = false
-region_enabled = true
-region_rect = Rect2(64, 128, 16, 32)
-
-[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Node/Crumbled Barrier2/StaticBody2D5"]
-position = Vector2(0, -40)
-polygon = PackedVector2Array(6, 43, 7, 43, 8, 44, 9, 47, 9, 49, 8, 50, 7, 50, 5, 49, 4, 47, 4, 46, 5, 44)
-
-[node name="StaticBody2D6" type="RigidBody2D" parent="Node/Crumbled Barrier2"]
-texture_filter = 1
-position = Vector2(0, -64)
-gravity_scale = 0.0
-center_of_mass_mode = 1
-center_of_mass = Vector2(4, 10)
-
-[node name="Barrier6" type="Sprite2D" parent="Node/Crumbled Barrier2/StaticBody2D6"]
-position = Vector2(-8, 0)
-texture = ExtResource("4_k00q5")
-centered = false
-region_enabled = true
-region_rect = Rect2(16, 160, 16, 32)
-
-[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Node/Crumbled Barrier2/StaticBody2D6"]
-position = Vector2(-8, 0)
-polygon = PackedVector2Array(9, 0, 15, 0, 16, 1, 16, 19, 14, 20, 12, 20, 8, 17, 9, 13, 7, 12, 7, 11, 8, 10, 8, 7, 9, 6, 9, 5, 8, 4, 8, 1)
-
-[node name="StaticBody2D7" type="RigidBody2D" parent="Node/Crumbled Barrier2"]
-texture_filter = 1
-position = Vector2(0, -40)
-gravity_scale = 0.0
-center_of_mass_mode = 1
-center_of_mass = Vector2(4, 4)
-
-[node name="Barrier7" type="Sprite2D" parent="Node/Crumbled Barrier2/StaticBody2D7"]
-position = Vector2(-8, -8)
-texture = ExtResource("4_k00q5")
-centered = false
-region_enabled = true
-region_rect = Rect2(32, 160, 16, 32)
-
-[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Node/Crumbled Barrier2/StaticBody2D7"]
-position = Vector2(-8, -24)
-polygon = PackedVector2Array(15, 20, 16, 20, 16, 35, 14, 36, 12, 36, 10, 34, 8, 34, 9, 32, 9, 30, 8, 26, 7, 24, 7, 23, 9, 19, 10, 19, 12, 21, 14, 21)
-
-[node name="StaticBody2D8" type="RigidBody2D" parent="Node/Crumbled Barrier2"]
-texture_filter = 1
-position = Vector2(0, -24)
-gravity_scale = 0.0
-center_of_mass_mode = 1
-center_of_mass = Vector2(4, 2)
-
-[node name="Barrier8" type="Sprite2D" parent="Node/Crumbled Barrier2/StaticBody2D8"]
-position = Vector2(-8, -8)
-texture = ExtResource("4_k00q5")
-centered = false
-region_enabled = true
-region_rect = Rect2(48, 176, 16, 16)
-
-[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Node/Crumbled Barrier2/StaticBody2D8"]
-position = Vector2(-8, -40)
-polygon = PackedVector2Array(8, 35, 11, 36, 14, 37, 16, 36, 16, 48, 13, 48, 10, 47, 9, 44, 7, 42, 8, 40, 9, 39, 9, 38, 8, 36)
-
-[node name="StaticBody2D9" type="RigidBody2D" parent="Node/Crumbled Barrier2"]
-texture_filter = 1
-position = Vector2(-8, -8)
-gravity_scale = 0.0
-center_of_mass_mode = 1
-center_of_mass = Vector2(6, 6)
-
-[node name="Barrier9" type="Sprite2D" parent="Node/Crumbled Barrier2/StaticBody2D9"]
-position = Vector2(0, -8)
-texture = ExtResource("4_k00q5")
-centered = false
-region_enabled = true
-region_rect = Rect2(64, 160, 16, 16)
-
-[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Node/Crumbled Barrier2/StaticBody2D9"]
-position = Vector2(0, -56)
-polygon = PackedVector2Array(6, 60, 7, 60, 8, 62, 8, 63, 7, 64, 3, 64, 3, 63, 4, 61)
-
-[node name="StaticBody2D10" type="RigidBody2D" parent="Node/Crumbled Barrier2"]
-texture_filter = 1
-position = Vector2(0, -16)
-gravity_scale = 0.0
-center_of_mass_mode = 1
-center_of_mass = Vector2(4, 8)
-
-[node name="Barrier10" type="Sprite2D" parent="Node/Crumbled Barrier2/StaticBody2D10"]
-position = Vector2(-8, 0)
-texture = ExtResource("4_k00q5")
-centered = false
-region_enabled = true
-region_rect = Rect2(64, 176, 16, 16)
-
-[node name="CollisionShape2D" type="CollisionPolygon2D" parent="Node/Crumbled Barrier2/StaticBody2D10"]
-position = Vector2(-8, -48)
-polygon = PackedVector2Array(10, 48, 14, 49, 16, 49, 16, 63, 15, 64, 8, 64, 9, 62, 7, 59, 7, 58, 9, 56, 9, 52, 8, 51)
-
-[node name="Crumbled Barrier3" type="Node2D" parent="Node"]
-position = Vector2(-1512, 1008)
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Node/Crumbled Barrier3"]
-texture_filter = 1
-position = Vector2(-8, -64)
-
-[node name="Barrier" type="Sprite2D" parent="Node/Crumbled Barrier3/StaticBody2D"]
-texture = ExtResource("4_k00q5")
-centered = false
-region_enabled = true
-region_rect = Rect2(0, 128, 16, 16)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node/Crumbled Barrier3/StaticBody2D"]
-position = Vector2(4, 4)
-shape = SubResource("RectangleShape2D_wsm4j")
-
-[node name="StaticBody2D2" type="StaticBody2D" parent="Node/Crumbled Barrier3"]
-texture_filter = 1
-position = Vector2(-8, -56)
-
-[node name="Barrier2" type="Sprite2D" parent="Node/Crumbled Barrier3/StaticBody2D2"]
-position = Vector2(0, -8)
-texture = ExtResource("4_k00q5")
-centered = false
-region_enabled = true
-region_rect = Rect2(16, 128, 16, 32)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node/Crumbled Barrier3/StaticBody2D2"]
-position = Vector2(4, 8)
-shape = SubResource("RectangleShape2D_n0veb")
-
-[node name="StaticBody2D3" type="StaticBody2D" parent="Node/Crumbled Barrier3"]
-texture_filter = 1
-position = Vector2(-8, -40)
-
-[node name="Barrier3" type="Sprite2D" parent="Node/Crumbled Barrier3/StaticBody2D3"]
-position = Vector2(0, -8)
-texture = ExtResource("4_k00q5")
-centered = false
-region_enabled = true
-region_rect = Rect2(32, 128, 16, 32)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node/Crumbled Barrier3/StaticBody2D3"]
-position = Vector2(4, 8)
-shape = SubResource("RectangleShape2D_lhcer")
-
-[node name="StaticBody2D4" type="StaticBody2D" parent="Node/Crumbled Barrier3"]
-texture_filter = 1
-position = Vector2(-8, -16)
-
-[node name="Barrier4" type="Sprite2D" parent="Node/Crumbled Barrier3/StaticBody2D4"]
-position = Vector2(0, 32)
-texture = ExtResource("4_k00q5")
-centered = false
-offset = Vector2(0, -48)
-region_enabled = true
-region_rect = Rect2(48, 128, 16, 32)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node/Crumbled Barrier3/StaticBody2D4"]
-position = Vector2(4, 4)
-shape = SubResource("RectangleShape2D_okilo")
-
-[node name="StaticBody2D5" type="StaticBody2D" parent="Node/Crumbled Barrier3"]
-texture_filter = 1
-position = Vector2(-8, -24)
-
-[node name="Barrier5" type="Sprite2D" parent="Node/Crumbled Barrier3/StaticBody2D5"]
-position = Vector2(0, -8)
-texture = ExtResource("4_k00q5")
-centered = false
-region_enabled = true
-region_rect = Rect2(64, 128, 16, 32)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node/Crumbled Barrier3/StaticBody2D5"]
-position = Vector2(4, 4)
-shape = SubResource("RectangleShape2D_pspd5")
-
-[node name="StaticBody2D6" type="StaticBody2D" parent="Node/Crumbled Barrier3"]
-texture_filter = 1
-position = Vector2(0, -64)
-
-[node name="Barrier6" type="Sprite2D" parent="Node/Crumbled Barrier3/StaticBody2D6"]
-position = Vector2(-8, 0)
-texture = ExtResource("4_k00q5")
-centered = false
-region_enabled = true
-region_rect = Rect2(16, 160, 16, 32)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node/Crumbled Barrier3/StaticBody2D6"]
-position = Vector2(4, 8)
-shape = SubResource("RectangleShape2D_y2n7u")
-
-[node name="StaticBody2D7" type="StaticBody2D" parent="Node/Crumbled Barrier3"]
-texture_filter = 1
-position = Vector2(0, -40)
-
-[node name="Barrier7" type="Sprite2D" parent="Node/Crumbled Barrier3/StaticBody2D7"]
-position = Vector2(-8, -8)
-texture = ExtResource("4_k00q5")
-centered = false
-region_enabled = true
-region_rect = Rect2(32, 160, 16, 32)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node/Crumbled Barrier3/StaticBody2D7"]
-position = Vector2(4, 0)
-shape = SubResource("RectangleShape2D_d4wkp")
-
-[node name="StaticBody2D8" type="StaticBody2D" parent="Node/Crumbled Barrier3"]
-texture_filter = 1
-position = Vector2(0, -24)
-
-[node name="Barrier8" type="Sprite2D" parent="Node/Crumbled Barrier3/StaticBody2D8"]
-position = Vector2(-8, -8)
-texture = ExtResource("4_k00q5")
-centered = false
-region_enabled = true
-region_rect = Rect2(48, 176, 16, 16)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node/Crumbled Barrier3/StaticBody2D8"]
-position = Vector2(4, 0)
-shape = SubResource("RectangleShape2D_3rlih")
-
-[node name="StaticBody2D9" type="StaticBody2D" parent="Node/Crumbled Barrier3"]
-texture_filter = 1
-position = Vector2(-8, -8)
-
-[node name="Barrier9" type="Sprite2D" parent="Node/Crumbled Barrier3/StaticBody2D9"]
-position = Vector2(0, -8)
-texture = ExtResource("4_k00q5")
-centered = false
-region_enabled = true
-region_rect = Rect2(64, 160, 16, 16)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node/Crumbled Barrier3/StaticBody2D9"]
-position = Vector2(4, 4)
-shape = SubResource("RectangleShape2D_d4i58")
-
-[node name="StaticBody2D10" type="StaticBody2D" parent="Node/Crumbled Barrier3"]
-texture_filter = 1
-position = Vector2(0, -16)
-
-[node name="Barrier10" type="Sprite2D" parent="Node/Crumbled Barrier3/StaticBody2D10"]
-position = Vector2(-8, 0)
-texture = ExtResource("4_k00q5")
-centered = false
-region_enabled = true
-region_rect = Rect2(64, 176, 16, 16)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node/Crumbled Barrier3/StaticBody2D10"]
-position = Vector2(4, 8)
-shape = SubResource("RectangleShape2D_0q6qn")
-
-[node name="Area2D" type="Area2D" parent="Node"]
-position = Vector2(-1712, 984)
-script = ExtResource("9_vw6wv")
-onlyOnce = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node/Area2D"]
-shape = SubResource("RectangleShape2D_hnaoo")
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Node"]
-texture_filter = 1
-position = Vector2(-1224, 576)
-
-[node name="BarrierBody" type="Sprite2D" parent="Node/StaticBody2D"]
+[node name="BarrierBody" type="Sprite2D" parent="Objects/StaticBody2D"]
 position = Vector2(0, -32)
 texture = ExtResource("13_k1lbn")
 region_enabled = true
 region_rect = Rect2(0, 0, 16, 64)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node/StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Objects/StaticBody2D"]
 position = Vector2(0, -32)
 shape = SubResource("RectangleShape2D_8jdbc")
 
-[node name="Node2D" type="Node2D" parent="."]
-position = Vector2(-512, 208)
+[node name="EnemyTest" parent="." instance=ExtResource("11_udk5o")]
+position = Vector2(-1070, 459)
+Speed = 32.0
 
 [connection signal="body_entered" from="WindArea" to="WindArea" method="OnBodyEntered"]
 [connection signal="body_exited" from="WindArea" to="WindArea" method="OnBodyExited"]
-[connection signal="OnEnter" from="Node/Area2D" to="Node/Crumbled Barrier2" method="Destroy"]
-[connection signal="body_entered" from="Node/Area2D" to="Node/Area2D" method="OnEntered"]

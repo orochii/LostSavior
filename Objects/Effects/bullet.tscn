@@ -13,6 +13,8 @@ speed = Vector2(320, 0)
 AlwaysActive = true
 KillAfterEffect = true
 MaxLife = 0.5
+damageFormula = 1
+damageBase = -1
 
 [node name="Sprite" type="Sprite2D" parent="."]
 position = Vector2(15, -16)

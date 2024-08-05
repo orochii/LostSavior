@@ -16,4 +16,18 @@ Otros"
 INVENTORY,,INVENTARIO
 ,,
 Equip/Knife,Knife,Cuchillo
+Equip/Knife_description,"A knife.
+[syscol]+2 Str","Un cuchillo.
+[syscol]+2 Frz"
 Equip/Robe,Robe,Manto
+Equip/Robe_description,"Old rags.
+[syscol]+2 Con","Trapos sucios.
+[syscol]+2 Con"
+Equip/Pistol,Pistol,Pistola
+Equip/Pistol_description,"Rusty old pistol.
+[syscol]+1 Str","Arma de fuego vieja.
+[syscol]+1 Frz"
+Potion,Potion,Poción
+Potion_description,"Herbal mix with curative properties.
+Heals 50HP.","Mezcla herbal con propiedades curativas.
+Recupera 50PV."

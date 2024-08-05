@@ -7,7 +7,7 @@ public partial class CharStatsPanel : Control
 	
 	public void Refresh() {
 		// Prepare stats
-		string newState = Game.State.GetHpString();
+		string newState = Game.State.GetHealthString();
 		GD.Print(newState);
 		newState += System.Environment.NewLine;
 		newState += Game.State.GetStr();

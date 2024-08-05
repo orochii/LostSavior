@@ -46,6 +46,7 @@ size = Vector2(32, 16)
 texture_filter = 1
 script = ExtResource("1_1n0ax")
 FollowSource = true
+damageFormula = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(16, -16)

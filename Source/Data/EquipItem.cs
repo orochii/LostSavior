@@ -14,7 +14,7 @@ public partial class EquipItem : InventoryItem {
 	[Export] public Action[] AirAttackActions;
     [Export] public bool CanHold;
     [ExportGroup("Statistics")]
-    [Export] public int HPPlus;
+    [Export] public int HealthPlus;
     [Export] public int StrPlus;
     [Export] public int ConPlus;
     [Export] public int IntPlus;

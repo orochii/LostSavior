@@ -10,13 +10,13 @@ public partial class Effect : Area2D
 	[Export] Vector2 effectTimeRange = new Vector2(0.1f,0.15f);
 	[Export] bool KillAfterEffect;
 	[Export] float MaxLife = 0;
-
+	[Export] EDamageFormula damageFormula;
+	[Export] int damageBase;
 	List<Node2D> registeredBodies = new List<Node2D>();
 	List<Node2D> affectedBodies = new List<Node2D>();
-	Player source = null;
+	BaseCharacter source = null;
 	float timer;
-
-    internal void Setup(Player src)
+    internal void Setup(BaseCharacter src)
     {
 		source = src;
 		if (source == null) {
@@ -32,11 +32,9 @@ public partial class Effect : Area2D
 		s.X = source.GetHorzDirection();
 		Scale = s;
     }
-
 	public void OnAnimationFinished() {
 		QueueFree();
 	}
-
 	public override void _Process(double delta)
 	{
 		if (source == null) return;
@@ -53,7 +51,6 @@ public partial class Effect : Area2D
 		move.X = move.X * Scale.X;
 		Position += move;
 	}
-
 	private void ApplyEffect() {
 		bool applied = false;
 		//
@@ -61,6 +58,12 @@ public partial class Effect : Area2D
 			if (!affectedBodies.Contains(b)) {
 				// Damage, etc.
 				GD.Print(b.Name);
+				if (b is IDamageable) {
+					var d = b as IDamageable;
+					if (d.IsDead()) continue;
+					var dmg = DamageFormulas.CalculateDamage(source,damageFormula,damageBase);
+					d.ApplyDamage(source, dmg, damageFormula);
+				}
 				applied = true;
 				affectedBodies.Add(b);
 			}
@@ -69,7 +72,6 @@ public partial class Effect : Area2D
 			if (KillAfterEffect) QueueFree();
 		}
 	}
-
 	public void OnBodyEntered(Node2D body) {
 		if (body == source) return;
 		if (!registeredBodies.Contains(body)) registeredBodies.Add(body);

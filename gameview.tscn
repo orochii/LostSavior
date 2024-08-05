@@ -1,8 +1,9 @@
-[gd_scene load_steps=23 format=3 uid="uid://bx5i6m54tjhk4"]
+[gd_scene load_steps=28 format=3 uid="uid://bx5i6m54tjhk4"]
 
 [ext_resource type="Script" path="res://Source/Game.cs" id="1_5onwa"]
 [ext_resource type="PackedScene" uid="uid://cybqiaksbhgx6" path="res://Objects/player.tscn" id="1_qbwex"]
 [ext_resource type="PackedScene" uid="uid://db0c5ftapdirs" path="res://Maps/world.tscn" id="3_ijwsy"]
+[ext_resource type="PackedScene" uid="uid://x87rikb7mpsi" path="res://Objects/UI/dmg_pop.tscn" id="4_2cak5"]
 [ext_resource type="Texture2D" uid="uid://bw3hu5egje1ne" path="res://Graphics/System/HUD.png" id="4_rk0md"]
 [ext_resource type="Script" path="res://Source/UI/DebugInput.cs" id="5_2xvuv"]
 [ext_resource type="Script" path="res://Source/UI/Worldmap.cs" id="5_40ipd"]
@@ -15,7 +16,9 @@
 [ext_resource type="Script" path="res://Source/UI/CharStatsPanel.cs" id="13_q3l4n"]
 [ext_resource type="Script" path="res://Source/UI/CharEquipsPanel.cs" id="14_vcv0q"]
 [ext_resource type="Script" path="res://Source/UI/InventoryPanel.cs" id="15_t6oxk"]
+[ext_resource type="Script" path="res://Source/UI/Effects/SysColTextEffect.cs" id="15_u0b4t"]
 [ext_resource type="PackedScene" uid="uid://badilxhnulp4n" path="res://Objects/UI/item_entry.tscn" id="16_j84up"]
+[ext_resource type="Shader" path="res://Source/Shaders/CanvasItem/screenEffects.gdshader" id="18_qfvxx"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0flm7"]
 atlas = ExtResource("4_rk0md")
@@ -28,6 +31,33 @@ region = Rect2(0, 0, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_esw0t"]
 atlas = ExtResource("4_rk0md")
 region = Rect2(0, 192, 40, 48)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aohnh"]
+shader = ExtResource("18_qfvxx")
+shader_parameter/overlay = true
+shader_parameter/scanlines_opacity = 0.4
+shader_parameter/scanlines_width = 0.25
+shader_parameter/grille_opacity = 0.3
+shader_parameter/resolution = Vector2(480, 270)
+shader_parameter/pixelate = true
+shader_parameter/roll = true
+shader_parameter/roll_speed = 1.0
+shader_parameter/roll_size = 26.0
+shader_parameter/roll_variation = 1.8
+shader_parameter/distort_intensity = 0.001
+shader_parameter/noise_opacity = 0.1
+shader_parameter/noise_speed = 5.0
+shader_parameter/static_noise_intensity = 0.06
+shader_parameter/aberration = 0.02
+shader_parameter/brightness = 1.4
+shader_parameter/discolor = true
+shader_parameter/warp_amount = 0.1
+shader_parameter/clip_warp = false
+shader_parameter/vignette_intensity = 0.4
+shader_parameter/vignette_opacity = 0.5
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_00c0q"]
+script = ExtResource("15_u0b4t")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tm8mc"]
 bg_color = Color(1, 1, 1, 1)
@@ -50,6 +80,7 @@ grow_vertical = 2
 script = ExtResource("1_5onwa")
 playerTemplate = ExtResource("1_qbwex")
 worldTemplate = ExtResource("3_ijwsy")
+dmgpopTemplate = ExtResource("4_2cak5")
 viewport = NodePath("SubViewportContainer/SubViewport")
 camera = NodePath("SubViewportContainer/SubViewport/Camera2D")
 cameraOffset = Vector2(0, -32)
@@ -321,7 +352,18 @@ grow_vertical = 2
 script = ExtResource("8_51av8")
 screens = [NodePath("Worldmap"), NodePath("Equipment")]
 
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Root/GameMenu"]
+material = SubResource("ShaderMaterial_aohnh")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+
 [node name="Overlay" type="ColorRect" parent="CanvasLayer/Root/GameMenu"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -407,7 +449,7 @@ grow_vertical = 2
 [node name="PlayerPos" type="Sprite2D" parent="CanvasLayer/Root/GameMenu/Worldmap/Container/Mask/PlayerPosOffset"]
 texture = ExtResource("6_exkm1")
 
-[node name="Equipment" type="Control" parent="CanvasLayer/Root/GameMenu" node_paths=PackedStringArray("charStats", "charEquips", "inventory")]
+[node name="Equipment" type="Control" parent="CanvasLayer/Root/GameMenu" node_paths=PackedStringArray("charStats", "charEquips", "inventory", "description")]
 process_mode = 2
 texture_filter = 1
 layout_mode = 1
@@ -420,6 +462,7 @@ script = ExtResource("11_iesmq")
 charStats = NodePath("TextureRect/CharStats")
 charEquips = NodePath("TextureRect/CharEquips")
 inventory = NodePath("TextureRect/Inventory")
+description = NodePath("TextureRect/ItemDesc/Desc")
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/Root/GameMenu/Equipment"]
 layout_mode = 1
@@ -548,17 +591,20 @@ offset_right = 217.0
 offset_bottom = 40.0
 theme_override_constants/line_separation = -4
 theme_override_fonts/normal_font = ExtResource("5_q2rvt")
+bbcode_enabled = true
 text = "This card does this thing and that thing oh!
 Hope two or three lines are enough :mildpanic:
-More text here! I think they need moar space."
+[syscol]+2 Str +15 Con[/syscol] -only works ingame"
+custom_effects = [SubResource("RichTextEffect_00c0q")]
 
-[node name="Inventory" type="Control" parent="CanvasLayer/Root/GameMenu/Equipment/TextureRect" node_paths=PackedStringArray("scroll", "container")]
+[node name="Inventory" type="Control" parent="CanvasLayer/Root/GameMenu/Equipment/TextureRect" node_paths=PackedStringArray("parentScreen", "scroll", "container")]
 anchors_preset = 0
 offset_left = 168.0
 offset_top = 55.0
 offset_right = 274.0
 offset_bottom = 160.0
 script = ExtResource("15_t6oxk")
+parentScreen = NodePath("../..")
 itemEntryTemplate = ExtResource("16_j84up")
 scroll = NodePath("ScrollContainer")
 container = NodePath("ScrollContainer/VBoxContainer")
@@ -587,3 +633,6 @@ vertical_scroll_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
+
+[node name="Overlays" type="CanvasLayer" parent="."]
+visible = false

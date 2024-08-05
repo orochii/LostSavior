@@ -28,5 +28,3 @@ text = "[img region=0,8,8,8]res://Graphics/System/icons_s.png[/img] Potion"
 fit_content = true
 scroll_active = false
 autowrap_mode = 0
-
-[connection signal="pressed" from="." to="." method="OnPressed"]

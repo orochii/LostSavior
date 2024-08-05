@@ -301,9 +301,10 @@ height = 28.0
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("graphic")]
 floor_snap_length = 8.0
 script = ExtResource("1_bxgi7")
-graphic = NodePath("Pivot/Ari")
 defaultAttackActions = Array[Object]([SubResource("Resource_hvejm"), SubResource("Resource_gypbj")])
 defaultAirAttackActions = Array[Object]([SubResource("Resource_iu28j")])
+graphic = NodePath("Pivot/Ari")
+faction = 1
 
 [node name="Pivot" type="Node2D" parent="."]
 position = Vector2(0, -16)

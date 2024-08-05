@@ -1,4 +1,5 @@
 
+using System;
 using Godot;
 
 [GlobalClass]
@@ -38,5 +39,10 @@ public partial class InventoryItem : Resource {
         var options = string.Format("region={0},{1},{2},{3}", x,y,8,8);
         var imgCode = string.Format("[img {0}]{1}[/img] ", options, "res://Graphics/System/icons.png");
         return imgCode + GetDisplayName();
+    }
+
+    internal string GetDescription()
+    {
+        return GetId() + "_description";
     }
 }

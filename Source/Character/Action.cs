@@ -12,7 +12,7 @@ public partial class Action : Resource
     // Effect spawn
     [Export] public PackedScene effect;
 
-    public void Execute(Player p) {
+    public void Execute(BaseCharacter p) {
         GD.Print("Executed: ", displayName);
         p.SetAction(actionState, actionDelay);
         // Spawn effect
@@ -22,7 +22,7 @@ public partial class Action : Resource
         }
     }
 
-    public void Finish(Player p) {
+    public void Finish(BaseCharacter p) {
         p.CancelAction(endDelay);
     }
 }

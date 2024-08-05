@@ -15,14 +15,13 @@ public partial class Game : Control
 	
 	[Export] public PackedScene playerTemplate;
 	[Export] public PackedScene worldTemplate;
+	[Export] public PackedScene dmgpopTemplate;
 	[Export] public SubViewport viewport;
 	[Export] public Camera2D camera;
 	[Export] public Vector2 cameraOffset;
 	[Export] GameMenu gameMenu;
-	
 	Player _player;
 	World _world;
-	
 	public override void _Ready()
 	{
 		game = this;
@@ -40,12 +39,10 @@ public partial class Game : Control
 			_world.RepositionPlayer();
 		}
 	}
-
 	public override void _Process(double delta)
 	{
 		if(_player != null) camera.Position = _player.Position + cameraOffset;
 	}
-
 	public static void TogglePause() {
 		if (game != null) game.TogglePauseInternal();
 	}
@@ -57,5 +54,12 @@ public partial class Game : Control
 			if (GetTree().Paused) gameMenu.Open();
 			else gameMenu.Close();
 		}
+	}
+	public static void DamagePop(Vector2 pos, int dmg) {
+		if (game == null) return;
+		var dmgpop = game.dmgpopTemplate.Instantiate<DmgPop>();
+		dmgpop.Setup(dmg);
+		game._world.AddChild(dmgpop);
+		dmgpop.Position = pos;
 	}
 }

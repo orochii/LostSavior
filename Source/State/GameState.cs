@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Godot;
 
@@ -14,8 +15,8 @@ public class GameState {
     StringName[] EquipmentIds = new StringName[MAX_EQUIP_SLOTS];
     List<StringName> Inventory = new List<StringName>();
     // Stats
-    int CurrHP = 1;
-    int MaxHPPlus = 0;
+    int CurrHealth = 1;
+    int MaxHealthPlus = 0;
     int StrengthPlus = 0;
     int ConstitutionPlus = 0;
     int IntelligencePlus = 0;
@@ -37,13 +38,19 @@ public class GameState {
         Inventory.Add("Potion");
         Inventory.Add("Equip/Knife");
         Inventory.Add("Potion");
-        CurrHP = GetMaxHp();
+        CurrHealth = GetMaxHealth();
     }
     // Statistics
-    public string GetHpString() {
-        return string.Format("{0:D4}/{1:D4}", CurrHP, GetMaxHp());
+    public int GetHealth() {
+        return CurrHealth;
     }
-    private int GetBaseMaxHp() {
+    public void ChangeHealth(int v) {
+        CurrHealth = Math.Clamp(CurrHealth + v, 0, GetMaxHealth());
+    }
+    public string GetHealthString() {
+        return string.Format("{0:D4}/{1:D4}", CurrHealth, GetMaxHealth());
+    }
+    private int GetBaseMaxHealth() {
         return 100 + (Level * 20);
     }
     private int GetBaseStr() {
@@ -55,13 +62,13 @@ public class GameState {
     private int GetBaseInt() {
         return 5 + (Level);
     }
-    public int GetMaxHp() {
-        int maxHp = GetBaseMaxHp() + MaxHPPlus;
+    public int GetMaxHealth() {
+        int maxHealth = GetBaseMaxHealth() + MaxHealthPlus;
         var equips = GetAllEquipment();
         foreach (var e in equips) {
-            if (e != null) maxHp += e.HPPlus;
+            if (e != null) maxHealth += e.HealthPlus;
         }
-        return maxHp;
+        return maxHealth;
     }
     public int GetStr() {
         int v = GetBaseStr() + StrengthPlus;
