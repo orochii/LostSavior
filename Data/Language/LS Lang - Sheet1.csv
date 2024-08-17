@@ -15,6 +15,71 @@ Prot.
 Otros"
 INVENTORY,,INVENTARIO
 ,,
+Press {0} and {1} to move.,Press {0} and {1} to move.,Presiona {0} y {1} para moverse.
+Press {0} to jump.,Hold {0} to jump.,Mantén presionado {0} para saltar.
+Press {0} to attack.,Tap {0} to attack.,Pulsa {0} para atacar.
+Hold {0} to drop down platforms.,Hold {0} to drop down platforms.,Mantén presionado {0} para bajar de plataformas.
+Press {0} to open menu.,Press {0} to open menu.,Presiona {0} para abrir el menú.
+Lost {0}!,Lost {0}!,¡Pierdes {0}!
+Acquired {0}!,Acquired {0}!,¡Obtienes {0}!
+You got the {0} card!,You got the {0} card!,¡Obtuviste la carta {0}!
+{0} Select,{0} Select,{0} Selección.
+{0} Set Alt. Weapon,{0} Set Alt. Weapon,{0} Arma secundaria
+{0} Change screen,{0} Change screen,{0} Cambiar pantalla
+,,
+outside,Outside,Exterior
+underground_cave,Underground Cave,Cueva bajo tierra
+the_pit,The Pit,La fosa
+the_town,Some Town,Algún Pueblo
+volcano,Volcano,Volcán
+flying_fortress,Flying Fortress,Fortaleza Voladora
+forest_of_mist,Forest of Mist,Bosque de la Bruma
+,,
+Magician,,Mago
+Magician_description,"Can activate mechanisms from afar (switches,etc).",
+High Priestess,,Suma Sacerdotisa
+High Priestess_description,Allows for short glides.,
+Empress,,Emperatriz
+Empress_description,,
+Emperor,,Emperador
+Emperor_description,Marks a target. All projectiles will aim towards it.,
+Hierophant,,Hierofante
+Hierophant_description,,
+Lovers,,Amantes
+Lovers_description,Turns a foe into ally.,
+Chariot,,Carruaje
+Chariot_description,Summons a running chariot.,
+Strength,,Fuerza
+Strength_description,Picks up certain big objects.,
+Hermit,,Hermitaño
+Hermit_description,Detect nearby points of interest.,
+Wheel of Fortune,,Rueda de la Fortuna
+Wheel of Fortune_description,,
+Justice,,Justicia
+Justice_description,,
+Hanged Man,,El Ahorcado
+Hanged Man_description,Throw a rope with a hook on it.,
+Death,,Muerte
+Death_description,Summons a giant scythe that mows down things in front.,
+Temperance,,Templanza
+Temperance_description,Shoots a ray that transforms user into the hit target.,
+Devil,,Diablo
+Devil_description,,
+Tower,,Torre
+Tower_description,Summons a raising column. Can step over it.,
+Star,,Estrella
+Star_description,Short high speed flight.,
+Moon,,Luna
+Moon_description,Makes all nearby enemies sleep.,
+Sun,,Sol
+Sun_description,Burns all nearby enemies for a certain amount of time.,
+Judgement,,Juicio
+Judgement_description,Shoot a giant laser that hits all enemies close.,
+World,,Mundo
+World_description,Stops time for 5 seconds.,Detiene el tiempo por 5 segundos.
+Fool,,Tonto
+Fool_description,Spawns random useless items.,Crea objetos inútiles al azar.
+,,
 Equip/Knife,Knife,Cuchillo
 Equip/Knife_description,"A knife.
 [syscol]+2 Str","Un cuchillo.

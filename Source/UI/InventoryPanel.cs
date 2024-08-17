@@ -26,6 +26,28 @@ public partial class InventoryPanel : Control
 			}
 			lastFocus = focused;
 		}
+		// Check if set to weapon change.
+		if (Input.IsActionJustPressed("swap_weapon")) {
+			if (allItems.Contains(focused)) {
+				var entry = focused as ItemEntry;
+				if (entry.Item is EquipItem) {
+					var equip = entry.Item as EquipItem;
+					if (equip.EquipKind == EEquipKind.WEAPON) {
+						if (equip.GetId() == Game.State.GetAltWeapon()) {
+							Game.State.SetAltWeapon(null);
+							parentScreen.Refresh();
+							Select(entry.Index);
+							AudioManager.PlaySystemSound("decision");
+						} else {
+							Game.State.SetAltWeapon(equip.GetId());
+							parentScreen.Refresh();
+							Select(entry.Index);
+							AudioManager.PlaySystemSound("decision");
+						}
+					}
+				}
+			}
+		}
     }
     public void Refresh() {
 		foreach (var v in allItems) v.QueueFree();
@@ -35,24 +57,32 @@ public partial class InventoryPanel : Control
 			var entry = itemEntryTemplate.Instantiate<ItemEntry>();
 			var index = i;
 			var item = items[i];
-			entry.Setup(i, item);
+			var ammount = Game.State.GetItemCount(item.GetId());
+			entry.Setup(i, item, ammount);
 			container.AddChild(entry);
 			allItems.Add(entry);
 			entry.Pressed += () => {
+				AudioManager.PlaySystemSound("decision");
 				UseItem(index, item);
 			};
 		}
 		if (allItems.Count > 0) allItems[0].GrabFocus();
 		UIUtils.SetupHBoxList(allItems);
 	}
-
+	public void Select(int idx) {
+		if (allItems.Count > idx) allItems[idx].GrabFocus();
+		else if (allItems.Count > 0) {
+			allItems[allItems.Count-1].GrabFocus();
+		}
+	}
 	public void UseItem(int idx, InventoryItem itm) {
-		GD.Print("Selected: "+ idx + " " + itm.GetDisplayName());
 		switch (itm) {
 			case EquipItem:
 				var equip = itm as EquipItem;
 				//
-				GD.Print("Equip on: ",equip.EquipKind);
+				Game.State.Equip(equip);
+				parentScreen.Refresh();
+				Select(idx);
 				break;
 		}
 	}

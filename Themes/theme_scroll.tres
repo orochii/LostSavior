@@ -1,0 +1,24 @@
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://cr8hghv62r3rq"]
+
+[ext_resource type="FontFile" uid="uid://esmov650nrwv" path="res://Fonts/m3x6.ttf" id="1_bfoqa"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7e2i2"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lophc"]
+bg_color = Color(0.137255, 0.137255, 0.137255, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tm8mc"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_17dh3"]
+content_margin_left = 2.0
+bg_color = Color(0.0189402, 0.0189402, 0.0189402, 1)
+
+[resource]
+Button/styles/focus = SubResource("StyleBoxFlat_7e2i2")
+Button/styles/normal = SubResource("StyleBoxFlat_lophc")
+CheckButton/fonts/font = ExtResource("1_bfoqa")
+OptionButton/fonts/font = ExtResource("1_bfoqa")
+VScrollBar/styles/grabber = SubResource("StyleBoxFlat_tm8mc")
+VScrollBar/styles/scroll = SubResource("StyleBoxFlat_17dh3")

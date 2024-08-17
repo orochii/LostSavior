@@ -5,10 +5,11 @@ varying float ysize;
 uniform float percent: hint_range(0.0, 1.0) = 0;
 uniform float disappear: hint_range(0.0, 1.0) = 0;
 uniform float width = 32;
+uniform float height= 32;
 // <>
 void vertex() {
 	xsize = VERTEX.x / width;
-	ysize = VERTEX.y / width;
+	ysize = VERTEX.y / height;
 }
 void fragment() {
 	float dx = xsize;

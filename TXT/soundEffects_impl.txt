@@ -1,0 +1,22 @@
+UI
+++	open
+++	close
+++	change
+++	cursor
+++	decision
+Player
+++	step
+++	jump
+++	fall
+++	swing
+	levelup
+Enemy
+-+	step
+-+	jump
+-+	fall
+-+	swing
+Effects
+++	shoot
+++	shoot-hit	:remove start delay
+++	slash
+++	slash-hit

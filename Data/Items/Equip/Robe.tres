@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EquipItem" load_steps=2 format=3 uid="uid://co00aym26y5uu"]
+
+[ext_resource type="Script" path="res://Source/Data/EquipItem.cs" id="3_elpqd"]
+
+[resource]
+script = ExtResource("3_elpqd")
+EquipKind = 2
+AttackActions = null
+AirAttackActions = null
+UpActions = null
+DownActions = null
+CanHold = false
+HealthPlus = 0
+StrPlus = 0
+ConPlus = 2
+IntPlus = 0
+IconIndex = 2

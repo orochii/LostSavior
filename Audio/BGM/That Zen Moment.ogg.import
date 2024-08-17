@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dv6wkep7qfqh"
+path="res://.godot/imported/That Zen Moment.ogg-1737e68636738bb23d30034598bbb9fe.oggvorbisstr"
+
+[deps]
+
+source_file="res://Audio/BGM/That Zen Moment.ogg"
+dest_files=["res://.godot/imported/That Zen Moment.ogg-1737e68636738bb23d30034598bbb9fe.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections;
+using System.Threading.Tasks;
 
 public partial class Player : BaseCharacter, IDamageable
 {
@@ -16,39 +17,81 @@ public partial class Player : BaseCharacter, IDamageable
 		Catch Missed Jump
 		Bumped Head on Corner
 	*/
-	[Export] public Action[] defaultAttackActions;
-	[Export] public Action[] defaultAirAttackActions;
+	[Export] public AnimationPlayer levelUpAnimation;
+	[Export] public AnimationPlayer gameoverAnimation;
+	[Export] public Node2D CardContainer;
+	public Node2D[] CardObject = new Node2D[GameState.MAX_CARD_SLOTS];
 	public override void _PhysicsProcess(double delta)
     {
 		var horz = 0f;
+		var vert = 0f;
         var jump = false;
         var jumpHeld = false;
 		var attack = false;
-		if (!IsDead()) {
+		if (CanMove()) {
+			//
+			if (Input.IsActionJustPressed("swap_weapon")) {
+				Game.State.SwitchWeapon();
+			}
+			//
 			horz = Input.GetAxis("move_left", "move_right");
+			vert = Input.GetAxis("move_up", "move_down");
 			jump = Input.IsActionJustPressed("jump");
 			jumpHeld = Input.IsActionPressed("jump");
 			attack = Input.IsActionJustPressed("attack");
 			if (CanHold()) attack = Input.IsActionPressed("attack");
 		}
+		// Process cards
+		ProcessCards(delta);
         // Execute attacks
         ProcessAttack(delta,attack,GetAttackAction());
 		// Execute movement
-        ProcessGroundMove(delta, horz, jump, jumpHeld);
+        ProcessGroundMove(delta, horz, vert, jump, jumpHeld);
+		CardContainer.Scale = new Vector2(GetHorzDirection(),1);
+		// Refresh animation.
+		RefreshAnimation(delta);
     }
+	private void ProcessCards(double delta) {
+		for (int i = 0; i < GameState.MAX_CARD_SLOTS; i++) {
+			var card = Game.State.GetEquippedCard(i);
+			if (card != null) {
+				card.VerifyVisuals(this, i);
+				card.Process(this, i, delta);
+			}
+			else {
+				if (CardObject[i] != null) {
+					CardObject[i].QueueFree();
+					CardObject[i] = null;
+				}
+			}
+		}
+	}
 	protected bool CanHold() {
 		var w = Game.State.GetWeapon();
 		if (w != null) return w.CanHold;
 		return false;
 	}
 	public Action[] GetAttackActions() {
+		var vert = Input.GetAxis("move_up", "move_down");
+		// Do weapon actions if you have any.
 		var w = Game.State.GetWeapon();
-		if (!isGrounded) {
-			if (w != null) return w.AirAttackActions;
-			return defaultAirAttackActions;
+		if (w != null) {
+			if (vert > 0) {
+				if (w.DownActions != null && w.DownActions.Length > 0) return w.DownActions;
+			} else if (vert < 0) {
+				if (w.UpActions != null && w.UpActions.Length > 0) return w.UpActions;
+			}
+			if (!isGrounded) if (w != null) return w.AirAttackActions;
+			return w.AttackActions;
 		}
-		if (w != null) return w.AttackActions;
-		return defaultAttackActions;
+		// Do default actions.
+		if (vert > 0) {
+			if (Game.State.Data.defaultDownActions != null && Game.State.Data.defaultDownActions.Length > 0) return Game.State.Data.defaultDownActions;
+		} else if (vert < 0) {
+			if (Game.State.Data.defaultUpActions != null && Game.State.Data.defaultUpActions.Length > 0) return Game.State.Data.defaultUpActions;
+		}
+		if (!isGrounded) return Game.State.Data.defaultAirActions;
+		return Game.State.Data.defaultActions;
 	}
 	private Action GetAttackAction() {
 		var actions = GetAttackActions();
@@ -58,7 +101,7 @@ public partial class Player : BaseCharacter, IDamageable
 		}
 		return null;
 	}
-	public void ApplyDamage(BaseCharacter source, int baseDmg, EDamageFormula damageFormula) {
+	public override void ApplyDamage(BaseCharacter source, int baseDmg, EDamageFormula damageFormula) {
 		if (IsDead()) return;
 		int damage = baseDmg;
 		if (damage > 0) {
@@ -70,11 +113,32 @@ public partial class Player : BaseCharacter, IDamageable
 		Game.DamagePop(GlobalPosition, damage);
 		if (IsDead()) Die();
 	}
-	public bool IsDead() {
+	public override bool IsDead() {
 		return Game.State.GetHealth() <= 0;
 	}
-	public void Die() {
-		
+	public override void Die() {
+		base.Die();
+		Game.State.MuteLocation = true;
+		AudioManager.StopMusic();
+		AudioManager.PlayJingle(Game.State.Data.OnDeathJingle);
+		gameoverAnimation.Play("standby");
+		// show "selection" maybe.
+		// when selected, respawn.
+		Game.Instance.SpawnPlayer(true, 3f);
+	}
+	public void ShowLevelUp() {
+		levelUpAnimation.Play("standby");
+		AudioManager.PlayJingle(Game.State.Data.OnLevelUpJingle);
+	}
+	public async Task<bool> Disappear() {
+		animation.Play("disappear");
+		await ToSignal(animation, AnimationPlayer.SignalName.AnimationFinished);
+		return true;
+	}
+	public async Task<bool> Appear() {
+		animation.Play("appear");
+		await ToSignal(animation, AnimationPlayer.SignalName.AnimationFinished);
+		return true;
 	}
     public override int GetStr()
     {

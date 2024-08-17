@@ -5,6 +5,7 @@ public partial class GameMenu : Control
 {
 	[Export] Control[] screens;
 	[Export] int currentScreenIdx;
+	private Control lastFocused = null;
 
     public override void _Ready()
     {
@@ -15,13 +16,30 @@ public partial class GameMenu : Control
     public override void _Process(double delta)
     {
         base._Process(delta);
-		var pause = Input.IsActionJustPressed("pause");
-		if (pause) Game.TogglePause();
-
+		// Selection change.
+		var focused = GetViewport().GuiGetFocusOwner();
+		if (focused != lastFocused) {
+			if (focused != null) {
+				if (lastFocused != null && IsInstanceValid(lastFocused) && lastFocused.Visible) {
+					AudioManager.PlaySystemSound("cursor");
+				}
+			}
+			lastFocused = focused;
+		}
+		if (Game.Player == null) return;
+		// Open/close pause menu.
+		if (Game.Player.CanMove()) {
+			var pause = Input.IsActionJustPressed("pause");
+			if (pause) Game.TogglePause();
+		}
+		// Don't continue unless paused.
 		if (!GetTree().Paused) return;
-
+		// Change screen.
 		var dash = Input.IsActionJustPressed("dash");
-		if (dash) SwitchScreen(1);
+		if (dash) {
+			AudioManager.PlaySystemSound("change");
+			SwitchScreen(1);
+		}
     }
 
     private void SwitchScreen(int v)
@@ -44,10 +62,12 @@ public partial class GameMenu : Control
 	}
 
     public void Open() {
+		AudioManager.PlaySystemSound("open");
 		Visible = true;
 		RefreshCurrentScreen();
 	}
 	public void Close() {
+		AudioManager.PlaySystemSound("close");
 		Visible = false;
 	}
 }

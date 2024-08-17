@@ -7,7 +7,7 @@
 bg_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a6pgo"]
-bg_color = Color(0.135617, 0.135617, 0.135617, 1)
+bg_color = Color(0.137255, 0.137255, 0.137255, 0)
 
 [node name="ItemEntry" type="Button"]
 custom_minimum_size = Vector2(0, 12)

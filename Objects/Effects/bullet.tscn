@@ -1,30 +1,49 @@
-[gd_scene load_steps=4 format=3 uid="uid://dwbvbxg77rnjq"]
+[gd_scene load_steps=9 format=3 uid="uid://dwbvbxg77rnjq"]
 
 [ext_resource type="Script" path="res://Source/Character/Effects/Effect.cs" id="1_07tg8"]
+[ext_resource type="Script" path="res://Source/Audio/AudioEntry.cs" id="2_tmdif"]
 [ext_resource type="Texture2D" uid="uid://bvmyyn4knmnfa" path="res://Graphics/Effects/bullet.png" id="2_xmxuh"]
+[ext_resource type="AudioStream" uid="uid://1j1tqctdy3th" path="res://Audio/SFX/flare_explode.ogg" id="3_a735g"]
+[ext_resource type="AudioStream" uid="uid://dsjc7kf4fxllu" path="res://Audio/SFX/flare_shot.ogg" id="3_ibu61"]
+
+[sub_resource type="Resource" id="Resource_xjdd3"]
+script = ExtResource("2_tmdif")
+id = null
+stream = ExtResource("3_a735g")
+volume = 0.0
+pitch = 1.0
+
+[sub_resource type="Resource" id="Resource_4dhrd"]
+script = ExtResource("2_tmdif")
+id = null
+stream = ExtResource("3_ibu61")
+volume = 0.0
+pitch = 2.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8mfbl"]
 size = Vector2(24, 6)
 
 [node name="Bullet" type="Area2D"]
 texture_filter = 1
+collision_layer = 2
+collision_mask = 19
 script = ExtResource("1_07tg8")
 speed = Vector2(320, 0)
 AlwaysActive = true
 KillAfterEffect = true
+onSpawnSound = SubResource("Resource_xjdd3")
+onHitSound = SubResource("Resource_4dhrd")
 MaxLife = 0.5
 damageFormula = 1
 damageBase = -1
 
 [node name="Sprite" type="Sprite2D" parent="."]
-position = Vector2(15, -16)
+light_mask = 0
 texture = ExtResource("2_xmxuh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(12, -16)
+position = Vector2(-3, 0)
 shape = SubResource("RectangleShape2D_8mfbl")
-
-[node name="Node" type="Node" parent="."]
 
 [connection signal="body_entered" from="." to="." method="OnBodyEntered"]
 [connection signal="body_exited" from="." to="." method="OnBodyExited"]

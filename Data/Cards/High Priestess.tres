@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="HighPriestessCard" load_steps=3 format=3 uid="uid://k12udv4k7oix"]
+
+[ext_resource type="PackedScene" uid="uid://n8kogoakr5gy" path="res://Objects/Effects/Cards/high_priestess.tscn" id="1_t6n8b"]
+[ext_resource type="Script" path="res://Source/Data/Cards/HighPriestessCard.cs" id="1_x7evd"]
+
+[resource]
+script = ExtResource("1_x7evd")
+Object = ExtResource("1_t6n8b")
+CardIndex = 2
+MaxPower = 1.5
+ConsumeSpeed = 1.0
+ConsumeUnscaled = false
+RecoverySpeed = 1.0

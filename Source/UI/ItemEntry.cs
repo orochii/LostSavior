@@ -5,18 +5,20 @@ public partial class ItemEntry : Button
 {
 	RichTextLabel label;
 	int index;
+	int ammount;
 	InventoryItem item;
-	public void Setup(int idx, InventoryItem itm) {
+	public void Setup(int idx, InventoryItem itm, int qty=1) {
 		item = itm;
 		index = idx;
+		ammount = qty;
 		label = GetChild<RichTextLabel>(0);
 		if (label != null) {
-			if (item != null) {
-				label.Text = item.GetNameSmallIcon();
+			var text = (item==null) ? "???" : item.GetNameSmallIcon();
+			if (ammount > 1) text += string.Format(" x{0}", ammount);
+			if (Game.State.GetAltWeapon() == item.GetId()) {
+				text += " <>";
 			}
-			else {
-				label.Text = "???";
-			}
+			label.Text = text;
 		}
 	}
 	public InventoryItem Item => item;

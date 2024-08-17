@@ -1,0 +1,19 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://cvtro0ydca03t"]
+
+[ext_resource type="Shader" path="res://Source/Shaders/CanvasItem/texturedPanel.gdshader" id="1_68ahr"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_b5q3c"]
+noise_type = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_4d57a"]
+seamless = true
+noise = SubResource("FastNoiseLite_b5q3c")
+
+[resource]
+shader = ExtResource("1_68ahr")
+shader_parameter/useKeyColor = false
+shader_parameter/keyColor = Color(0.235294, 0.176471, 0.262745, 1)
+shader_parameter/percent = 0.5
+shader_parameter/scale = 1.075
+shader_parameter/resolution = Vector2(640, 480)
+shader_parameter/overlayTexture = SubResource("NoiseTexture2D_4d57a")

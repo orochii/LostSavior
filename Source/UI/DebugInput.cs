@@ -9,10 +9,9 @@ public partial class DebugInput : Control
 	{
 		foreach (var c in controls) c.Modulate = Colors.Transparent;
 	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		if (!IsVisibleInTree()) return;
 		for (int i = 0; i < controls.Length; i++) {
 			if (actions.Length > i) {
 				var v = Input.IsActionPressed(actions[i]);

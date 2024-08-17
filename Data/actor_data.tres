@@ -1,0 +1,71 @@
+[gd_resource type="Resource" script_class="ActorData" load_steps=17 format=3 uid="uid://v1xr2c8lywsx"]
+
+[ext_resource type="Resource" uid="uid://d3r74pf5m36f2" path="res://Data/Items/Equip/Knife.tres" id="1_3agk5"]
+[ext_resource type="Script" path="res://Source/Data/ActorData.cs" id="1_expxb"]
+[ext_resource type="Script" path="res://Source/Audio/AudioEntry.cs" id="1_qi5hm"]
+[ext_resource type="Resource" uid="uid://co00aym26y5uu" path="res://Data/Items/Equip/Robe.tres" id="2_ri25q"]
+[ext_resource type="AudioStream" uid="uid://b3ta6lhlcy186" path="res://Audio/MFX/death.ogg" id="2_ripnj"]
+[ext_resource type="Resource" uid="uid://cvwatm6o4buq" path="res://Data/Items/Equip/Pistol.tres" id="3_8lvj4"]
+[ext_resource type="AudioStream" uid="uid://csveik1yltaqh" path="res://Audio/MFX/levelup.ogg" id="3_prypx"]
+[ext_resource type="Resource" uid="uid://f3rigqlnv831" path="res://Data/Items/Potion.tres" id="4_oq7ru"]
+[ext_resource type="PackedScene" uid="uid://b88gkok61fpu6" path="res://Objects/Effects/slash1.tscn" id="8_l2p7w"]
+[ext_resource type="Script" path="res://Source/Character/Action.cs" id="9_2rdyj"]
+[ext_resource type="PackedScene" uid="uid://dsla03tgnh2wv" path="res://Objects/Effects/slash2.tscn" id="10_svkav"]
+
+[sub_resource type="Resource" id="Resource_aq4ri"]
+script = ExtResource("1_qi5hm")
+id = null
+stream = ExtResource("2_ripnj")
+volume = 0.0
+pitch = 1.0
+
+[sub_resource type="Resource" id="Resource_s4nd7"]
+script = ExtResource("1_qi5hm")
+id = null
+stream = ExtResource("3_prypx")
+volume = -5.0
+pitch = 0.5
+
+[sub_resource type="Resource" id="Resource_tsjw2"]
+script = ExtResource("9_2rdyj")
+displayName = "Attack"
+effectSpawnDelay = 0.0
+actionDelay = 0.2
+endDelay = 0.1
+actionState = &"attack1"
+effect = ExtResource("8_l2p7w")
+
+[sub_resource type="Resource" id="Resource_8l16q"]
+script = ExtResource("9_2rdyj")
+displayName = "Attack"
+effectSpawnDelay = 0.0
+actionDelay = 0.5
+endDelay = 0.1
+actionState = &"attack2"
+effect = ExtResource("10_svkav")
+
+[sub_resource type="Resource" id="Resource_cl4f1"]
+script = ExtResource("9_2rdyj")
+displayName = "Attack"
+effectSpawnDelay = 0.0
+actionDelay = 0.5
+endDelay = 0.5
+actionState = &"attackAir"
+effect = ExtResource("10_svkav")
+
+[resource]
+script = ExtResource("1_expxb")
+HealthGrowth = Vector2(48, 12.3)
+StrengthGrowth = Vector2(5, 0.3)
+ConstitutionGrowth = Vector2(5, 0.2)
+IntelligenceGrowth = Vector2(5, 0.7)
+defaultActions = Array[Object]([SubResource("Resource_tsjw2"), SubResource("Resource_8l16q")])
+defaultAirActions = Array[Object]([SubResource("Resource_cl4f1")])
+defaultUpActions = Array[Object]([])
+defaultDownActions = Array[Object]([])
+StartingLevel = 1
+StartingEquipment = Array[Object]([ExtResource("1_3agk5"), ExtResource("2_ri25q"), null])
+StartingItems = Array[Object]([ExtResource("3_8lvj4"), ExtResource("2_ri25q"), ExtResource("4_oq7ru"), ExtResource("4_oq7ru")])
+StartingMoney = 0
+OnDeathJingle = SubResource("Resource_aq4ri")
+OnLevelUpJingle = SubResource("Resource_s4nd7")

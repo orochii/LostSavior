@@ -1,0 +1,48 @@
+[gd_resource type="Resource" script_class="AudioLibrary" load_steps=13 format=3 uid="uid://k8hn8hrd4q5m"]
+
+[ext_resource type="Script" path="res://Source/Audio/AudioEntry.cs" id="1_7smou"]
+[ext_resource type="Script" path="res://Source/Audio/AudioLibrary.cs" id="1_iygb6"]
+[ext_resource type="AudioStream" uid="uid://7tio4tirdon5" path="res://Audio/SFX/open_future.ogg" id="2_16fph"]
+[ext_resource type="AudioStream" uid="uid://buxiwx2keg5dr" path="res://Audio/SFX/close_slidemetal.ogg" id="3_y2v5d"]
+[ext_resource type="AudioStream" uid="uid://cc3jvvw0jq5yk" path="res://Audio/SFX/change_hairdryer.ogg" id="4_ye6tn"]
+[ext_resource type="AudioStream" uid="uid://dnlops2tkfvav" path="res://Audio/SFX/cursor_gear.ogg" id="5_a8ygg"]
+[ext_resource type="AudioStream" uid="uid://cgbwydlw5r5f" path="res://Audio/SFX/decision_gear.ogg" id="6_l2aan"]
+
+[sub_resource type="Resource" id="Resource_wcawt"]
+script = ExtResource("1_7smou")
+id = &"open"
+stream = ExtResource("2_16fph")
+volume = 0.0
+pitch = 1.0
+
+[sub_resource type="Resource" id="Resource_7b7bs"]
+script = ExtResource("1_7smou")
+id = &"close"
+stream = ExtResource("3_y2v5d")
+volume = 0.0
+pitch = 1.0
+
+[sub_resource type="Resource" id="Resource_25kdf"]
+script = ExtResource("1_7smou")
+id = &"change"
+stream = ExtResource("4_ye6tn")
+volume = 0.0
+pitch = 1.0
+
+[sub_resource type="Resource" id="Resource_7bixi"]
+script = ExtResource("1_7smou")
+id = &"cursor"
+stream = ExtResource("5_a8ygg")
+volume = 0.0
+pitch = 1.0
+
+[sub_resource type="Resource" id="Resource_o88ho"]
+script = ExtResource("1_7smou")
+id = &"decision"
+stream = ExtResource("6_l2aan")
+volume = 0.0
+pitch = 1.0
+
+[resource]
+script = ExtResource("1_iygb6")
+entries = Array[Object]([SubResource("Resource_wcawt"), SubResource("Resource_7b7bs"), SubResource("Resource_25kdf"), SubResource("Resource_7bixi"), SubResource("Resource_o88ho")])

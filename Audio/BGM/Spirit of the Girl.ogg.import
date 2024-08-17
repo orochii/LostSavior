@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://cmyr3760aoxxe"
+path="res://.godot/imported/Spirit of the Girl.ogg-00c8cc4503fef3a0b662dd0249e87336.oggvorbisstr"
+
+[deps]
+
+source_file="res://Audio/BGM/Spirit of the Girl.ogg"
+dest_files=["res://.godot/imported/Spirit of the Girl.ogg-00c8cc4503fef3a0b662dd0249e87336.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

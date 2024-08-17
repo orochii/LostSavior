@@ -1,0 +1,50 @@
+* The Magician		-Magic missile thing. Can activate mechanisms (switches,etc) from afar.
+The High Priestess	-Allows for short glides.
+The Empress			-
+The Emperor			-Marks a target. All projectiles will aim towards it.
+The Hierophant		-
+The Lovers			-Turn foe into ally (change faction).
+The Chariot			-Summons a running chariot, player can hop on it.
+* Strength			-Picks up big objects?
+* The Hermit		-Get tips and tricks (?) for finding something close or whatever.
+Wheel of Fortune	-
+Justice				-
+* The Hanged Man	-Throw a rope with a hook on it. hooks itself to any surface, or brings enemies (Zelda's hookshot).
+Death				-(nonfinal) BIG scythe. Chops down stuff? Like ropes.
+Temperance			-Transform into enemy? (fake faction, copy visuals and actions). Lasts 10 seconds.
+The Devil			-
+* The Tower			-Summons raising column. Can step over it.
+* The Star			-Short high speed flight, like a super dash.
+The Moon			-Makes all nearby enemies sleep.
+The Sun				-Burns all nearby enemies for a certain amount of time.
+Judgement			-
+The World			-5 second stop time? lol.
+(0) The Fool		-Spawn random useless items. Maybe something funny.
+
+---
+Item0 (The Town): Get (9)The Hermit from the town elder.
+Item1 (The Pit): Find (2)High Priestess when passing through. Should think about some puzzle maybe. Might gate behind another ability. :)
+Item2 (The Mountain): Find The (12)Hanged Man at the mountain, towards the top. Should require Star to get to it.
+Item3 (The Flying Fortress): (17)Star sounds very cool for flying fortress. Hop around in floating stuffs :D.
+Item4 (The Volcano): (16)Tower will be at the Volcano, where Lindsay is. It will be used to traverse the lava by placing the tower as an extra platform. 
+	Lava kills fast, have checkpoint close, hmm.
+Item5 (Forest of Mist): (1)Magician, activate stuff from afar.
+Item6 (Temple of _). Find (8)Strength at uh this place maybe some sort of temple thing.
+===
+
+I must do the following:
+DONE- make item/card acquire event (cards aren't items so uh will do both separate)
+DONE- make menu to equip cards
+- finish the first two cards effects
+- make NPC event
+I already did the data for those and added the basics for having the cards do stuff in game
+
+DONE	make enemy spawn areas just regular spawners triggered upon area enter instead of do it "per room"
+if needed, splitting locations in sections if they get too big xd
+
+DONE	jump down one-way elements : set one-ways as a different layer, deactivate collision with one-ways for a specific vertical distance (8px?)
+DONE	attack up/down : hold up/down to do different attacks (four total: front,down,up,air,could repeat up/down in air)
+dash/roll : separate action, don't allow other actions. disable gravity, maybe phase through ?, invulnerability
+
+raycast from enemy to target when picking current target
+move towards target might want to have some sort of pathfind

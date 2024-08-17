@@ -4,13 +4,13 @@ using System;
 public partial class Worldmap : Control
 {
 	[Export] SubViewport thisViewport;
-	[Export] SubViewport parentViewport;
 	[Export] Camera2D minimapCamera;
 	[Export] Node2D playerSprite;
 	
-	public override void _Ready()
+	public async override void _Ready()
 	{
-		thisViewport.World2D = parentViewport.World2D;
+		await ToSignal(GetTree(), "process_frame");
+		thisViewport.World2D = Game.Instance.viewport.World2D;
 	}
 
 	public void Reposition() {

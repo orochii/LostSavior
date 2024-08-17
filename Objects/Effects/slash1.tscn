@@ -1,7 +1,24 @@
-[gd_scene load_steps=9 format=3 uid="uid://b88gkok61fpu6"]
+[gd_scene load_steps=14 format=3 uid="uid://b88gkok61fpu6"]
 
 [ext_resource type="Script" path="res://Source/Character/Effects/Effect.cs" id="1_1n0ax"]
 [ext_resource type="Texture2D" uid="uid://bkkl2hyrjikky" path="res://Graphics/Effects/slash_1.png" id="1_la2jv"]
+[ext_resource type="Script" path="res://Source/Audio/AudioEntry.cs" id="2_htd61"]
+[ext_resource type="AudioStream" uid="uid://d0urmerp125bd" path="res://Audio/SFX/slash1.ogg" id="3_ap4th"]
+[ext_resource type="AudioStream" uid="uid://6koq5vjjaqgy" path="res://Audio/SFX/damage.ogg" id="4_p0cq2"]
+
+[sub_resource type="Resource" id="Resource_s7xam"]
+script = ExtResource("2_htd61")
+id = null
+stream = ExtResource("3_ap4th")
+volume = 0.0
+pitch = 1.0
+
+[sub_resource type="Resource" id="Resource_0q7ou"]
+script = ExtResource("2_htd61")
+id = null
+stream = ExtResource("4_p0cq2")
+volume = 0.0
+pitch = 1.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mhp4r"]
 atlas = ExtResource("1_la2jv")
@@ -44,11 +61,17 @@ size = Vector2(32, 16)
 
 [node name="Slash1" type="Area2D"]
 texture_filter = 1
+collision_layer = 2
+collision_mask = 18
 script = ExtResource("1_1n0ax")
 FollowSource = true
+KillAfterEffect = true
+onSpawnSound = SubResource("Resource_s7xam")
+onHitSound = SubResource("Resource_0q7ou")
 damageFormula = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+light_mask = 524288
 position = Vector2(16, -16)
 sprite_frames = SubResource("SpriteFrames_hada5")
 autoplay = "default"

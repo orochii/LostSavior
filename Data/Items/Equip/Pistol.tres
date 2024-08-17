@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="EquipItem" load_steps=10 format=3 uid="uid://cvwatm6o4buq"]
+[gd_resource type="Resource" script_class="EquipItem" load_steps=14 format=3 uid="uid://cvwatm6o4buq"]
 
 [ext_resource type="Script" path="res://Source/Character/Action.cs" id="2_psbom"]
 [ext_resource type="PackedScene" uid="uid://dwbvbxg77rnjq" path="res://Objects/Effects/bullet.tscn" id="3_rxnr5"]
@@ -7,58 +7,132 @@
 [sub_resource type="Resource" id="Resource_or36t"]
 script = ExtResource("2_psbom")
 displayName = "GunshotAir"
+effectSpawnDelay = 0.0
 actionDelay = 0.1
 endDelay = 0.0
 actionState = &"attackGun"
 effect = ExtResource("3_rxnr5")
+OffsetAndRotation = Vector3(15, -16, 0)
+FlipH = false
+FlipV = false
 
 [sub_resource type="Resource" id="Resource_rxosl"]
 script = ExtResource("2_psbom")
 displayName = "GunshotAir"
+effectSpawnDelay = 0.0
 actionDelay = 0.1
 endDelay = 0.2
 actionState = &"attackGun"
 effect = ExtResource("3_rxnr5")
+OffsetAndRotation = Vector3(15, -16, 0)
+FlipH = false
+FlipV = false
 
 [sub_resource type="Resource" id="Resource_8qoq6"]
 script = ExtResource("2_psbom")
 displayName = "Gunshot"
+effectSpawnDelay = 0.0
 actionDelay = 0.1
 endDelay = 0.0
 actionState = &"attackGun"
 effect = ExtResource("3_rxnr5")
+OffsetAndRotation = Vector3(15, -16, 0)
+FlipH = false
+FlipV = false
 
 [sub_resource type="Resource" id="Resource_2b0v7"]
 script = ExtResource("2_psbom")
 displayName = "Gunshot"
+effectSpawnDelay = 0.0
 actionDelay = 0.1
 endDelay = 0.0
 actionState = &"attackGun"
 effect = ExtResource("3_rxnr5")
+OffsetAndRotation = Vector3(15, -16, 0)
+FlipH = false
+FlipV = false
 
 [sub_resource type="Resource" id="Resource_b7exp"]
 script = ExtResource("2_psbom")
 displayName = "Gunshot"
+effectSpawnDelay = 0.0
 actionDelay = 0.1
 endDelay = 0.0
 actionState = &"attackGun"
 effect = ExtResource("3_rxnr5")
+OffsetAndRotation = Vector3(15, -16, 0)
+FlipH = false
+FlipV = false
 
 [sub_resource type="Resource" id="Resource_tfqpu"]
 script = ExtResource("2_psbom")
 displayName = "Gunshot"
+effectSpawnDelay = 0.0
 actionDelay = 0.1
 endDelay = 0.2
 actionState = &"attackGun"
 effect = ExtResource("3_rxnr5")
+OffsetAndRotation = Vector3(15, -16, 0)
+FlipH = false
+FlipV = false
+
+[sub_resource type="Resource" id="Resource_gfsbd"]
+script = ExtResource("2_psbom")
+displayName = "Attack"
+effectSpawnDelay = 0.0
+actionDelay = 0.1
+endDelay = 0.2
+actionState = &"attackGunDown"
+effect = ExtResource("3_rxnr5")
+OffsetAndRotation = Vector3(4, 0, 90)
+FlipH = false
+FlipV = false
+
+[sub_resource type="Resource" id="Resource_j6b28"]
+script = ExtResource("2_psbom")
+displayName = "Attack"
+effectSpawnDelay = 0.0
+actionDelay = 0.1
+endDelay = 0.2
+actionState = &"attackGunDown"
+effect = ExtResource("3_rxnr5")
+OffsetAndRotation = Vector3(4, 0, 90)
+FlipH = false
+FlipV = false
+
+[sub_resource type="Resource" id="Resource_vlmip"]
+script = ExtResource("2_psbom")
+displayName = "Attack"
+effectSpawnDelay = 0.0
+actionDelay = 0.1
+endDelay = 0.0
+actionState = &"attackGunUp"
+effect = ExtResource("3_rxnr5")
+OffsetAndRotation = Vector3(9, -25, -55)
+FlipH = false
+FlipV = false
+
+[sub_resource type="Resource" id="Resource_aud3d"]
+script = ExtResource("2_psbom")
+displayName = "Attack"
+effectSpawnDelay = 0.0
+actionDelay = 0.1
+endDelay = 0.2
+actionState = &"attackGunUp"
+effect = ExtResource("3_rxnr5")
+OffsetAndRotation = Vector3(9, -25, -55)
+FlipH = false
+FlipV = false
 
 [resource]
 script = ExtResource("4_a1ud4")
 EquipKind = 1
 AttackActions = Array[Object]([SubResource("Resource_8qoq6"), SubResource("Resource_2b0v7"), SubResource("Resource_b7exp"), SubResource("Resource_tfqpu")])
 AirAttackActions = Array[Object]([SubResource("Resource_or36t"), SubResource("Resource_rxosl")])
+UpActions = Array[Object]([SubResource("Resource_vlmip"), SubResource("Resource_aud3d")])
+DownActions = Array[Object]([SubResource("Resource_gfsbd"), SubResource("Resource_j6b28")])
 CanHold = true
-HPPlus = 0
+HealthPlus = 0
 StrPlus = 1
 ConPlus = 0
 IntPlus = 0

@@ -3,6 +3,33 @@
 [ext_resource type="Script" path="res://Source/UI/DmgPop.cs" id="1_526uh"]
 [ext_resource type="FontFile" uid="uid://esmov650nrwv" path="res://Fonts/m3x6.ttf" id="1_crifa"]
 
+[sub_resource type="Animation" id="Animation_gcw8d"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-16, -13)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Label:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
 [sub_resource type="Animation" id="Animation_vnjdm"]
 resource_name = "default"
 length = 1.2
@@ -45,33 +72,6 @@ tracks/2/keys = {
 }]
 }
 
-[sub_resource type="Animation" id="Animation_gcw8d"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Label:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(-16, -13)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Label:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_riyvr"]
 _data = {
 "RESET": SubResource("Animation_gcw8d"),
@@ -79,6 +79,7 @@ _data = {
 }
 
 [node name="DmgPop" type="Node2D" node_paths=PackedStringArray("label")]
+z_index = 4000
 script = ExtResource("1_526uh")
 label = NodePath("Label")
 
@@ -89,9 +90,8 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -16.0
-offset_top = -23.9998
+offset_top = -13.0
 offset_right = 16.0
-offset_bottom = -10.9998
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/outline_size = 2
