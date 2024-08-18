@@ -83,6 +83,7 @@ public partial class CardEquip : Control
 		if (focused != _lastFocused) {
 			for (int i = 0; i < CARD_MAX; i++) {
 				if (focused == allButtons[i]) {
+					if (!allButtons[i].HasMeta("card")) continue;
 					var card = allButtons[i].GetMeta("card").As<BaseCard>();
 					if (card != null) {
 						SetDescription(card.GetDescription());

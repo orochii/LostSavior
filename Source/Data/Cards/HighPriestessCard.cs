@@ -15,7 +15,7 @@ public partial class HighPriestessCard : BaseCard {
                     ConsumePower(p,index,delta);
                     // Effect
                     var v = p.Velocity;
-                    v.Y = 0.2f;
+                    v.Y = 16f;
                     p.Velocity = v;
                     state = true;
                 }
@@ -26,7 +26,14 @@ public partial class HighPriestessCard : BaseCard {
             RecoverPower(p,index,delta);
         }
         // Update visuals
-        p.CardObject[index].Visible = state;
+        SetVisuals(p.CardObject[index], state);
     }
-    
+    private void SetVisuals(Node2D refObj, bool s) {
+        // p.CardObject[index].Visible = state;
+        var animator = refObj.GetChild<AnimationPlayer>(0);
+        if (animator != null) {
+            if (s) animator.Play("idle");
+            else animator.Play("RESET");
+        }
+    }
 }

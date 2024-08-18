@@ -4,12 +4,12 @@
 [ext_resource type="Texture2D" uid="uid://cxbfkbxo6ucn8" path="res://Graphics/Character/ari.png" id="1_fohqm"]
 [ext_resource type="Script" path="res://Source/Character/AnimationTiming.cs" id="5_154v1"]
 [ext_resource type="Texture2D" uid="uid://c2hgqufbu8ifa" path="res://Graphics/System/levelup.png" id="5_ma5a4"]
-[ext_resource type="FontFile" uid="uid://esmov650nrwv" path="res://Fonts/m3x6.ttf" id="6_8xc02"]
 [ext_resource type="Script" path="res://Source/Audio/AudioEntry.cs" id="6_ay7ys"]
 [ext_resource type="AudioStream" uid="uid://dm11l5286rxwn" path="res://Audio/SFX/step1.ogg" id="7_f8mh6"]
 [ext_resource type="AudioStream" uid="uid://j1f56os1su7o" path="res://Audio/SFX/step2.ogg" id="8_5vq4h"]
 [ext_resource type="AudioStream" uid="uid://d0ig6tfr8dj0j" path="res://Audio/SFX/swoosh.ogg" id="8_6c81q"]
 [ext_resource type="AudioStream" uid="uid://bth6vdkek5hj4" path="res://Audio/SFX/jump.ogg" id="9_a2rxy"]
+[ext_resource type="Theme" uid="uid://cr8hghv62r3rq" path="res://Themes/theme_scroll.tres" id="10_1c4kp"]
 [ext_resource type="AudioStream" uid="uid://cdpji6wp04nex" path="res://Audio/SFX/land.ogg" id="10_mh3mb"]
 [ext_resource type="FontFile" uid="uid://or2dek167g62" path="res://Fonts/FontdinerSwanky-Regular.ttf" id="14_8v6mo"]
 [ext_resource type="Texture2D" uid="uid://dqthnt1sj0yxm" path="res://Graphics/Lights/circle_transparent.png" id="14_k680d"]
@@ -1079,7 +1079,7 @@ offset_left = -17.0
 offset_right = 17.0
 offset_bottom = 13.0
 grow_horizontal = 2
-theme_override_fonts/font = ExtResource("6_8xc02")
+theme = ExtResource("10_1c4kp")
 text = "Level Up!"
 horizontal_alignment = 1
 

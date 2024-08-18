@@ -51,7 +51,7 @@ public partial class Game : Control
 	[Export] CanvasLayer Canvas;
 	[Export] Control UIParent;
 	[Export] TitleMenu TitleScreen;
-	//[Export] ConfigMenu ConfigScreen;
+	[Export] ConfigMenu ConfigScreen;
 	[Export] GameMenu gameMenu;
 	[Export] DialogueManager dialogueManager;
 	[Export] PopUpManager popupManager;
@@ -74,12 +74,31 @@ public partial class Game : Control
 	}
 	public void StartGame() {
 		// Go to gameplay mode.
+		TitleScreen.Visible = false;
 		SetHudMode(0);
 		// Create world
 		var world = worldTemplate.Instantiate();
 		viewport.AddChild(world);
 		_world = world as World;
 		SpawnPlayer(false);
+	}
+	public void OpenConfig() {
+		ConfigScreen.LastHudMode = GetHudMode();
+		ConfigScreen.Visible = true;
+		ConfigScreen.Refresh();
+		SetHudMode(1);
+	}
+	public void CloseConfig() {
+		ConfigScreen.Visible = false;
+		SetHudMode(ConfigScreen.LastHudMode);
+		Config.Save();
+	}
+	public int GetHudMode() {
+		for (int i = 0; i < UIParent.GetChildCount(); i++) {
+			var c = UIParent.GetChild(i) as Control;
+			if (c != null && c.Visible) return i;
+		}
+		return 0;
 	}
 	public void SetHudMode(int idx) {
 		for (int i = 0; i < UIParent.GetChildCount(); i++) {
@@ -91,12 +110,19 @@ public partial class Game : Control
 		Vector2I screenSize = new Vector2I(width,height);
 		// Window size
 		GetWindow().Size = screenSize * scale;
+		CenterWindow();
 		// Viewport size
 		viewport.Size2DOverride = screenSize;
 		// UI: set parent and canvas scale
 		Canvas.Scale = new Vector2(scale,scale);
 		UIParent.AnchorRight = 1f / scale;
 		UIParent.AnchorBottom= 1f / scale;
+	}
+	private void CenterWindow() {
+		var screenPosition = DisplayServer.ScreenGetPosition();
+		var screenSize = DisplayServer.ScreenGetSize();
+		var windowSize = DisplayServer.WindowGetSize();
+		DisplayServer.WindowSetPosition(screenPosition + ((screenSize-windowSize) / 2));
 	}
 	public async void SpawnPlayer(bool showAppear, float delay=0) {
 		if(delay > 0) {

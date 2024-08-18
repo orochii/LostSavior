@@ -1,14 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://clcymcctu8igs"]
+[gd_scene load_steps=4 format=3 uid="uid://clcymcctu8igs"]
 
 [ext_resource type="Texture2D" uid="uid://srlgxp8xu0xp" path="res://Graphics/System/textBox.png" id="1_trjbn"]
 [ext_resource type="Script" path="res://Source/UI/DialogueBox.cs" id="2_5n116"]
-[ext_resource type="FontFile" uid="uid://esmov650nrwv" path="res://Fonts/m3x6.ttf" id="3_adqfu"]
-[ext_resource type="FontFile" uid="uid://cjtuokkahg2bs" path="res://Fonts/m3x6-italic.ttf" id="4_g1tnw"]
+[ext_resource type="Theme" uid="uid://cr8hghv62r3rq" path="res://Themes/theme_scroll.tres" id="3_oaggr"]
 
 [node name="DialogueBox" type="NinePatchRect" node_paths=PackedStringArray("contents")]
-custom_minimum_size = Vector2(36, 17)
-offset_right = 36.0
-offset_bottom = 17.0
+custom_minimum_size = Vector2(38, 18)
+offset_right = 38.0
+offset_bottom = 18.0
 size_flags_horizontal = 0
 texture = ExtResource("1_trjbn")
 patch_margin_left = 2
@@ -26,6 +25,7 @@ offset_bottom = 17.0
 theme_override_constants/separation = 0
 
 [node name="Top" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 4)
 layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
@@ -36,10 +36,10 @@ custom_minimum_size = Vector2(4, 0)
 layout_mode = 2
 
 [node name="Label" type="RichTextLabel" parent="VBoxContainer/HBoxContainer"]
+texture_filter = 1
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
-theme_override_fonts/normal_font = ExtResource("3_adqfu")
-theme_override_fonts/italics_font = ExtResource("4_g1tnw")
+theme = ExtResource("3_oaggr")
 bbcode_enabled = true
 text = "Hello."
 fit_content = true

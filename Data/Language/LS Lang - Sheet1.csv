@@ -1,4 +1,19 @@
 ,en,es
+Continue,,Continuar
+Start,,Iniciar
+Config,,Configurar
+Exit,,Salir
+Screen Size,,Tamaño pantalla
+Screen Scale,,Escala pantalla
+Screen Mode,Fullscreen Mode,Pantalla completa
+Master Volume,,Volumen Maestro
+Music Volume,,Volumen de música
+Sound Effect Volume,,Volumen de efectos sonoros
+Ambient Sound Volume,,Volumen de efectos ambiente
+Language,,Lenguaje
+en,English,Inglés
+es,Spanish,Español
+,,
 CHARACTER STATS,,ESTADOS PERSONAJE
 "HP
 Str
@@ -26,6 +41,8 @@ You got the {0} card!,You got the {0} card!,¡Obtuviste la carta {0}!
 {0} Select,{0} Select,{0} Selección.
 {0} Set Alt. Weapon,{0} Set Alt. Weapon,{0} Arma secundaria
 {0} Change screen,{0} Change screen,{0} Cambiar pantalla
+{0} Set as Card Left,{0} Set as Card Left,{0} Poner como Carta 1
+{0} Set as Card Right,{0} Set as Card Right,{0} Poner como Carta 2
 ,,
 outside,Outside,Exterior
 underground_cave,Underground Cave,Cueva bajo tierra

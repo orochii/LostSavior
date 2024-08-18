@@ -26,6 +26,7 @@ public partial class GameMenu : Control
 			}
 			lastFocused = focused;
 		}
+		if (!GetParent<Control>().IsVisibleInTree()) return;
 		if (Game.Player == null) return;
 		// Open/close pause menu.
 		if (Game.Player.CanMove()) {

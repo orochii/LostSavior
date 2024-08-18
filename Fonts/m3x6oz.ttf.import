@@ -3,18 +3,19 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://esmov650nrwv"
-path="res://.godot/imported/m3x6.ttf-7b43474b86407ba74b7f92e047e8d639.fontdata"
+path="res://.godot/imported/m3x6oz.ttf-0ea7c5aad660c58aaa8c27e61fa3e9d3.fontdata"
 
 [deps]
 
-source_file="res://Fonts/m3x6.ttf"
-dest_files=["res://.godot/imported/m3x6.ttf-7b43474b86407ba74b7f92e047e8d639.fontdata"]
+source_file="res://Fonts/m3x6oz.ttf"
+dest_files=["res://.godot/imported/m3x6oz.ttf-0ea7c5aad660c58aaa8c27e61fa3e9d3.fontdata"]
 
 [params]
 
 Rendering=null
 antialiasing=1
 generate_mipmaps=false
+disable_embedded_bitmaps=true
 multichannel_signed_distance_field=false
 msdf_pixel_range=8
 msdf_size=48
@@ -27,7 +28,12 @@ Fallbacks=null
 fallbacks=[]
 Compress=null
 compress=true
-preload=[]
+preload=[{
+"chars": [],
+"glyphs": [],
+"name": "New Configuration",
+"size": Vector2i(12, 0)
+}]
 language_support={}
 script_support={}
 opentype_features={}

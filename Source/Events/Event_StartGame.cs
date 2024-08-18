@@ -33,7 +33,7 @@ public partial class Event_StartGame : Event {
         await Game.Dialogue.SpawnLine("Hello? Is someone there?", ESpeaker.LEFT);
         Game.Dialogue.FlushLines();
         await Wait(0.5f);
-        await Game.Dialogue.SpawnLine("…did I imagine that? I better \ntry and find a way out of here.", ESpeaker.LEFT);
+        await Game.Dialogue.SpawnLine("...did I imagine that? I better \ntry and find a way out of here.", ESpeaker.LEFT);
         Game.Dialogue.Close();
         //
         //

@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://x87rikb7mpsi"]
+[gd_scene load_steps=7 format=3 uid="uid://x87rikb7mpsi"]
 
 [ext_resource type="Script" path="res://Source/UI/DmgPop.cs" id="1_526uh"]
-[ext_resource type="FontFile" uid="uid://esmov650nrwv" path="res://Fonts/m3x6.ttf" id="1_crifa"]
+[ext_resource type="FontFile" uid="uid://esmov650nrwv" path="res://Fonts/m3x6oz.ttf" id="1_crifa"]
+[ext_resource type="Theme" uid="uid://cr8hghv62r3rq" path="res://Themes/theme_scroll.tres" id="2_djbsf"]
 
 [sub_resource type="Animation" id="Animation_gcw8d"]
 length = 0.001
@@ -94,6 +95,7 @@ offset_top = -13.0
 offset_right = 16.0
 grow_horizontal = 2
 grow_vertical = 0
+theme = ExtResource("2_djbsf")
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("1_crifa")
 text = "1234"

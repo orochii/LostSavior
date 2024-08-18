@@ -1,4 +1,4 @@
-[gd_scene load_steps=83 format=3 uid="uid://bx5i6m54tjhk4"]
+[gd_scene load_steps=91 format=3 uid="uid://bx5i6m54tjhk4"]
 
 [ext_resource type="Script" path="res://Source/Game.cs" id="1_5onwa"]
 [ext_resource type="PackedScene" uid="uid://cybqiaksbhgx6" path="res://Objects/player.tscn" id="1_qbwex"]
@@ -8,7 +8,7 @@
 [ext_resource type="Script" path="res://Source/UI/DebugInput.cs" id="5_2xvuv"]
 [ext_resource type="Script" path="res://Source/UI/Worldmap.cs" id="5_40ipd"]
 [ext_resource type="Script" path="res://Source/World/CameraControl.cs" id="5_duyxn"]
-[ext_resource type="FontFile" uid="uid://esmov650nrwv" path="res://Fonts/m3x6.ttf" id="5_q2rvt"]
+[ext_resource type="FontFile" uid="uid://esmov650nrwv" path="res://Fonts/m3x6oz.ttf" id="5_q2rvt"]
 [ext_resource type="Material" uid="uid://cvtro0ydca03t" path="res://Graphics/Materials/textured_panel_keyed.tres" id="5_wq0nt"]
 [ext_resource type="Texture2D" uid="uid://tnuk0mbk5cnd" path="res://Graphics/System/icons.png" id="5_x4pfh"]
 [ext_resource type="Texture2D" uid="uid://6s7m2l2cnjys" path="res://Graphics/System/mmap_loc.png" id="6_exkm1"]
@@ -44,6 +44,14 @@
 [ext_resource type="Script" path="res://Source/UI/TitleMenu.cs" id="33_ahxad"]
 [ext_resource type="Texture2D" uid="uid://d1oidtyp5v6kh" path="res://Graphics/Backgrounds/mountain.png" id="34_x21w2"]
 [ext_resource type="Texture2D" uid="uid://b0fgch07iwfkt" path="res://Graphics/Cards/card_glow.png" id="35_gbppb"]
+[ext_resource type="Script" path="res://Source/UI/SystemMenu.cs" id="39_mjoo4"]
+[ext_resource type="Script" path="res://Source/UI/ConfigMenu.cs" id="46_bepma"]
+[ext_resource type="Script" path="res://Source/UI/ConfigControls/IntDropdownControl.cs" id="47_0b0x6"]
+[ext_resource type="Script" path="res://Source/UI/ConfigControls/VolumeControl.cs" id="47_7d6ie"]
+[ext_resource type="Script" path="res://Source/UI/ConfigControls/ScreenSizeList.cs" id="47_27k5l"]
+[ext_resource type="Script" path="res://Source/UI/ConfigControls/CheckControl.cs" id="47_jtlro"]
+[ext_resource type="Script" path="res://Source/UI/ConfigControls/LanguageList.cs" id="50_a8ah8"]
+[ext_resource type="Script" path="res://Source/UI/ConfigControls/StringDropdownControl.cs" id="51_6diae"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0flm7"]
 atlas = ExtResource("4_rk0md")
@@ -361,7 +369,7 @@ colors = PackedColorArray(0, 0, 0, 0.752941, 0, 0, 0, 0.12549, 0, 0, 0, 0.376471
 gradient = SubResource("Gradient_cb1dd")
 fill_to = Vector2(0, 1)
 
-[node name="GameView" type="Control" node_paths=PackedStringArray("cameraControl", "viewport", "Canvas", "UIParent", "TitleScreen", "gameMenu", "dialogueManager", "popupManager", "locationNameDisplay")]
+[node name="GameView" type="Control" node_paths=PackedStringArray("cameraControl", "viewport", "Canvas", "UIParent", "TitleScreen", "ConfigScreen", "gameMenu", "dialogueManager", "popupManager", "locationNameDisplay")]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -381,6 +389,7 @@ viewport = NodePath("SubViewportContainer/SubViewport")
 Canvas = NodePath("CanvasLayer")
 UIParent = NodePath("CanvasLayer/Parent")
 TitleScreen = NodePath("CanvasLayer/Parent/System/TitleScreen")
+ConfigScreen = NodePath("CanvasLayer/Parent/System/Config")
 gameMenu = NodePath("CanvasLayer/Parent/Gameplay/GameMenu")
 dialogueManager = NodePath("CanvasLayer/Parent/Gameplay/Dialogue")
 popupManager = NodePath("CanvasLayer/Parent/Gameplay/HUD/PopUps")
@@ -466,10 +475,10 @@ ExpBar = NodePath("Bar/Bar")
 
 [node name="FaceIcon" type="TextureRect" parent="CanvasLayer/Parent/Gameplay/HUD/Char"]
 layout_mode = 0
-offset_left = 4.0
-offset_top = 6.0
-offset_right = 36.0
-offset_bottom = 26.0
+offset_left = 4.5
+offset_top = 6.5
+offset_right = 36.5
+offset_bottom = 26.5
 texture = SubResource("AtlasTexture_0wlwe")
 stretch_mode = 2
 
@@ -493,6 +502,7 @@ offset_top = -14.0
 offset_right = 47.0
 offset_bottom = 2.0
 grow_vertical = 0
+theme = ExtResource("26_i481w")
 theme_override_fonts/normal_font = ExtResource("5_q2rvt")
 bbcode_enabled = true
 text = "[img region=0,80,16,16]res://Graphics/System/keyboard_icons.png[/img]"
@@ -543,6 +553,7 @@ grow_horizontal = 2
 [node name="Curr" type="Label" parent="CanvasLayer/Parent/Gameplay/HUD/Char/Health/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("26_i481w")
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("5_q2rvt")
 text = "0123"
@@ -550,6 +561,7 @@ horizontal_alignment = 2
 
 [node name="Div" type="Label" parent="CanvasLayer/Parent/Gameplay/HUD/Char/Health/HBoxContainer"]
 layout_mode = 2
+theme = ExtResource("26_i481w")
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("5_q2rvt")
 text = "/"
@@ -557,6 +569,7 @@ text = "/"
 [node name="Max" type="Label" parent="CanvasLayer/Parent/Gameplay/HUD/Char/Health/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("26_i481w")
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("5_q2rvt")
 text = "0123"
@@ -599,6 +612,7 @@ layout_mode = 0
 offset_top = -13.0
 offset_right = 40.0
 offset_bottom = 10.0
+theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("5_q2rvt")
 text = "EXP"
 
@@ -634,7 +648,7 @@ visible = false
 position = Vector2(11.5, 31)
 sprite_frames = SubResource("SpriteFrames_g80q2")
 autoplay = "default"
-frame_progress = 0.421508
+frame_progress = 0.197683
 offset = Vector2(0, -20)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/Parent/Gameplay/HUD/Skill1"]
@@ -647,6 +661,7 @@ offset_top = -24.0
 offset_right = 32.0
 offset_bottom = -8.0
 grow_vertical = 0
+theme = ExtResource("26_i481w")
 theme_override_fonts/normal_font = ExtResource("5_q2rvt")
 bbcode_enabled = true
 text = "[img region=0,80,16,16]res://Graphics/System/keyboard_icons.png[/img]"
@@ -701,6 +716,7 @@ offset_top = -24.0
 offset_right = 32.0
 offset_bottom = -8.0
 grow_vertical = 0
+theme = ExtResource("26_i481w")
 theme_override_fonts/normal_font = ExtResource("5_q2rvt")
 bbcode_enabled = true
 text = "[img region=0,80,16,16]res://Graphics/System/keyboard_icons.png[/img]"
@@ -745,6 +761,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("5_q2rvt")
 text = "L"
 horizontal_alignment = 1
@@ -761,6 +778,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("5_q2rvt")
 text = "R"
 horizontal_alignment = 1
@@ -777,6 +795,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("5_q2rvt")
 text = "U"
 horizontal_alignment = 1
@@ -793,6 +812,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("5_q2rvt")
 text = "D"
 horizontal_alignment = 1
@@ -809,6 +829,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("5_q2rvt")
 text = "Jump"
 horizontal_alignment = 1
@@ -825,6 +846,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("5_q2rvt")
 text = "Dash"
 horizontal_alignment = 1
@@ -841,6 +863,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("5_q2rvt")
 text = "Attack"
 horizontal_alignment = 1
@@ -857,6 +880,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("5_q2rvt")
 text = "Pause"
 horizontal_alignment = 1
@@ -895,6 +919,7 @@ offset_left = 16.0
 offset_right = -16.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("26_i481w")
 theme_override_fonts/normal_font = ExtResource("5_q2rvt")
 bbcode_enabled = true
 text = "[center]Now! This is it!
@@ -932,18 +957,19 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("26_i481w")
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.501961)
 theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 2
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("10_kayh6")
+theme_override_font_sizes/font_size = 24
 text = "The Pit"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="GameMenu" type="Control" parent="CanvasLayer/Parent/Gameplay" node_paths=PackedStringArray("screens")]
 process_mode = 3
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -974,7 +1000,6 @@ texture = SubResource("GradientTexture2D_dpxvm")
 
 [node name="Equipment" type="Control" parent="CanvasLayer/Parent/Gameplay/GameMenu" node_paths=PackedStringArray("charStats", "charEquips", "inventory", "description", "levelLabel", "expLabel", "expBar", "moneyAmount")]
 process_mode = 2
-visible = false
 texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
@@ -1017,12 +1042,14 @@ offset_bottom = 59.0
 
 [node name="LvLabel" type="Label" parent="CanvasLayer/Parent/Gameplay/GameMenu/Equipment/TextureRect/LevelInfo"]
 layout_mode = 2
+theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("5_q2rvt")
 text = "LV"
 
 [node name="LvLabel2" type="Label" parent="CanvasLayer/Parent/Gameplay/GameMenu/Equipment/TextureRect/LevelInfo"]
 custom_minimum_size = Vector2(24, 0)
 layout_mode = 2
+theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("10_kayh6")
 text = "88"
 
@@ -1068,6 +1095,7 @@ layout_mode = 0
 offset_top = -13.0
 offset_right = 40.0
 offset_bottom = 10.0
+theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("5_q2rvt")
 text = "EXP"
 
@@ -1081,6 +1109,7 @@ anchor_bottom = 1.0
 offset_top = -13.0
 grow_horizontal = 2
 grow_vertical = 0
+theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("5_q2rvt")
 text = "12/69"
 horizontal_alignment = 2
@@ -1088,6 +1117,7 @@ horizontal_alignment = 2
 [node name="MoneyAmount" type="Label" parent="CanvasLayer/Parent/Gameplay/GameMenu/Equipment/TextureRect/LevelInfo"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
+theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("5_q2rvt")
 text = "0
 "
@@ -1096,15 +1126,16 @@ horizontal_alignment = 2
 [node name="Money" type="Label" parent="CanvasLayer/Parent/Gameplay/GameMenu/Equipment/TextureRect/LevelInfo"]
 custom_minimum_size = Vector2(8, 0)
 layout_mode = 2
+theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("5_q2rvt")
 text = "G"
 
 [node name="CharStats" type="Control" parent="CanvasLayer/Parent/Gameplay/GameMenu/Equipment/TextureRect" node_paths=PackedStringArray("statsLabel")]
 anchors_preset = 0
 offset_left = 56.0
-offset_top = 55.0
+offset_top = 56.0
 offset_right = 141.0
-offset_bottom = 103.0
+offset_bottom = 104.0
 script = ExtResource("13_q3l4n")
 statsLabel = NodePath("Stats")
 
@@ -1112,10 +1143,8 @@ statsLabel = NodePath("Stats")
 layout_mode = 0
 offset_right = 61.0
 offset_bottom = 13.0
+theme = ExtResource("26_i481w")
 theme_override_colors/font_color = Color(0.956863, 0.709804, 0.121569, 1)
-theme_override_constants/line_spacing = -4
-theme_override_fonts/font = ExtResource("5_q2rvt")
-theme_override_font_sizes/font_size = 16
 text = "CHARACTER STATS"
 
 [node name="Statics" type="Label" parent="CanvasLayer/Parent/Gameplay/GameMenu/Equipment/TextureRect/CharStats"]
@@ -1123,10 +1152,10 @@ layout_mode = 0
 offset_top = 9.0
 offset_right = 61.0
 offset_bottom = 49.0
+theme = ExtResource("26_i481w")
 theme_override_colors/font_color = Color(0.858824, 0.917647, 0.619608, 1)
-theme_override_constants/line_spacing = -4
+theme_override_constants/line_spacing = -1
 theme_override_fonts/font = ExtResource("5_q2rvt")
-theme_override_font_sizes/font_size = 16
 text = "HP
 Str
 Con
@@ -1144,9 +1173,8 @@ offset_top = -15.0
 offset_bottom = 25.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_constants/line_spacing = -4
-theme_override_fonts/font = ExtResource("5_q2rvt")
-theme_override_font_sizes/font_size = 16
+theme = ExtResource("26_i481w")
+theme_override_constants/line_spacing = -1
 text = "0000/0000
 00
 00
@@ -1156,9 +1184,9 @@ horizontal_alignment = 1
 [node name="CharEquips" type="Control" parent="CanvasLayer/Parent/Gameplay/GameMenu/Equipment/TextureRect" node_paths=PackedStringArray("statsLabel")]
 anchors_preset = 0
 offset_left = 48.0
-offset_top = 111.0
+offset_top = 112.0
 offset_right = 133.0
-offset_bottom = 159.0
+offset_bottom = 160.0
 script = ExtResource("14_vcv0q")
 statsLabel = NodePath("RichTextLabel")
 
@@ -1166,10 +1194,8 @@ statsLabel = NodePath("RichTextLabel")
 layout_mode = 0
 offset_right = 61.0
 offset_bottom = 13.0
+theme = ExtResource("26_i481w")
 theme_override_colors/font_color = Color(0.956863, 0.709804, 0.121569, 1)
-theme_override_constants/line_spacing = -4
-theme_override_fonts/font = ExtResource("5_q2rvt")
-theme_override_font_sizes/font_size = 16
 text = "EQUIPMENT"
 
 [node name="Statics" type="Label" parent="CanvasLayer/Parent/Gameplay/GameMenu/Equipment/TextureRect/CharEquips"]
@@ -1177,10 +1203,9 @@ layout_mode = 0
 offset_top = 9.0
 offset_right = 61.0
 offset_bottom = 49.0
+theme = ExtResource("26_i481w")
 theme_override_colors/font_color = Color(0.858824, 0.917647, 0.619608, 1)
-theme_override_constants/line_spacing = -4
-theme_override_fonts/font = ExtResource("5_q2rvt")
-theme_override_font_sizes/font_size = 16
+theme_override_constants/line_spacing = -1
 text = "Wpn
 Body
 Relics"
@@ -1191,8 +1216,8 @@ offset_left = 24.0
 offset_top = 9.0
 offset_right = 85.0
 offset_bottom = 49.0
-theme_override_constants/line_separation = -4
-theme_override_fonts/normal_font = ExtResource("5_q2rvt")
+theme = ExtResource("26_i481w")
+theme_override_constants/line_separation = -1
 bbcode_enabled = true
 text = "Knifee
 Robee
@@ -1202,16 +1227,17 @@ Robee
 [node name="ItemDesc" type="Control" parent="CanvasLayer/Parent/Gameplay/GameMenu/Equipment/TextureRect"]
 anchors_preset = 0
 offset_left = 48.0
-offset_top = 167.0
+offset_top = 168.0
 offset_right = 88.0
-offset_bottom = 207.0
+offset_bottom = 208.0
 
 [node name="Desc" type="RichTextLabel" parent="CanvasLayer/Parent/Gameplay/GameMenu/Equipment/TextureRect/ItemDesc"]
 layout_mode = 0
-offset_right = 217.0
-offset_bottom = 40.0
-theme_override_constants/line_separation = -4
-theme_override_fonts/normal_font = ExtResource("5_q2rvt")
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 215.0
+offset_bottom = 41.0
+theme = ExtResource("26_i481w")
 bbcode_enabled = true
 text = "This card does this thing and that thing oh!
 Hope two or three lines are enough :mildpanic:
@@ -1221,9 +1247,9 @@ custom_effects = [SubResource("RichTextEffect_00c0q")]
 [node name="Inventory" type="Control" parent="CanvasLayer/Parent/Gameplay/GameMenu/Equipment/TextureRect" node_paths=PackedStringArray("parentScreen", "scroll", "container")]
 anchors_preset = 0
 offset_left = 168.0
-offset_top = 55.0
+offset_top = 56.0
 offset_right = 274.0
-offset_bottom = 160.0
+offset_bottom = 161.0
 script = ExtResource("15_t6oxk")
 parentScreen = NodePath("../..")
 itemEntryTemplate = ExtResource("16_j84up")
@@ -1235,17 +1261,15 @@ layout_mode = 0
 offset_left = 2.0
 offset_right = 63.0
 offset_bottom = 13.0
+theme = ExtResource("26_i481w")
 theme_override_colors/font_color = Color(0.956863, 0.709804, 0.121569, 1)
-theme_override_constants/line_spacing = -4
-theme_override_fonts/font = ExtResource("5_q2rvt")
-theme_override_font_sizes/font_size = 16
 text = "INVENTORY"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Parent/Gameplay/GameMenu/Equipment/TextureRect/Inventory"]
 layout_mode = 0
-offset_top = 17.0
+offset_top = 16.0
 offset_right = 104.0
-offset_bottom = 97.0
+offset_bottom = 96.0
 theme = ExtResource("26_i481w")
 follow_focus = true
 horizontal_scroll_mode = 0
@@ -1275,6 +1299,7 @@ alignment = 2
 [node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/Parent/Gameplay/GameMenu/Equipment/VBoxContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
+theme = ExtResource("26_i481w")
 theme_override_fonts/normal_font = ExtResource("5_q2rvt")
 bbcode_enabled = true
 text = "[img region=0,80,16,16]res://Graphics/System/keyboard_icons.png[/img] Select"
@@ -1286,6 +1311,7 @@ format = "{0} Select"
 [node name="RichTextLabel2" type="RichTextLabel" parent="CanvasLayer/Parent/Gameplay/GameMenu/Equipment/VBoxContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
+theme = ExtResource("26_i481w")
 theme_override_fonts/normal_font = ExtResource("5_q2rvt")
 bbcode_enabled = true
 text = "[img region=0,80,16,16]res://Graphics/System/keyboard_icons.png[/img] Set Alt. Weapon"
@@ -1297,6 +1323,7 @@ format = "{0} Set Alt. Weapon"
 [node name="RichTextLabel3" type="RichTextLabel" parent="CanvasLayer/Parent/Gameplay/GameMenu/Equipment/VBoxContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
+theme = ExtResource("26_i481w")
 theme_override_fonts/normal_font = ExtResource("5_q2rvt")
 bbcode_enabled = true
 text = "[img region=0,80,16,16]res://Graphics/System/keyboard_icons.png[/img] Change screen"
@@ -1401,6 +1428,7 @@ alignment = 2
 visible = false
 custom_minimum_size = Vector2(120, 16)
 layout_mode = 2
+theme = ExtResource("26_i481w")
 theme_override_fonts/normal_font = ExtResource("5_q2rvt")
 bbcode_enabled = true
 text = "[img region=0,80,16,16]res://Graphics/System/keyboard_icons.png[/img] Select"
@@ -1413,6 +1441,7 @@ format = "{0} Select"
 visible = false
 custom_minimum_size = Vector2(120, 16)
 layout_mode = 2
+theme = ExtResource("26_i481w")
 theme_override_fonts/normal_font = ExtResource("5_q2rvt")
 bbcode_enabled = true
 text = "[img region=0,80,16,16]res://Graphics/System/keyboard_icons.png[/img] Set Alt. Weapon"
@@ -1424,6 +1453,7 @@ format = "{0} Set Alt. Weapon"
 [node name="RichTextLabel3" type="RichTextLabel" parent="CanvasLayer/Parent/Gameplay/GameMenu/Worldmap/VBoxContainer"]
 custom_minimum_size = Vector2(120, 16)
 layout_mode = 2
+theme = ExtResource("26_i481w")
 theme_override_fonts/normal_font = ExtResource("5_q2rvt")
 bbcode_enabled = true
 text = "[img region=0,80,16,16]res://Graphics/System/keyboard_icons.png[/img] Change screen"
@@ -1432,6 +1462,7 @@ script = ExtResource("29_acwqc")
 actionName = "dash"
 
 [node name="CardEquip" type="Control" parent="CanvasLayer/Parent/Gameplay/GameMenu" node_paths=PackedStringArray("container", "description", "cardLIndicator", "cardRIndicator")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1514,7 +1545,7 @@ offset_bottom = 207.0
 layout_mode = 0
 offset_right = 217.0
 offset_bottom = 40.0
-theme_override_constants/line_separation = -4
+theme = ExtResource("26_i481w")
 theme_override_fonts/normal_font = ExtResource("5_q2rvt")
 bbcode_enabled = true
 text = "This card does this thing and that thing oh!
@@ -1533,6 +1564,7 @@ offset_top = -161.0
 offset_right = 28.5
 offset_bottom = -145.0
 grow_vertical = 0
+theme = ExtResource("26_i481w")
 theme_override_fonts/normal_font = ExtResource("5_q2rvt")
 bbcode_enabled = true
 text = "[img region=0,80,16,16]res://Graphics/System/keyboard_icons.png[/img]"
@@ -1552,6 +1584,7 @@ offset_top = -174.0
 offset_right = 28.5
 offset_bottom = -158.0
 grow_vertical = 0
+theme = ExtResource("26_i481w")
 theme_override_fonts/normal_font = ExtResource("5_q2rvt")
 bbcode_enabled = true
 text = "[img region=0,80,16,16]res://Graphics/System/keyboard_icons.png[/img]"
@@ -1579,6 +1612,7 @@ alignment = 2
 [node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/Parent/Gameplay/GameMenu/CardEquip/VBoxContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
+theme = ExtResource("26_i481w")
 theme_override_fonts/normal_font = ExtResource("5_q2rvt")
 bbcode_enabled = true
 text = "[img region=0,80,16,16]res://Graphics/System/keyboard_icons.png[/img] Set as Card Left"
@@ -1590,6 +1624,7 @@ format = "{0} Set as Card Left"
 [node name="RichTextLabel2" type="RichTextLabel" parent="CanvasLayer/Parent/Gameplay/GameMenu/CardEquip/VBoxContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
+theme = ExtResource("26_i481w")
 theme_override_fonts/normal_font = ExtResource("5_q2rvt")
 bbcode_enabled = true
 text = "[img region=0,80,16,16]res://Graphics/System/keyboard_icons.png[/img] Set as Card Right"
@@ -1601,6 +1636,7 @@ format = "{0} Set as Card Right"
 [node name="RichTextLabel3" type="RichTextLabel" parent="CanvasLayer/Parent/Gameplay/GameMenu/CardEquip/VBoxContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
+theme = ExtResource("26_i481w")
 theme_override_fonts/normal_font = ExtResource("5_q2rvt")
 bbcode_enabled = true
 text = "[img region=0,80,16,16]res://Graphics/System/keyboard_icons.png[/img] Change screen"
@@ -1608,7 +1644,7 @@ autowrap_mode = 0
 script = ExtResource("29_acwqc")
 actionName = "dash"
 
-[node name="System" type="Control" parent="CanvasLayer/Parent/Gameplay/GameMenu"]
+[node name="System" type="Control" parent="CanvasLayer/Parent/Gameplay/GameMenu" node_paths=PackedStringArray("FirstSelected")]
 process_mode = 2
 visible = false
 layout_mode = 1
@@ -1617,6 +1653,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("39_mjoo4")
+FirstSelected = NodePath("TextureRect/VBoxContainer/Config")
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/Parent/Gameplay/GameMenu/System"]
 custom_minimum_size = Vector2(0, 128)
@@ -1648,6 +1686,7 @@ alignment = 1
 
 [node name="Label" type="Label" parent="CanvasLayer/Parent/Gameplay/GameMenu/System/TextureRect/VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("10_kayh6")
 text = "System"
 horizontal_alignment = 1
@@ -1683,6 +1722,7 @@ alignment = 2
 [node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/Parent/Gameplay/GameMenu/System/VBoxContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
+theme = ExtResource("26_i481w")
 theme_override_fonts/normal_font = ExtResource("5_q2rvt")
 bbcode_enabled = true
 text = "[img region=0,80,16,16]res://Graphics/System/keyboard_icons.png[/img] Select"
@@ -1694,6 +1734,7 @@ format = "{0} Select"
 [node name="RichTextLabel3" type="RichTextLabel" parent="CanvasLayer/Parent/Gameplay/GameMenu/System/VBoxContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
+theme = ExtResource("26_i481w")
 theme_override_fonts/normal_font = ExtResource("5_q2rvt")
 bbcode_enabled = true
 text = "[img region=0,80,16,16]res://Graphics/System/keyboard_icons.png[/img] Change screen"
@@ -1875,6 +1916,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 0
+theme = ExtResource("26_i481w")
 theme_override_colors/font_color = Color(0.8216, 0.799553, 0.549283, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.25098)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0.4)
@@ -1936,18 +1978,23 @@ offset_left = 16.0
 offset_right = -16.0
 grow_horizontal = 2
 grow_vertical = 0
+theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("5_q2rvt")
+theme_override_font_sizes/font_size = 10
 text = "Copyright (R) Orochii Zouveleki, 2024"
 horizontal_alignment = 1
 
-[node name="Config" type="Control" parent="CanvasLayer/Parent/System"]
-visible = false
+[node name="Config" type="Control" parent="CanvasLayer/Parent/System" node_paths=PackedStringArray("FirstFocus", "OptionsContainer")]
+process_mode = 3
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("46_bepma")
+FirstFocus = NodePath("TextureRect/ScrollContainer/VBoxContainer/ScreenSize")
+OptionsContainer = NodePath("TextureRect/ScrollContainer/VBoxContainer")
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/Parent/System/Config"]
 custom_minimum_size = Vector2(0, 128)
@@ -1969,16 +2016,21 @@ offset_left = 64.0
 offset_right = -64.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("26_i481w")
+follow_focus = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ScreenSize" type="Button" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer"]
+[node name="ScreenSize" type="Button" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer" node_paths=PackedStringArray("optionButton")]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("5_q2rvt")
+script = ExtResource("47_0b0x6")
+propertyName = "ScreenSize"
+optionButton = NodePath("HBoxContainer/OptionButton")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer/ScreenSize"]
 layout_mode = 1
@@ -1991,24 +2043,28 @@ grow_vertical = 2
 [node name="Label" type="Label" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer/ScreenSize/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("5_q2rvt")
 text = "Screen Size"
 
 [node name="OptionButton" type="OptionButton" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer/ScreenSize/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 theme = ExtResource("26_i481w")
 selected = 0
-item_count = 2
+item_count = 1
 popup/item_0/text = "480x270"
-popup/item_1/text = "320x180"
-popup/item_1/id = 1
+script = ExtResource("47_27k5l")
 
-[node name="ScreenScale" type="Button" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer"]
+[node name="ScreenScale" type="Button" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer" node_paths=PackedStringArray("optionButton")]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("5_q2rvt")
+script = ExtResource("47_0b0x6")
+propertyName = "ScreenScale"
+optionButton = NodePath("HBoxContainer/OptionButton")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer/ScreenScale"]
 layout_mode = 1
@@ -2021,12 +2077,14 @@ grow_vertical = 2
 [node name="Label" type="Label" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer/ScreenScale/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("5_q2rvt")
 text = "Screen Scale"
 
 [node name="OptionButton" type="OptionButton" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer/ScreenScale/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 theme = ExtResource("26_i481w")
 selected = 0
 item_count = 3
@@ -2036,11 +2094,14 @@ popup/item_1/id = 1
 popup/item_2/text = "3x"
 popup/item_2/id = 2
 
-[node name="ScreenMode" type="Button" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer"]
+[node name="ScreenMode" type="Button" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer" node_paths=PackedStringArray("checkButton")]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("5_q2rvt")
+script = ExtResource("47_jtlro")
+propertyName = "ScreenMode"
+checkButton = NodePath("HBoxContainer/CheckButton")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer/ScreenMode"]
 layout_mode = 1
@@ -2053,19 +2114,25 @@ grow_vertical = 2
 [node name="Label" type="Label" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer/ScreenMode/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("5_q2rvt")
 text = "Screen Mode"
 
 [node name="CheckButton" type="CheckButton" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer/ScreenMode/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 theme = ExtResource("26_i481w")
 
-[node name="VolumeMaster" type="Button" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer"]
+[node name="VolumeMaster" type="Button" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer" node_paths=PackedStringArray("slider")]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("5_q2rvt")
+script = ExtResource("47_7d6ie")
+propertyName = "VolumeMaster"
+increment = 10.0
+slider = NodePath("HBoxContainer/CheckButton")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer/VolumeMaster"]
 layout_mode = 1
@@ -2078,20 +2145,28 @@ grow_vertical = 2
 [node name="Label" type="Label" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer/VolumeMaster/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("5_q2rvt")
-text = "Master Volume
-"
+text = "Master Volume"
 
 [node name="CheckButton" type="HSlider" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer/VolumeMaster/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 theme = ExtResource("26_i481w")
+min_value = -80.0
+max_value = 0.0
+rounded = true
 
-[node name="VolumeBGM" type="Button" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer"]
+[node name="VolumeBGM" type="Button" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer" node_paths=PackedStringArray("slider")]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("5_q2rvt")
+script = ExtResource("47_7d6ie")
+propertyName = "VolumeBGM"
+increment = 10.0
+slider = NodePath("HBoxContainer/CheckButton")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer/VolumeBGM"]
 layout_mode = 1
@@ -2104,20 +2179,28 @@ grow_vertical = 2
 [node name="Label" type="Label" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer/VolumeBGM/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("5_q2rvt")
-text = "Music Volume
-"
+text = "Music Volume"
 
 [node name="CheckButton" type="HSlider" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer/VolumeBGM/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 theme = ExtResource("26_i481w")
+min_value = -80.0
+max_value = 0.0
+rounded = true
 
-[node name="VolumeSFX" type="Button" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer"]
+[node name="VolumeSFX" type="Button" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer" node_paths=PackedStringArray("slider")]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("5_q2rvt")
+script = ExtResource("47_7d6ie")
+propertyName = "VolumeSFX"
+increment = 10.0
+slider = NodePath("HBoxContainer/CheckButton")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer/VolumeSFX"]
 layout_mode = 1
@@ -2130,20 +2213,28 @@ grow_vertical = 2
 [node name="Label" type="Label" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer/VolumeSFX/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("5_q2rvt")
-text = "Sound Effect Volume
-"
+text = "Sound Effect Volume"
 
 [node name="CheckButton" type="HSlider" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer/VolumeSFX/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 theme = ExtResource("26_i481w")
+min_value = -80.0
+max_value = 0.0
+rounded = true
 
-[node name="VolumeAMB" type="Button" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer"]
+[node name="VolumeAMB" type="Button" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer" node_paths=PackedStringArray("slider")]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("5_q2rvt")
+script = ExtResource("47_7d6ie")
+propertyName = "VolumeAMB"
+increment = 10.0
+slider = NodePath("HBoxContainer/CheckButton")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer/VolumeAMB"]
 layout_mode = 1
@@ -2156,14 +2247,54 @@ grow_vertical = 2
 [node name="Label" type="Label" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer/VolumeAMB/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("26_i481w")
 theme_override_fonts/font = ExtResource("5_q2rvt")
-text = "Ambient Sound Volume
-"
+text = "Ambient Sound Volume"
 
 [node name="CheckButton" type="HSlider" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer/VolumeAMB/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 theme = ExtResource("26_i481w")
+min_value = -80.0
+max_value = 0.0
+rounded = true
+
+[node name="Language" type="Button" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer" node_paths=PackedStringArray("optionButton")]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+theme = ExtResource("26_i481w")
+theme_override_fonts/font = ExtResource("5_q2rvt")
+script = ExtResource("51_6diae")
+propertyName = "Language"
+optionButton = NodePath("HBoxContainer/OptionButton")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer/Language"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer/Language/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("26_i481w")
+theme_override_fonts/font = ExtResource("5_q2rvt")
+text = "Language"
+
+[node name="OptionButton" type="OptionButton" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer/Language/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme = ExtResource("26_i481w")
+selected = 0
+item_count = 2
+popup/item_0/text = "en"
+popup/item_1/text = "es"
+popup/item_1/id = 1
+script = ExtResource("50_a8ah8")
 
 [node name="Overlays" type="CanvasLayer" parent="."]
 visible = false

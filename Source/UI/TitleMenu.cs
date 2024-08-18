@@ -25,6 +25,7 @@ public partial class TitleMenu : Control {
     }
     public void OpenConfig() {
         // TODO.
+        Game.Instance.OpenConfig();
     }
     public void ExitGame() {
         GetTree().Quit();

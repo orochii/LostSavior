@@ -16,6 +16,12 @@ public partial class InventoryPanel : Control
 		if (!IsVisibleInTree()) return;
 		// Update current focus.
 		var focused = GetViewport().GuiGetFocusOwner();
+		if (focused == null) {
+			if (allItems.Count > 0) {
+				focused = allItems[0];
+				focused.GrabFocus();
+			}
+		}
 		if (lastFocus != focused) {
 			var e = focused as ItemEntry;
 			if (e != null) {
@@ -68,6 +74,7 @@ public partial class InventoryPanel : Control
 		}
 		if (allItems.Count > 0) allItems[0].GrabFocus();
 		UIUtils.SetupHBoxList(allItems);
+		GD.Print("REFRESHED Inventory!");
 	}
 	public void Select(int idx) {
 		if (allItems.Count > idx) allItems[idx].GrabFocus();
