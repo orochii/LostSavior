@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://dh1a6nisssexh"]
+[gd_scene load_steps=41 format=3 uid="uid://dh1a6nisssexh"]
 
 [ext_resource type="Script" path="res://Source/Character/Enemy.cs" id="1_rkvoy"]
 [ext_resource type="PackedScene" uid="uid://dsla03tgnh2wv" path="res://Objects/Effects/slash2.tscn" id="2_7huv1"]
@@ -75,6 +75,8 @@ shader_parameter/percent = 0.0
 shader_parameter/disappear = 0.0
 shader_parameter/width = 32.0
 shader_parameter/height = 32.0
+shader_parameter/blink = false
+shader_parameter/mixCol = null
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3ivcm"]
 atlas = ExtResource("2_bghuw")
@@ -240,6 +242,30 @@ tracks/1/keys = {
 "update": 0,
 "values": [0.0]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Node2D/Troll:material:shader_parameter/blink")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Node2D/Troll:material:shader_parameter/mixCol")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [null]
+}
 
 [sub_resource type="Animation" id="Animation_72m0h"]
 resource_name = "dead"
@@ -282,9 +308,37 @@ tracks/2/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_u0mor"]
+resource_name = "damage"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Node2D/Troll:material:shader_parameter/blink")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Node2D/Troll:material:shader_parameter/mixCol")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.522727, 0.312941, 0.842064, 1), Color(0.51, 0.1224, 0.32912, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fj2m0"]
 _data = {
 "RESET": SubResource("Animation_eo8us"),
+"damage": SubResource("Animation_u0mor"),
 "dead": SubResource("Animation_72m0h")
 }
 

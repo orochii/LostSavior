@@ -14,6 +14,7 @@ public partial class DialogueManager : Control
 	const float BLINK_TIME_CLOSE = .1f;
 	const float MOUTH_TIME_CHANGE = .1f;
 	[Export] PackedScene dialogueBoxTemplate;
+	[Export] PackedScene shopBoxTemplate;
 	[Export] Container container;
 	[Export] AnimationPlayer animation;
 	[Export] Sprite2D leftArt;
@@ -22,7 +23,7 @@ public partial class DialogueManager : Control
 	[Export] Sprite2D rightArt;
 	[Export] Sprite2D rightEyelids;
 	[Export] Sprite2D rightMouth;
-	List<DialogueBox> existingLines = new List<DialogueBox>();
+	List<Control> existingLines = new List<Control>();
 	DialogueBox _lastLine = null;
 	[Signal] public delegate void KeyPressEventHandler();
 	bool waitingInput = false;
@@ -125,6 +126,17 @@ public partial class DialogueManager : Control
 		RefreshLineSettings();
 		waitingInput = true;
 		await ToSignal(this, SignalName.KeyPress);
+		waitingInput = false;
+		return true;
+	}
+	public async Task<bool> SpawnShopLine(string message, InventoryItem[] items) {
+		var shop = shopBoxTemplate.Instantiate<ShopBox>();
+		shop.SetContents(message, items);
+		container.AddChild(shop);
+		existingLines.Add(shop);
+		RefreshLineSettings();
+		waitingInput = true;
+		await ToSignal(shop, ShopBox.SignalName.Finished);
 		waitingInput = false;
 		return true;
 	}

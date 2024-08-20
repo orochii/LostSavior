@@ -11,6 +11,7 @@ public partial class InventoryItem : Resource, IComparable<InventoryItem> {
     //
     [ExportGroup("Visuals")]
     [Export] public int IconIndex;
+    [Export] public int Price;
     
     public static StringName GetFullPath(string id) {
         return BASE + id + EXT;

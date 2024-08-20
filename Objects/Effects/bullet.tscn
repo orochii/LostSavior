@@ -35,7 +35,7 @@ onSpawnSound = SubResource("Resource_xjdd3")
 onHitSound = SubResource("Resource_4dhrd")
 MaxLife = 0.5
 damageFormula = 1
-damageBase = -1
+damageBase = 4
 
 [node name="Sprite" type="Sprite2D" parent="."]
 light_mask = 0

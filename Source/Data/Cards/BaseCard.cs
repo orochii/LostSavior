@@ -30,7 +30,7 @@ public partial class BaseCard : Resource, IComparable<BaseCard>
     }
 	internal string GetDescription()
     {
-        return GetId() + "_description";
+        return TranslationServer.Translate(GetId() + "_description");
     }
 	public string GetNameSmallIcon()
     {

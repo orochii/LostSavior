@@ -121,7 +121,7 @@ public class GameState {
             Game.Player.ShowLevelUp();
         }
     }
-    public void ChangeGold(int v) {
+    public void ChangeMoney(int v) {
         state.Money = Math.Clamp(state.Money+v, 0, MAX_MONEY);
     }
     // Statistics

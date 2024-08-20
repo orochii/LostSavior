@@ -68,7 +68,7 @@ FollowSource = true
 onSpawnSound = SubResource("Resource_ixp7i")
 onHitSound = SubResource("Resource_cus8p")
 damageFormula = 1
-damageBase = 1
+damageBase = 9
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 light_mask = 524288

@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://dy617xxjesjss"]
+
+[ext_resource type="Script" path="res://Source/Character/Effects/HermitEffect.cs" id="1_u18my"]
+[ext_resource type="Texture2D" uid="uid://c4vun1sak76a" path="res://Graphics/System/arrow.png" id="2_0otg7"]
+
+[node name="Hermit" type="Node2D" node_paths=PackedStringArray("arrowTemplate")]
+z_index = 4096
+script = ExtResource("1_u18my")
+arrowTemplate = NodePath("Arrow1")
+maxArrows = 3
+
+[node name="Arrow1" type="Sprite2D" parent="."]
+texture = ExtResource("2_0otg7")
+offset = Vector2(-16, 0)

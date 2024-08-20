@@ -1,0 +1,73 @@
+[gd_scene load_steps=5 format=3 uid="uid://d1xj6w7gp4vb3"]
+
+[ext_resource type="Texture2D" uid="uid://srlgxp8xu0xp" path="res://Graphics/System/textBox.png" id="1_odfhq"]
+[ext_resource type="Script" path="res://Source/UI/ShopBox.cs" id="2_57ex4"]
+[ext_resource type="Theme" uid="uid://cr8hghv62r3rq" path="res://Themes/theme_scroll.tres" id="3_3053d"]
+[ext_resource type="PackedScene" uid="uid://b1o637ehbj013" path="res://Objects/UI/shop_entry.tscn" id="4_xk4y6"]
+
+[node name="Shop" type="NinePatchRect" node_paths=PackedStringArray("shopMessage", "moneyLabel", "shopItemsContainer")]
+texture_filter = 1
+custom_minimum_size = Vector2(125, 36)
+offset_right = 125.0
+offset_bottom = 36.0
+size_flags_horizontal = 8
+texture = ExtResource("1_odfhq")
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
+script = ExtResource("2_57ex4")
+shopMessage = NodePath("VBoxContainer/HBoxContainer/VBoxContainer/Shop Talk")
+moneyLabel = NodePath("VBoxContainer/HBoxContainer/VBoxContainer/Money")
+shopItemsContainer = NodePath("VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer")
+shopEntryTemplate = ExtResource("4_xk4y6")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+offset_right = 36.0
+offset_bottom = 17.0
+theme_override_constants/separation = 0
+
+[node name="Top" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="LeftSpacing" type="Control" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Shop Talk" type="RichTextLabel" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+theme = ExtResource("3_3053d")
+bbcode_enabled = true
+text = "What would you like to buy?"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Money" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_3053d")
+text = "0G"
+horizontal_alignment = 2
+
+[node name="RightSpacing" type="Control" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 2
+
+[node name="Bottom" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2

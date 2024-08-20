@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="HermitCard" load_steps=3 format=3 uid="uid://dujdm7oj3a44m"]
+
+[ext_resource type="PackedScene" uid="uid://dy617xxjesjss" path="res://Objects/Effects/Cards/hermit.tscn" id="1_n1ttv"]
+[ext_resource type="Script" path="res://Source/Data/Cards/HermitCard.cs" id="1_ut6xd"]
+
+[resource]
+script = ExtResource("1_ut6xd")
+Object = ExtResource("1_n1ttv")
+CardIndex = 9
+MaxPower = 0.0
+ConsumeSpeed = 0.0
+ConsumeUnscaled = false
+RecoverySpeed = 0.0

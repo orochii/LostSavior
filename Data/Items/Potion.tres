@@ -5,3 +5,4 @@
 [resource]
 script = ExtResource("1_g6kny")
 IconIndex = 16
+Price = 25

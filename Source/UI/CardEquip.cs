@@ -57,10 +57,10 @@ public partial class CardEquip : Control
 		if (focused != null) {
 			var card = focused.GetMeta("card").As<BaseCard>();
 			if (card != null) {
-				Game.State.EquipCard(0, card.GetId());
+				Game.State.EquipCard(slot, card.GetId());
 				AudioManager.PlaySystemSound("decision");
 			} else {
-				Game.State.EquipCard(0, null);
+				Game.State.EquipCard(slot, null);
 				AudioManager.PlaySystemSound("decision");
 			}
 		}
@@ -86,7 +86,8 @@ public partial class CardEquip : Control
 					if (!allButtons[i].HasMeta("card")) continue;
 					var card = allButtons[i].GetMeta("card").As<BaseCard>();
 					if (card != null) {
-						SetDescription(card.GetDescription());
+						var name = "[syscol]"+card.GetNameSmallIcon()+"[/syscol]\n";
+						SetDescription(name + card.GetDescription());
 					} else {
 						SetDescription("");
 					}

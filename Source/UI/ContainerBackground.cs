@@ -29,6 +29,11 @@ public partial class ContainerBackground : NinePatchRect
 	}
 	public override void _Process(double delta)
 	{
+		if (container != null) {
+			if (container.Size != CustomMinimumSize) {
+				RefreshSize();
+			}
+		}
 		if (Engine.IsEditorHint()) {
 			FindInnerContainer();
 			RefreshSize();

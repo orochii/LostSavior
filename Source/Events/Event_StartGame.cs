@@ -27,7 +27,7 @@ public partial class Event_StartGame : Event {
         await Wait(0.5f);
         Game.Dialogue.SetLeftArt(Game.Dialogue.GetArt("ari"));
 		await Game.Dialogue.SpawnLine("My head... it hurts.", ESpeaker.LEFT);
-        await Game.Dialogue.SpawnLine("Where am I? What's... my name?.", ESpeaker.LEFT);
+        await Game.Dialogue.SpawnLine("Where am I? What's... my name?", ESpeaker.LEFT);
         await Game.Dialogue.SpawnLine("[i]Ari.[/i]", ESpeaker.MIDDLE);
         await Game.Dialogue.SpawnLine("?", ESpeaker.LEFT);
         await Game.Dialogue.SpawnLine("Hello? Is someone there?", ESpeaker.LEFT);
@@ -38,6 +38,7 @@ public partial class Event_StartGame : Event {
         //
         //
         // Free player.
+        await Wait(0.5f);
         Game.State.OnHold = false;
         //
         GD.Print("The thing ended.");

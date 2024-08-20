@@ -1,9 +1,10 @@
-[gd_scene load_steps=103 format=3 uid="uid://cybqiaksbhgx6"]
+[gd_scene load_steps=108 format=3 uid="uid://cybqiaksbhgx6"]
 
 [ext_resource type="Script" path="res://Source/Character/Player.cs" id="1_bxgi7"]
 [ext_resource type="Texture2D" uid="uid://cxbfkbxo6ucn8" path="res://Graphics/Character/ari.png" id="1_fohqm"]
 [ext_resource type="Script" path="res://Source/Character/AnimationTiming.cs" id="5_154v1"]
 [ext_resource type="Texture2D" uid="uid://c2hgqufbu8ifa" path="res://Graphics/System/levelup.png" id="5_ma5a4"]
+[ext_resource type="FontFile" uid="uid://esmov650nrwv" path="res://Fonts/m3x6oz.ttf" id="6_8xc02"]
 [ext_resource type="Script" path="res://Source/Audio/AudioEntry.cs" id="6_ay7ys"]
 [ext_resource type="AudioStream" uid="uid://dm11l5286rxwn" path="res://Audio/SFX/step1.ogg" id="7_f8mh6"]
 [ext_resource type="AudioStream" uid="uid://j1f56os1su7o" path="res://Audio/SFX/step2.ogg" id="8_5vq4h"]
@@ -13,7 +14,10 @@
 [ext_resource type="AudioStream" uid="uid://cdpji6wp04nex" path="res://Audio/SFX/land.ogg" id="10_mh3mb"]
 [ext_resource type="FontFile" uid="uid://or2dek167g62" path="res://Fonts/FontdinerSwanky-Regular.ttf" id="14_8v6mo"]
 [ext_resource type="Texture2D" uid="uid://dqthnt1sj0yxm" path="res://Graphics/Lights/circle_transparent.png" id="14_k680d"]
+[ext_resource type="Texture2D" uid="uid://srlgxp8xu0xp" path="res://Graphics/System/textBox.png" id="15_pnumw"]
+[ext_resource type="Script" path="res://Source/UI/ContainerBackground.cs" id="15_smj7f"]
 [ext_resource type="Shader" path="res://Source/Shaders/enemy.gdshader" id="16_4iu3g"]
+[ext_resource type="Script" path="res://Source/UI/InputLabel.cs" id="16_kmyt8"]
 
 [sub_resource type="Resource" id="Resource_khla0"]
 script = ExtResource("6_ay7ys")
@@ -443,6 +447,8 @@ shader_parameter/percent = 0.0
 shader_parameter/disappear = 0.0
 shader_parameter/width = 32.0
 shader_parameter/height = 32.0
+shader_parameter/blink = false
+shader_parameter/mixCol = Color(0.51, 0.1224, 0.32912, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8f5ab"]
 atlas = ExtResource("1_fohqm")
@@ -951,6 +957,30 @@ tracks/1/keys = {
 "update": 0,
 "values": [0.0]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Pivot/Ari:material:shader_parameter/blink")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Pivot/Ari:material:shader_parameter/mixCol")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.51, 0.1224, 0.32912, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_6v1hv"]
 resource_name = "appear"
@@ -1006,14 +1036,43 @@ tracks/1/keys = {
 "values": [0.0, 0.0, 1.0]
 }
 
+[sub_resource type="Animation" id="Animation_35px2"]
+resource_name = "damage"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/Ari:material:shader_parameter/blink")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2, 0.266667, 0.333333, 0.4, 0.466667, 0.533333, 0.6, 0.666667, 0.733333, 0.8, 0.866667, 0.933333, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pivot/Ari:material:shader_parameter/mixCol")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.51, 0.1224, 0.32912, 1), Color(0.51, 0.1224, 0.32912, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_afsfx"]
 _data = {
 "RESET": SubResource("Animation_ft7ec"),
 "appear": SubResource("Animation_6v1hv"),
+"damage": SubResource("Animation_35px2"),
 "disappear": SubResource("Animation_2ktih")
 }
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("levelUpAnimation", "gameoverAnimation", "CardContainer", "graphic", "aliveShape", "deadShape", "animation")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("levelUpAnimation", "gameoverAnimation", "CardContainer", "InteractIndicator", "graphic", "aliveShape", "deadShape", "animation")]
+texture_filter = 1
 collision_layer = 16
 collision_mask = 9
 floor_max_angle = 1.13446
@@ -1022,6 +1081,7 @@ script = ExtResource("1_bxgi7")
 levelUpAnimation = NodePath("Animations/LevelUpAnimation/LevelupAnimation")
 gameoverAnimation = NodePath("Animations/GameOverAnimation/GameoverAnimation")
 CardContainer = NodePath("CardContainer")
+InteractIndicator = NodePath("Interact")
 JumpVelocity = -450.0
 graphic = NodePath("Pivot/Ari")
 aliveShape = NodePath("Alive")
@@ -1165,3 +1225,46 @@ shape = SubResource("CapsuleShape2D_c5d2q")
 libraries = {
 "": SubResource("AnimationLibrary_afsfx")
 }
+
+[node name="Interact" type="Node2D" parent="."]
+
+[node name="Node2D" type="Node2D" parent="Interact"]
+position = Vector2(0, -36)
+
+[node name="TextureRect" type="NinePatchRect" parent="Interact/Node2D"]
+custom_minimum_size = Vector2(56, 16)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -28.0
+offset_top = -16.0
+offset_right = 28.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("15_pnumw")
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
+script = ExtResource("15_smj7f")
+
+[node name="MarginContainer" type="MarginContainer" parent="Interact/Node2D/TextureRect"]
+layout_mode = 1
+offset_right = 52.0
+offset_bottom = 16.0
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_right = 2
+
+[node name="InteractLabel" type="RichTextLabel" parent="Interact/Node2D/TextureRect/MarginContainer"]
+layout_mode = 2
+theme = ExtResource("10_1c4kp")
+theme_override_fonts/normal_font = ExtResource("6_8xc02")
+bbcode_enabled = true
+text = "[center][img region=0,80,16,16]res://Graphics/System/keyboard_icons.png[/img] Interact"
+fit_content = true
+autowrap_mode = 0
+script = ExtResource("16_kmyt8")
+actionName = "attack"
+format = "[center]{0} Interact"

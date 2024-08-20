@@ -184,9 +184,11 @@ public partial class Enemy : BaseCharacter, IDamageable
 		if (IsDead()) {
 			if(source is Player) {
 				Game.State.ChangeExperience(RewardExp);
-				Game.State.ChangeGold(RewardMoney);
+				Game.State.ChangeMoney(RewardMoney);
 			}
 			Die();
+		} else {
+			animation.Play("damage");
 		}
 	}
 	public void ChangeHealth(int v) {

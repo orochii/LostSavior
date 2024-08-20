@@ -7,10 +7,10 @@ public class ConfigData {
     public int ScreenSize { get; set; } = 0;
     public int ScreenScale { get; set; } = 1;
     public bool ScreenMode { get; set; } = false;
-    public float VolumeMaster { get; set; } = 0;
-    public float VolumeBGM { get; set; } = 0;
-    public float VolumeSFX { get; set; } = 0;
-    public float VolumeAMB { get; set; } = 0;
+    public float VolumeMaster { get; set; } = 80;
+    public float VolumeBGM { get; set; } = 80;
+    public float VolumeSFX { get; set; } = 80;
+    public float VolumeAMB { get; set; } = 80;
     public string Language { get; set; } = "en";
 }
 
@@ -26,6 +26,14 @@ public class Config {
             if (instance==null) return null;
             return instance.data;
         }
+    }
+    public static int GetScreenWidth() {
+        if (instance == null) return 0;
+        return SCREEN_SIZES[instance.data.ScreenSize].X;
+    }
+    public static int GetScreenHeight() {
+        if (instance == null) return 0;
+        return SCREEN_SIZES[instance.data.ScreenSize].Y;
     }
     public static void Init() {
         instance = new Config();
@@ -49,10 +57,11 @@ public class Config {
         RefreshLanguage();
     }
     private void RefreshVolume() {
-        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Master"),data.VolumeMaster);
-        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("BGM"),data.VolumeBGM);
-        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("SFX"),data.VolumeSFX);
-        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("AMB"),data.VolumeAMB);
+        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Master"),ConvertUtils.PercToDb(data.VolumeMaster));
+        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("BGM"),ConvertUtils.PercToDb(data.VolumeBGM));
+        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("SFX"),ConvertUtils.PercToDb(data.VolumeSFX));
+        AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("AMB"),ConvertUtils.PercToDb(data.VolumeAMB));
+        GD.Print(AudioServer.GetBusVolumeDb(AudioServer.GetBusIndex("Master")));
     }
     private void RefreshScale() {
         var size = SCREEN_SIZES[data.ScreenSize];

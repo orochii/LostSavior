@@ -9,7 +9,7 @@ public static class DamageFormulas {
 			case EDamageFormula.BASE:
 				return damageBase;
 			case EDamageFormula.PHYSICAL:
-				return damageBase + (source.GetStr() * 2);
+				return damageBase + source.GetStr();
 			case EDamageFormula.MAGICAL:
 				return damageBase + (source.GetInt() * 2);
             case EDamageFormula.HEALING:

@@ -12,10 +12,16 @@ public partial class World : Node2D
 	[Export] Node PlayerStart;
 	[Export] string defaultLocationName;
 	[Export] AudioEntry defaultMusic;
+	[Export] Node2D LocationsNode;
 	private string locationId = null;
 	private WorldLocation currentLocation;
 	private WorldLocation lastLocation;
-	public bool EnterLocation(WorldLocation location) {
+    public override void _Ready()
+    {
+        base._Ready();
+		LocationsNode.Visible = true;
+    }
+    public bool EnterLocation(WorldLocation location) {
 		if (location.id != locationId) {
 			bool retVal = false;
 			locationId = location.id;

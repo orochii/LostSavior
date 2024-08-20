@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://b1o637ehbj013"]
+
+[ext_resource type="Theme" uid="uid://cr8hghv62r3rq" path="res://Themes/theme_scroll.tres" id="1_ufr54"]
+[ext_resource type="Script" path="res://Source/UI/ShopEntry.cs" id="2_p1oay"]
+
+[node name="Button" type="Button"]
+texture_filter = 1
+custom_minimum_size = Vector2(128, 12)
+theme = ExtResource("1_ufr54")
+script = ExtResource("2_p1oay")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+clip_contents = false
+layout_mode = 1
+offset_right = 44.0
+offset_bottom = 10.0
+bbcode_enabled = true
+text = "[img region=8,0,8,8]res://Graphics/System/icons_s.png[/img] Knife (20G)"
+fit_content = true
+autowrap_mode = 0

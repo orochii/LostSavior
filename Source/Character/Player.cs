@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 public partial class Player : BaseCharacter, IDamageable
@@ -20,6 +21,7 @@ public partial class Player : BaseCharacter, IDamageable
 	[Export] public AnimationPlayer levelUpAnimation;
 	[Export] public AnimationPlayer gameoverAnimation;
 	[Export] public Node2D CardContainer;
+	[Export] public Node2D InteractIndicator;
 	public Node2D[] CardObject = new Node2D[GameState.MAX_CARD_SLOTS];
 	public override void _PhysicsProcess(double delta)
     {
@@ -44,7 +46,12 @@ public partial class Player : BaseCharacter, IDamageable
 		// Process cards
 		ProcessCards(delta);
         // Execute attacks
-        ProcessAttack(delta,attack,GetAttackAction());
+		FindClosestEvent();
+		if (attack && CheckCloseEvents()) {
+
+		} else {
+			ProcessAttack(delta,attack,GetAttackAction());
+		}
 		// Execute movement
         ProcessGroundMove(delta, horz, vert, jump, jumpHeld);
 		CardContainer.Scale = new Vector2(GetHorzDirection(),1);
@@ -112,6 +119,9 @@ public partial class Player : BaseCharacter, IDamageable
 		Game.State.ChangeHealth(-damage);
 		Game.DamagePop(GlobalPosition, damage);
 		if (IsDead()) Die();
+		else {
+			animation.Play("damage");
+		}
 	}
 	public override bool IsDead() {
 		return Game.State.GetHealth() <= 0;
@@ -152,4 +162,42 @@ public partial class Player : BaseCharacter, IDamageable
     {
         return Game.State.GetInt();
     }
+	//
+	private List<Event> _closebyEvents = new List<Event>();
+	private Event _closestEvent = null;
+	public void RegisterCloseEvent(Event ev) {
+		if (!_closebyEvents.Contains(ev)) _closebyEvents.Add(ev);
+	}
+	public void UnregisterCloseEvent(Event ev) {
+		if (_closebyEvents.Contains(ev)) _closebyEvents.Remove(ev);
+	}
+	private void FindClosestEvent() {
+		_closestEvent = null;
+		float dst = 0;
+		foreach (var ev in _closebyEvents) {
+			if (_closestEvent == null) {
+				_closestEvent = ev;
+				dst = ev.GlobalPosition.DistanceSquaredTo(GlobalPosition);
+			} else {
+				var d = ev.GlobalPosition.DistanceSquaredTo(GlobalPosition);
+				if (d < dst) {
+					_closestEvent = ev;
+					dst = d;
+				}
+			}
+		}
+		//
+		if (_closestEvent == null) InteractIndicator.Visible = false;
+		else {
+			InteractIndicator.Visible = true;
+			InteractIndicator.GlobalPosition = _closestEvent.GlobalPosition;
+		}
+	}
+	private bool CheckCloseEvents() {
+		if (_closestEvent != null) {
+			_closestEvent.Execute();
+			return true;
+		}
+		return false;
+	}
 }

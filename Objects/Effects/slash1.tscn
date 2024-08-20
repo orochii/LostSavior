@@ -69,6 +69,7 @@ KillAfterEffect = true
 onSpawnSound = SubResource("Resource_s7xam")
 onHitSound = SubResource("Resource_0q7ou")
 damageFormula = 1
+damageBase = 7
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 light_mask = 524288

@@ -1,4 +1,4 @@
-[gd_scene load_steps=91 format=3 uid="uid://bx5i6m54tjhk4"]
+[gd_scene load_steps=92 format=3 uid="uid://bx5i6m54tjhk4"]
 
 [ext_resource type="Script" path="res://Source/Game.cs" id="1_5onwa"]
 [ext_resource type="PackedScene" uid="uid://cybqiaksbhgx6" path="res://Objects/player.tscn" id="1_qbwex"]
@@ -31,6 +31,7 @@
 [ext_resource type="Shader" path="res://Source/Shaders/CanvasItem/texturedPanel.gdshader" id="16_cwnts"]
 [ext_resource type="PackedScene" uid="uid://badilxhnulp4n" path="res://Objects/UI/item_entry.tscn" id="16_j84up"]
 [ext_resource type="Shader" path="res://Source/Shaders/CanvasItem/screenEffects.gdshader" id="18_qfvxx"]
+[ext_resource type="PackedScene" uid="uid://d1xj6w7gp4vb3" path="res://Objects/UI/shop_box.tscn" id="24_lqeds"]
 [ext_resource type="Theme" uid="uid://cr8hghv62r3rq" path="res://Themes/theme_scroll.tres" id="26_i481w"]
 [ext_resource type="Script" path="res://Source/UI/DialogueManager.cs" id="26_v6cid"]
 [ext_resource type="PackedScene" uid="uid://clcymcctu8igs" path="res://Objects/UI/dialogue_box.tscn" id="27_7og1x"]
@@ -129,14 +130,6 @@ animations = [{
 "speed": 16.0
 }]
 
-[sub_resource type="Gradient" id="Gradient_pby1j"]
-offsets = PackedFloat32Array(0, 0.195219, 0.772908, 1)
-colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0.752941, 0, 0, 0, 0.752941, 0, 0, 0, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_nhu2j"]
-gradient = SubResource("Gradient_pby1j")
-fill_to = Vector2(0, 1)
-
 [sub_resource type="Gradient" id="Gradient_knil4"]
 offsets = PackedFloat32Array(0, 0.25, 0.75, 1)
 colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0.752941, 0, 0, 0, 0.752941, 0, 0, 0, 0)
@@ -167,75 +160,6 @@ shader_parameter/warp_amount = 0.1
 shader_parameter/clip_warp = false
 shader_parameter/vignette_intensity = 0.4
 shader_parameter/vignette_opacity = 0.5
-
-[sub_resource type="Gradient" id="Gradient_xluoj"]
-offsets = PackedFloat32Array(0, 0.25, 0.75, 1)
-colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0.501961, 0, 0, 0, 0.501961, 0, 0, 0, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_dpxvm"]
-gradient = SubResource("Gradient_xluoj")
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_iqn0t"]
-noise_type = 2
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_qdyys"]
-noise = SubResource("FastNoiseLite_iqn0t")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_thm2l"]
-shader = ExtResource("16_cwnts")
-shader_parameter/useKeyColor = false
-shader_parameter/keyColor = Color(0.235294, 0.176471, 0.262745, 1)
-shader_parameter/percent = 0.5
-shader_parameter/scale = 1.0
-shader_parameter/resolution = Vector2(480, 270)
-shader_parameter/overlayTexture = SubResource("NoiseTexture2D_qdyys")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_m54qs"]
-shader = ExtResource("6_f3ie4")
-shader_parameter/width = 147
-shader_parameter/height = 2
-shader_parameter/percent = 1.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jxr0i"]
-shader = ExtResource("6_f3ie4")
-shader_parameter/width = 147
-shader_parameter/height = 2
-shader_parameter/percent = 1.0
-
-[sub_resource type="RichTextEffect" id="RichTextEffect_00c0q"]
-script = ExtResource("15_u0b4t")
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_2ermt"]
-noise_type = 2
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_vf1ii"]
-noise = SubResource("FastNoiseLite_2ermt")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_sq8up"]
-shader = ExtResource("16_cwnts")
-shader_parameter/useKeyColor = null
-shader_parameter/keyColor = null
-shader_parameter/percent = 0.5
-shader_parameter/scale = 1.0
-shader_parameter/resolution = Vector2(480, 270)
-shader_parameter/overlayTexture = SubResource("NoiseTexture2D_vf1ii")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_1a8oh"]
-shader = ExtResource("16_cwnts")
-shader_parameter/useKeyColor = false
-shader_parameter/keyColor = Color(0.235294, 0.176471, 0.262745, 1)
-shader_parameter/percent = 0.5
-shader_parameter/scale = 1.0
-shader_parameter/resolution = Vector2(480, 270)
-shader_parameter/overlayTexture = SubResource("NoiseTexture2D_qdyys")
-
-[sub_resource type="Gradient" id="Gradient_c08l3"]
-offsets = PackedFloat32Array(0, 0.167331, 0.816733, 1)
-colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0.752941, 0, 0, 0, 0.752941, 0, 0, 0, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_3eeyb"]
-gradient = SubResource("Gradient_c08l3")
-fill_to = Vector2(0, 1)
 
 [sub_resource type="Animation" id="Animation_v5f8n"]
 length = 0.001
@@ -361,6 +285,83 @@ _data = {
 "exit": SubResource("Animation_dn88s")
 }
 
+[sub_resource type="Gradient" id="Gradient_pby1j"]
+offsets = PackedFloat32Array(0, 0.195219, 0.772908, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0.752941, 0, 0, 0, 0.752941, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_nhu2j"]
+gradient = SubResource("Gradient_pby1j")
+fill_to = Vector2(0, 1)
+
+[sub_resource type="Gradient" id="Gradient_xluoj"]
+offsets = PackedFloat32Array(0, 0.25, 0.75, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0.501961, 0, 0, 0, 0.501961, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dpxvm"]
+gradient = SubResource("Gradient_xluoj")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_iqn0t"]
+noise_type = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_qdyys"]
+noise = SubResource("FastNoiseLite_iqn0t")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_thm2l"]
+shader = ExtResource("16_cwnts")
+shader_parameter/useKeyColor = false
+shader_parameter/keyColor = Color(0.235294, 0.176471, 0.262745, 1)
+shader_parameter/percent = 0.5
+shader_parameter/scale = 1.0
+shader_parameter/resolution = Vector2(480, 270)
+shader_parameter/overlayTexture = SubResource("NoiseTexture2D_qdyys")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m54qs"]
+shader = ExtResource("6_f3ie4")
+shader_parameter/width = 147
+shader_parameter/height = 2
+shader_parameter/percent = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jxr0i"]
+shader = ExtResource("6_f3ie4")
+shader_parameter/width = 147
+shader_parameter/height = 2
+shader_parameter/percent = 1.0
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_00c0q"]
+script = ExtResource("15_u0b4t")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_2ermt"]
+noise_type = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_vf1ii"]
+noise = SubResource("FastNoiseLite_2ermt")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sq8up"]
+shader = ExtResource("16_cwnts")
+shader_parameter/useKeyColor = null
+shader_parameter/keyColor = null
+shader_parameter/percent = 0.5
+shader_parameter/scale = 1.0
+shader_parameter/resolution = Vector2(480, 270)
+shader_parameter/overlayTexture = SubResource("NoiseTexture2D_vf1ii")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1a8oh"]
+shader = ExtResource("16_cwnts")
+shader_parameter/useKeyColor = false
+shader_parameter/keyColor = Color(0.235294, 0.176471, 0.262745, 1)
+shader_parameter/percent = 0.5
+shader_parameter/scale = 1.0
+shader_parameter/resolution = Vector2(480, 270)
+shader_parameter/overlayTexture = SubResource("NoiseTexture2D_qdyys")
+
+[sub_resource type="Gradient" id="Gradient_c08l3"]
+offsets = PackedFloat32Array(0, 0.167331, 0.816733, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0.752941, 0, 0, 0, 0.752941, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_3eeyb"]
+gradient = SubResource("Gradient_c08l3")
+fill_to = Vector2(0, 1)
+
 [sub_resource type="Gradient" id="Gradient_cb1dd"]
 offsets = PackedFloat32Array(0, 0.370518, 0.5, 1)
 colors = PackedColorArray(0, 0, 0, 0.752941, 0, 0, 0, 0.12549, 0, 0, 0, 0.376471, 0, 0, 0, 0.752941)
@@ -392,7 +393,7 @@ TitleScreen = NodePath("CanvasLayer/Parent/System/TitleScreen")
 ConfigScreen = NodePath("CanvasLayer/Parent/System/Config")
 gameMenu = NodePath("CanvasLayer/Parent/Gameplay/GameMenu")
 dialogueManager = NodePath("CanvasLayer/Parent/Gameplay/Dialogue")
-popupManager = NodePath("CanvasLayer/Parent/Gameplay/HUD/PopUps")
+popupManager = NodePath("CanvasLayer/Parent/Gameplay/PopUps")
 locationNameDisplay = NodePath("CanvasLayer/Parent/Gameplay/LocationName")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
@@ -492,7 +493,7 @@ texture = SubResource("AtlasTexture_r1l8n")
 stretch_mode = 2
 
 [node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/Parent/Gameplay/HUD/Char/WeaponIcon"]
-custom_minimum_size = Vector2(32, 16)
+custom_minimum_size = Vector2(80, 16)
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -885,47 +886,6 @@ theme_override_fonts/font = ExtResource("5_q2rvt")
 text = "Pause"
 horizontal_alignment = 1
 
-[node name="PopUps" type="Control" parent="CanvasLayer/Parent/Gameplay/HUD" node_paths=PackedStringArray("popupTemplate", "popupContainer")]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("15_6hp2c")
-popupTemplate = NodePath("VBoxContainer/TextureRect")
-popupContainer = NodePath("VBoxContainer")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Parent/Gameplay/HUD/PopUps"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Parent/Gameplay/HUD/PopUps/VBoxContainer"]
-visible = false
-layout_mode = 2
-texture = SubResource("GradientTexture2D_nhu2j")
-
-[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/Parent/Gameplay/HUD/PopUps/VBoxContainer/TextureRect"]
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = 16.0
-offset_right = -16.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("26_i481w")
-theme_override_fonts/normal_font = ExtResource("5_q2rvt")
-bbcode_enabled = true
-text = "[center]Now! This is it!
-Now is the time to walk! using [img region=16,16,16,16]res://Graphics/System/axis_icons.png[/img] and [img region=16,0,16,16]res://Graphics/System/axis_icons.png[/img]"
-fit_content = true
-
 [node name="LocationName" type="Control" parent="CanvasLayer/Parent/Gameplay" node_paths=PackedStringArray("label")]
 visible = false
 layout_mode = 1
@@ -968,8 +928,163 @@ text = "The Pit"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Dialogue" type="Control" parent="CanvasLayer/Parent/Gameplay" node_paths=PackedStringArray("container", "animation", "leftArt", "leftEyelids", "leftMouth", "rightArt", "rightEyelids", "rightMouth")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("26_v6cid")
+dialogueBoxTemplate = ExtResource("27_7og1x")
+shopBoxTemplate = ExtResource("24_lqeds")
+container = NodePath("VBoxContainer")
+animation = NodePath("AnimationPlayer")
+leftArt = NodePath("MugshotContainer/Left/LArt")
+leftEyelids = NodePath("MugshotContainer/Left/LArt/LEyelids")
+leftMouth = NodePath("MugshotContainer/Left/LArt/LMouth")
+rightArt = NodePath("MugshotContainer/Right/RArt")
+rightEyelids = NodePath("MugshotContainer/Right/RArt/REyelids")
+rightMouth = NodePath("MugshotContainer/Right/RArt/RMouth")
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Parent/Gameplay/Dialogue"]
+material = SubResource("ShaderMaterial_aohnh")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+
+[node name="MugshotContainer" type="Control" parent="CanvasLayer/Parent/Gameplay/Dialogue"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Left" type="Control" parent="CanvasLayer/Parent/Gameplay/Dialogue/MugshotContainer"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+scale = Vector2(-1, 1)
+
+[node name="LArt" type="Sprite2D" parent="CanvasLayer/Parent/Gameplay/Dialogue/MugshotContainer/Left"]
+texture = ExtResource("29_2awro")
+offset = Vector2(-72, -72)
+region_enabled = true
+region_rect = Rect2(0, 0, 256, 270)
+
+[node name="LEyelids" type="Sprite2D" parent="CanvasLayer/Parent/Gameplay/Dialogue/MugshotContainer/Left/LArt"]
+visible = false
+texture = ExtResource("29_2awro")
+offset = Vector2(-72, -72)
+region_enabled = true
+region_rect = Rect2(256, 0, 256, 270)
+
+[node name="LMouth" type="Sprite2D" parent="CanvasLayer/Parent/Gameplay/Dialogue/MugshotContainer/Left/LArt"]
+visible = false
+texture = ExtResource("29_2awro")
+offset = Vector2(-72, -72)
+region_enabled = true
+region_rect = Rect2(512, 0, 256, 270)
+
+[node name="Right" type="Control" parent="CanvasLayer/Parent/Gameplay/Dialogue/MugshotContainer"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="RArt" type="Sprite2D" parent="CanvasLayer/Parent/Gameplay/Dialogue/MugshotContainer/Right"]
+texture = ExtResource("28_a50qb")
+offset = Vector2(-72, -72)
+region_enabled = true
+region_rect = Rect2(0, 0, 256, 270)
+
+[node name="REyelids" type="Sprite2D" parent="CanvasLayer/Parent/Gameplay/Dialogue/MugshotContainer/Right/RArt"]
+visible = false
+texture = ExtResource("28_a50qb")
+offset = Vector2(-72, -72)
+region_enabled = true
+region_rect = Rect2(256, 0, 256, 270)
+
+[node name="RMouth" type="Sprite2D" parent="CanvasLayer/Parent/Gameplay/Dialogue/MugshotContainer/Right/RArt"]
+visible = false
+texture = ExtResource("28_a50qb")
+offset = Vector2(-72, -72)
+region_enabled = true
+region_rect = Rect2(512, 0, 256, 270)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Parent/Gameplay/Dialogue"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 80.0
+offset_right = -80.0
+offset_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/Parent/Gameplay/Dialogue"]
+libraries = {
+"": SubResource("AnimationLibrary_theyq")
+}
+
+[node name="PopUps" type="Control" parent="CanvasLayer/Parent/Gameplay" node_paths=PackedStringArray("popupTemplate", "popupContainer")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("15_6hp2c")
+popupTemplate = NodePath("VBoxContainer/TextureRect")
+popupContainer = NodePath("VBoxContainer")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Parent/Gameplay/PopUps"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Parent/Gameplay/PopUps/VBoxContainer"]
+visible = false
+layout_mode = 2
+texture = SubResource("GradientTexture2D_nhu2j")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/Parent/Gameplay/PopUps/VBoxContainer/TextureRect"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 16.0
+offset_right = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("26_i481w")
+theme_override_fonts/normal_font = ExtResource("5_q2rvt")
+bbcode_enabled = true
+text = "[center]Now! This is it!
+Now is the time to walk! using [img region=16,16,16,16]res://Graphics/System/axis_icons.png[/img] and [img region=16,0,16,16]res://Graphics/System/axis_icons.png[/img]"
+fit_content = true
+
 [node name="GameMenu" type="Control" parent="CanvasLayer/Parent/Gameplay" node_paths=PackedStringArray("screens")]
 process_mode = 3
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1742,118 +1857,6 @@ autowrap_mode = 0
 script = ExtResource("29_acwqc")
 actionName = "dash"
 
-[node name="Dialogue" type="Control" parent="CanvasLayer/Parent/Gameplay" node_paths=PackedStringArray("container", "animation", "leftArt", "leftEyelids", "leftMouth", "rightArt", "rightEyelids", "rightMouth")]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("26_v6cid")
-dialogueBoxTemplate = ExtResource("27_7og1x")
-container = NodePath("VBoxContainer")
-animation = NodePath("AnimationPlayer")
-leftArt = NodePath("MugshotContainer/Left/LArt")
-leftEyelids = NodePath("MugshotContainer/Left/LArt/LEyelids")
-leftMouth = NodePath("MugshotContainer/Left/LArt/LMouth")
-rightArt = NodePath("MugshotContainer/Right/RArt")
-rightEyelids = NodePath("MugshotContainer/Right/RArt/REyelids")
-rightMouth = NodePath("MugshotContainer/Right/RArt/RMouth")
-
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Parent/Gameplay/Dialogue"]
-material = SubResource("ShaderMaterial_aohnh")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(1, 1, 1, 0)
-
-[node name="MugshotContainer" type="Control" parent="CanvasLayer/Parent/Gameplay/Dialogue"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Left" type="Control" parent="CanvasLayer/Parent/Gameplay/Dialogue/MugshotContainer"]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-grow_vertical = 0
-scale = Vector2(-1, 1)
-
-[node name="LArt" type="Sprite2D" parent="CanvasLayer/Parent/Gameplay/Dialogue/MugshotContainer/Left"]
-texture = ExtResource("29_2awro")
-offset = Vector2(-72, -72)
-region_enabled = true
-region_rect = Rect2(0, 0, 256, 270)
-
-[node name="LEyelids" type="Sprite2D" parent="CanvasLayer/Parent/Gameplay/Dialogue/MugshotContainer/Left/LArt"]
-visible = false
-texture = ExtResource("29_2awro")
-offset = Vector2(-72, -72)
-region_enabled = true
-region_rect = Rect2(256, 0, 256, 270)
-
-[node name="LMouth" type="Sprite2D" parent="CanvasLayer/Parent/Gameplay/Dialogue/MugshotContainer/Left/LArt"]
-visible = false
-texture = ExtResource("29_2awro")
-offset = Vector2(-72, -72)
-region_enabled = true
-region_rect = Rect2(512, 0, 256, 270)
-
-[node name="Right" type="Control" parent="CanvasLayer/Parent/Gameplay/Dialogue/MugshotContainer"]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 0
-grow_vertical = 0
-
-[node name="RArt" type="Sprite2D" parent="CanvasLayer/Parent/Gameplay/Dialogue/MugshotContainer/Right"]
-texture = ExtResource("28_a50qb")
-offset = Vector2(-72, -72)
-region_enabled = true
-region_rect = Rect2(0, 0, 256, 270)
-
-[node name="REyelids" type="Sprite2D" parent="CanvasLayer/Parent/Gameplay/Dialogue/MugshotContainer/Right/RArt"]
-visible = false
-texture = ExtResource("28_a50qb")
-offset = Vector2(-72, -72)
-region_enabled = true
-region_rect = Rect2(256, 0, 256, 270)
-
-[node name="RMouth" type="Sprite2D" parent="CanvasLayer/Parent/Gameplay/Dialogue/MugshotContainer/Right/RArt"]
-visible = false
-texture = ExtResource("28_a50qb")
-offset = Vector2(-72, -72)
-region_enabled = true
-region_rect = Rect2(512, 0, 256, 270)
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Parent/Gameplay/Dialogue"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 80.0
-offset_right = -80.0
-offset_bottom = -32.0
-grow_horizontal = 2
-grow_vertical = 0
-alignment = 2
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/Parent/Gameplay/Dialogue"]
-libraries = {
-"": SubResource("AnimationLibrary_theyq")
-}
-
 [node name="System" type="Control" parent="CanvasLayer/Parent"]
 visible = false
 layout_mode = 1
@@ -1864,6 +1867,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer/Parent/System"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1986,6 +1990,7 @@ horizontal_alignment = 1
 
 [node name="Config" type="Control" parent="CanvasLayer/Parent/System" node_paths=PackedStringArray("FirstFocus", "OptionsContainer")]
 process_mode = 3
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2154,8 +2159,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 theme = ExtResource("26_i481w")
-min_value = -80.0
-max_value = 0.0
+step = 10.0
 rounded = true
 
 [node name="VolumeBGM" type="Button" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer" node_paths=PackedStringArray("slider")]
@@ -2188,8 +2192,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 theme = ExtResource("26_i481w")
-min_value = -80.0
-max_value = 0.0
+step = 10.0
 rounded = true
 
 [node name="VolumeSFX" type="Button" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer" node_paths=PackedStringArray("slider")]
@@ -2222,8 +2225,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 theme = ExtResource("26_i481w")
-min_value = -80.0
-max_value = 0.0
+step = 10.0
 rounded = true
 
 [node name="VolumeAMB" type="Button" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer" node_paths=PackedStringArray("slider")]
@@ -2256,8 +2258,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 theme = ExtResource("26_i481w")
-min_value = -80.0
-max_value = 0.0
+step = 10.0
 rounded = true
 
 [node name="Language" type="Button" parent="CanvasLayer/Parent/System/Config/TextureRect/ScrollContainer/VBoxContainer" node_paths=PackedStringArray("optionButton")]

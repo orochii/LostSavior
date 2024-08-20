@@ -43,6 +43,7 @@ You got the {0} card!,You got the {0} card!,¡Obtuviste la carta {0}!
 {0} Change screen,{0} Change screen,{0} Cambiar pantalla
 {0} Set as Card Left,{0} Set as Card Left,{0} Poner como Carta 1
 {0} Set as Card Right,{0} Set as Card Right,{0} Poner como Carta 2
+[center]{0} Interact,[center]{0} Interact,[center]{0} Interactuar
 ,,
 outside,Outside,Exterior
 underground_cave,Underground Cave,Cueva bajo tierra
@@ -113,3 +114,17 @@ Potion,Potion,Poción
 Potion_description,"Herbal mix with curative properties.
 Heals 50HP.","Mezcla herbal con propiedades curativas.
 Recupera 50PV."
+,,
+My head... it hurts.,,Mi cabeza... me duele.
+Where am I? What's... my name?,,¿Dónde estoy? ¿Cómo... cómo me llamo?
+[i]Ari.[/i],,[i]Ari.[/i]
+?,,??
+Hello? Is someone there?,,¿Hola?¿Hay alguien ahí?
+"...did I imagine that? I better 
+try and find a way out of here.",,"...lo habré imaginado. Mejor
+intentaré encontrar una salida de aquí."
+,,
+"Oh my, who would you be?",,"Oh vaya, ¿a quién tenemos aquí?"
+My name...,,Mi nombre...
+"I'm Ari, and I'm lost.",,"Soy Ari, y estoy perdida."
+"I see, you indeed don't seem to be from these lands.",,"Ya veo, ciertamente no pareces ser de estas tierras."

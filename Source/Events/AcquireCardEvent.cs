@@ -5,7 +5,12 @@ using System.Runtime.CompilerServices;
 public partial class AcquireCardEvent : Event
 {
 	[Export] BaseCard card = null;
-	public override void Refresh() {
+    public override void _Ready()
+    {
+        base._Ready();
+		// Register to list of card events.
+    }
+    public override void Refresh() {
 		if (Game.State.HasCard(card.GetId())) {
 			Visible = false;
 		}
