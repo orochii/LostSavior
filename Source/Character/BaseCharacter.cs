@@ -15,14 +15,17 @@ public partial class BaseCharacter : CharacterBody2D, IDamageable
     public const float JumpBuffer = 0.1f;
 	public const float CoyoteTime = 0.1f;
     [Export] public float Speed = 200.0f;
+    [Export] public float Deaccel = 2048.0f;
 	[Export] public float JumpVelocity = -420.0f;
     [Export] public AnimatedSprite2D graphic;
+    [Export] public GpuParticles2D walkParticles;
 	[Export] CollisionShape2D aliveShape;
 	[Export] CollisionShape2D deadShape;
     [Export] public AnimationTiming[] animationTimings;
     [Export] public AudioEntry onJumpSound;
     [Export] public AudioEntry onLandSound;
     [Export] public AnimationPlayer animation;
+    [Export] public Node2D UnderSourceContainer;
     [Export] public EFaction faction;
     //
     private Dictionary<StringName,List<AnimationTiming>> timingsDictionary;
@@ -91,7 +94,7 @@ public partial class BaseCharacter : CharacterBody2D, IDamageable
         else
         {
             if (justLanded) {
-                CancelAction(0f);
+                CancelAction(0f,true);
                 if (fallSoundQueueDelay <= 0) {
                     if (onLandSound != null) AudioManager.PlaySound2D(GlobalPosition, onLandSound);
                     fallSoundQueueDelay = .2f;
@@ -111,30 +114,50 @@ public partial class BaseCharacter : CharacterBody2D, IDamageable
         }
         if (jumpRequest > 0 && canJump > 0 && !IsActing())
         {
-            CancelAction(0f);
+            CancelAction(0f,true);
             velocity.Y = JumpVelocity;
             canJump = 0;
             if (onJumpSound != null) AudioManager.PlaySound2D(GlobalPosition, onJumpSound);
             jumpRequest = 0;
         }
 
-        if (horz != 0)
+        if (horz != 0 && forceTimer <= 0)
         {
-            if (!isGrounded || !IsActing()) velocity.X = horz * Speed;
-            else velocity.X = 0;
+            if (!isGrounded || (!IsActing())) velocity.X = horz * Speed;
+            else velocity.X = Mathf.MoveToward(Velocity.X, 0, Deaccel*(float)delta);
             if (isGrounded) moveState = "walk";
             if (!IsActing()) graphic.FlipH = horz < 0;
         }
         else
         {
-            velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
+            velocity.X = Mathf.MoveToward(Velocity.X, 0, Deaccel*(float)delta);
             if (isGrounded) moveState = "default";
         }
         Velocity = velocity;
         MoveAndSlide();
         //
+        forceTimer -= (float)delta;
         fallSoundQueueDelay -= (float)delta;
         jumpRequest -= (float)delta;
+        UpdateParticles();
+    }
+    private void UpdateParticles() {
+        if (walkParticles != null) { 
+            var d = Math.Sign(Velocity.X);
+            walkParticles.Emitting = (d != 0 && isGrounded);
+            var shader = walkParticles.ProcessMaterial as ShaderMaterial;
+            if (shader != null) {
+                shader.SetShaderParameter("direction", -d);
+            }
+        }
+    }
+    public float forceTimer = 0;
+    public void ApplyForce(Vector2 force, float duration) {
+        var v = Velocity;
+        if (Math.Abs(force.Y)> 0) v.Y = force.Y;
+        v.X = force.X * GetHorzDirection();
+        Velocity = v;
+        forceTimer = duration;
     }
     protected void ProcessAttack(double delta, bool attack, Action action) {
         if (_delayedSpawn != null) {
@@ -150,11 +173,14 @@ public partial class BaseCharacter : CharacterBody2D, IDamageable
 			return;
 		}
 		if (attack && action != null) {
-			action.Execute(this);
-			lastAction = action;
-			actionCounter += 1;
+			ExecuteAction(action);
 		}
 	}
+    public void ExecuteAction(Action action) {
+        lastAction = action;
+        action.Execute(this);
+        actionCounter += 1;
+    }
     private void OnAnimationChanged() {
         animationTimer = 0;
         lastAnimationTimer = -1;
@@ -165,6 +191,7 @@ public partial class BaseCharacter : CharacterBody2D, IDamageable
         lastAnimationTimer = -1;
 		if (lastAction != null) {
 			lastAction.Finish(this);
+            lastAction = null;
 		}
 		else {
 			CancelAction(0.1f);
@@ -181,18 +208,25 @@ public partial class BaseCharacter : CharacterBody2D, IDamageable
 		graphic.Animation = "default";
         RefreshAnimation(0);
 	}
-	public void CancelAction(float delay) {
+	public bool IsAction(Action origin) {
+        return lastAction==origin;
+    }
+    public void CancelAction(float delay, bool unsetAction=false) {
 		dropDownTimer = 0;
         actionDelay = delay;
 		actionState = "default";
 		actionCounter = 0;
-		lastAction = null;
+		if (unsetAction) lastAction = null;
         _delayedSpawn = null;
 	}
 	public bool IsActing() {
 		return actionDelay >= 0 || lastAction != null;
 	}
-	public int GetHorzDirection() {
+	public bool IsDashing() {
+        if (lastAction==null) return false;
+        return (lastAction==GetDashingAction()) && actionDelay >= 0;
+	}
+    public int GetHorzDirection() {
 		return graphic.FlipH ? -1 : 1;
 	}
 	protected Action lastAction = null;
@@ -275,4 +309,7 @@ public partial class BaseCharacter : CharacterBody2D, IDamageable
         // Enable collision with layer 4
         CollisionMask = _origCollMask;
     }
+    protected virtual Action GetDashingAction() {
+		return null;
+	}
 }

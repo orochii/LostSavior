@@ -1,4 +1,4 @@
-[gd_scene load_steps=108 format=3 uid="uid://cybqiaksbhgx6"]
+[gd_scene load_steps=113 format=3 uid="uid://cybqiaksbhgx6"]
 
 [ext_resource type="Script" path="res://Source/Character/Player.cs" id="1_bxgi7"]
 [ext_resource type="Texture2D" uid="uid://cxbfkbxo6ucn8" path="res://Graphics/Character/ari.png" id="1_fohqm"]
@@ -14,6 +14,8 @@
 [ext_resource type="AudioStream" uid="uid://cdpji6wp04nex" path="res://Audio/SFX/land.ogg" id="10_mh3mb"]
 [ext_resource type="FontFile" uid="uid://or2dek167g62" path="res://Fonts/FontdinerSwanky-Regular.ttf" id="14_8v6mo"]
 [ext_resource type="Texture2D" uid="uid://dqthnt1sj0yxm" path="res://Graphics/Lights/circle_transparent.png" id="14_k680d"]
+[ext_resource type="Shader" path="res://Source/Shaders/Particles/dustParticles.gdshader" id="15_6vonk"]
+[ext_resource type="Texture2D" uid="uid://ksegda5rv6nt" path="res://Graphics/Particles/dust.png" id="15_jo6eu"]
 [ext_resource type="Texture2D" uid="uid://srlgxp8xu0xp" path="res://Graphics/System/textBox.png" id="15_pnumw"]
 [ext_resource type="Script" path="res://Source/UI/ContainerBackground.cs" id="15_smj7f"]
 [ext_resource type="Shader" path="res://Source/Shaders/enemy.gdshader" id="16_4iu3g"]
@@ -554,6 +556,10 @@ region = Rect2(64, 224, 32, 32)
 atlas = ExtResource("1_fohqm")
 region = Rect2(96, 224, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_vppqy"]
+atlas = ExtResource("1_fohqm")
+region = Rect2(64, 192, 32, 32)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_evx7g"]
 atlas = ExtResource("1_fohqm")
 region = Rect2(0, 160, 32, 32)
@@ -799,6 +805,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_vppqy")
+}],
+"loop": false,
+"name": &"dash",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_evx7g")
 }, {
 "duration": 1.0,
@@ -923,6 +937,22 @@ animations = [{
 "speed": 12.0
 }]
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_l4xnx"]
+particles_animation = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 9
+particles_anim_loop = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7p7bl"]
+shader = ExtResource("15_6vonk")
+shader_parameter/direction = 1.0
+shader_parameter/anim_speed_min = 2.0
+shader_parameter/anim_speed_max = 2.0
+shader_parameter/anim_offset_min = 0.0
+shader_parameter/anim_offset_max = 0.0
+shader_parameter/lifetime_randomness = 0.0
+shader_parameter/color_value = Color(1, 1, 1, 1)
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_r7lql"]
 radius = 6.0
 height = 28.0
@@ -1009,33 +1039,6 @@ tracks/1/keys = {
 "values": [1.0, 0.0, 0.0]
 }
 
-[sub_resource type="Animation" id="Animation_2ktih"]
-resource_name = "disappear"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Pivot/Ari:material:shader_parameter/percent")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.0, 1.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Pivot/Ari:material:shader_parameter/disappear")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.566667),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [0.0, 0.0, 1.0]
-}
-
 [sub_resource type="Animation" id="Animation_35px2"]
 resource_name = "damage"
 tracks/0/type = "value"
@@ -1063,6 +1066,33 @@ tracks/1/keys = {
 "values": [Color(0.51, 0.1224, 0.32912, 1), Color(0.51, 0.1224, 0.32912, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_2ktih"]
+resource_name = "disappear"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/Ari:material:shader_parameter/percent")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pivot/Ari:material:shader_parameter/disappear")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.566667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 1.0]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_afsfx"]
 _data = {
 "RESET": SubResource("Animation_ft7ec"),
@@ -1071,7 +1101,7 @@ _data = {
 "disappear": SubResource("Animation_2ktih")
 }
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("levelUpAnimation", "gameoverAnimation", "CardContainer", "InteractIndicator", "graphic", "aliveShape", "deadShape", "animation")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("levelUpAnimation", "gameoverAnimation", "CardContainer", "InteractIndicator", "graphic", "walkParticles", "aliveShape", "deadShape", "animation", "UnderSourceContainer")]
 texture_filter = 1
 collision_layer = 16
 collision_mask = 9
@@ -1084,13 +1114,18 @@ CardContainer = NodePath("CardContainer")
 InteractIndicator = NodePath("Interact")
 JumpVelocity = -450.0
 graphic = NodePath("Pivot/Ari")
+walkParticles = NodePath("Pivot/GroundParticles")
 aliveShape = NodePath("Alive")
 deadShape = NodePath("Dead")
 animationTimings = Array[Object]([SubResource("Resource_l4y18"), SubResource("Resource_uck1u"), SubResource("Resource_un4c1"), SubResource("Resource_hdk2r"), SubResource("Resource_jad16")])
 onJumpSound = SubResource("Resource_8fay5")
 onLandSound = SubResource("Resource_u54nt")
 animation = NodePath("AnimationPlayer")
+UnderSourceContainer = NodePath("UnderEffects")
 faction = 1
+
+[node name="UnderEffects" type="Node2D" parent="."]
+position = Vector2(0, 1)
 
 [node name="Animations" type="Node2D" parent="."]
 
@@ -1209,9 +1244,15 @@ visibility_layer = 2
 texture_filter = 1
 material = SubResource("ShaderMaterial_4svge")
 sprite_frames = SubResource("SpriteFrames_ax253")
-animation = &"attackDown"
-frame = 3
-frame_progress = 1.0
+animation = &"dash"
+
+[node name="GroundParticles" type="GPUParticles2D" parent="Pivot"]
+material = SubResource("CanvasItemMaterial_l4xnx")
+position = Vector2(0, 8)
+emitting = false
+amount = 4
+process_material = SubResource("ShaderMaterial_7p7bl")
+texture = ExtResource("15_jo6eu")
 
 [node name="Alive" type="CollisionShape2D" parent="."]
 position = Vector2(0, -14)

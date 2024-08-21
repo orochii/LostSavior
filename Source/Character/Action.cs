@@ -10,13 +10,17 @@ public partial class Action : Resource
     [Export] public float actionDelay = 0.2f;
     [Export] public float endDelay = 0.1f;
     [Export] public StringName actionState = "attack1";
+    [Export] public Vector2 force = new Vector2(0,0);
+    [Export] public float forceDuration = 0;
     // Effect spawn
     [Export] public PackedScene effect;
     [Export] public Vector3 OffsetAndRotation = new Vector3(0,0,0);
     [Export] public bool FlipH = false;
     [Export] public bool FlipV = false;
     public void Execute(BaseCharacter p) {
+        p.SetDelayedSpawn(null, 0);
         p.SetAction(actionState, actionDelay);
+        p.ApplyForce(force, forceDuration);
         if (effectSpawnDelay <= 0) SpawnEffect(p);
         else {
             p.SetDelayedSpawn(this,effectSpawnDelay);
@@ -32,6 +36,6 @@ public partial class Action : Resource
         }
     }
     public void Finish(BaseCharacter p) {
-        p.CancelAction(endDelay);
+        if(p.IsAction(this)) p.CancelAction(endDelay);
     }
 }

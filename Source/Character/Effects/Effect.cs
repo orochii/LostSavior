@@ -2,13 +2,15 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class Effect : Area2D
+public partial class Effect : Node2D
 {
 	[Export] bool FollowSource;
+	[Export] bool UnderSource;
 	[Export] Vector2 speed;
 	[Export] bool AlwaysActive;
 	[Export] Vector2 effectTimeRange = new Vector2(0.1f,0.15f);
 	[Export] bool KillAfterEffect;
+	[Export] bool EnsureCurrentAction;
 	[Export] AudioEntry onSpawnSound;
 	[Export] AudioEntry onHitSound;
 	[Export] float MaxLife = 0;
@@ -17,11 +19,13 @@ public partial class Effect : Area2D
 	List<Node2D> registeredBodies = new List<Node2D>();
 	List<Node2D> affectedBodies = new List<Node2D>();
 	BaseCharacter source = null;
+	Action origin = null;
 	float timer = 0;
 	Vector2 offset;
     internal void Setup(BaseCharacter src, Action _action)
     {
 		source = src;
+		origin = _action;
 		if (source == null) {
 			QueueFree();
 			return;
@@ -29,7 +33,11 @@ public partial class Effect : Area2D
 		var dir = source.GetHorzDirection();
 		if (_action.FlipH) dir *= -1;
 		// Add itself to same space as source.
-		source.GetParent().AddChild(this);
+		if (UnderSource) {
+			source.UnderSourceContainer.AddChild(this);
+		} else {
+			source.GetParent().AddChild(this);
+		}
 		// Position over source.
 		offset = new Vector2(_action.OffsetAndRotation.X, _action.OffsetAndRotation.Y);
 		RotationDegrees = _action.OffsetAndRotation.Z * dir;
@@ -43,7 +51,7 @@ public partial class Effect : Area2D
     }
 	public void InitPosition() {
 		var _off = new Vector2(offset.X * Scale.X, offset.Y);
-		Position = source.Position + _off;
+		GlobalPosition = source.GlobalPosition + _off;
 	}
 	public void UpdatePosition(double delta) {
 		if (FollowSource) {
@@ -52,7 +60,7 @@ public partial class Effect : Area2D
 		else {
 			var move = speed * (float)delta;
 			move.X = move.X * Scale.X;
-			Position += move.Rotated(Rotation);
+			GlobalPosition += move.Rotated(Rotation);
 		}
 	}
 	public void OnAnimationFinished() {
@@ -61,6 +69,10 @@ public partial class Effect : Area2D
 	public override void _Process(double delta)
 	{
 		if (source == null) return;
+		if (EnsureCurrentAction && !source.IsAction(origin)) {
+			QueueFree();
+			return;
+		}
 		var active = AlwaysActive || (timer > effectTimeRange.X && timer <= effectTimeRange.Y);
 		if (active) ApplyEffect();
 		timer += (float)delta;

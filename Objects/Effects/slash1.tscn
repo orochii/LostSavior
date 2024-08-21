@@ -66,6 +66,7 @@ collision_mask = 18
 script = ExtResource("1_1n0ax")
 FollowSource = true
 KillAfterEffect = true
+EnsureCurrentAction = true
 onSpawnSound = SubResource("Resource_s7xam")
 onHitSound = SubResource("Resource_0q7ou")
 damageFormula = 1

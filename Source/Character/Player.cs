@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 public partial class Player : BaseCharacter, IDamageable
@@ -45,6 +46,8 @@ public partial class Player : BaseCharacter, IDamageable
 		}
 		// Process cards
 		ProcessCards(delta);
+		// Process dash
+		ProcessDash();
         // Execute attacks
 		FindClosestEvent();
 		if (attack && CheckCloseEvents()) {
@@ -58,6 +61,16 @@ public partial class Player : BaseCharacter, IDamageable
 		// Refresh animation.
 		RefreshAnimation(delta);
     }
+	private void ProcessDash() {
+		if (isGrounded && !IsDashing()) {
+			if (Input.IsActionJustPressed("dash")) {
+				ExecuteAction(GetDashingAction());
+			}
+		}
+	}
+	protected override Action GetDashingAction() {
+		return Game.State.Data.dashAction;
+	}
 	private void ProcessCards(double delta) {
 		for (int i = 0; i < GameState.MAX_CARD_SLOTS; i++) {
 			var card = Game.State.GetEquippedCard(i);

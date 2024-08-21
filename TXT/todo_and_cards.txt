@@ -33,7 +33,7 @@ Item6 (Temple of _). Find (8)Strength at uh this place maybe some sort of temple
 ===
 add sound to item get
 add sound/extra flair? to card get!
-blink/i-frames to on damage (might ignore i-frames but consider!)
+DONE?	blink/i-frames to on damage (might ignore i-frames but consider!)
 DONE	make item/card acquire event (cards aren't items so uh will do both separate)
 DONE	make menu to equip cards
 DONE	make NPC event
@@ -45,7 +45,7 @@ DONE	make enemy spawn areas just regular spawners triggered upon area enter inst
 
 DONE	jump down one-way elements : set one-ways as a different layer, deactivate collision with one-ways for a specific vertical distance (8px?)
 DONE	attack up/down : hold up/down to do different attacks (four total: front,down,up,air,could repeat up/down in air)
-	dash/roll : separate action, don't allow other actions. disable gravity, maybe phase through ?, invulnerability
+DONE	dash/roll : separate action, don't allow other actions. disable gravity, maybe phase through ?, invulnerability
 
 raycast from enemy to target when picking current target
 move towards target might want to have some sort of pathfind

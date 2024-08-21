@@ -20,6 +20,8 @@ effectSpawnDelay = 0.2
 actionDelay = 1.0
 endDelay = 0.1
 actionState = &"attack"
+force = Vector2(0, 0)
+forceDuration = 0.0
 effect = ExtResource("2_7huv1")
 OffsetAndRotation = Vector3(0, 0, 0)
 FlipH = false
@@ -267,6 +269,33 @@ tracks/3/keys = {
 "values": [null]
 }
 
+[sub_resource type="Animation" id="Animation_u0mor"]
+resource_name = "damage"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Node2D/Troll:material:shader_parameter/blink")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Node2D/Troll:material:shader_parameter/mixCol")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.522727, 0.312941, 0.842064, 1), Color(0.51, 0.1224, 0.32912, 0)]
+}
+
 [sub_resource type="Animation" id="Animation_72m0h"]
 resource_name = "dead"
 tracks/0/type = "value"
@@ -308,33 +337,6 @@ tracks/2/keys = {
 }]
 }
 
-[sub_resource type="Animation" id="Animation_u0mor"]
-resource_name = "damage"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Node2D/Troll:material:shader_parameter/blink")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [true, false, true, false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Node2D/Troll:material:shader_parameter/mixCol")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0.522727, 0.312941, 0.842064, 1), Color(0.51, 0.1224, 0.32912, 0)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fj2m0"]
 _data = {
 "RESET": SubResource("Animation_eo8us"),
@@ -342,7 +344,7 @@ _data = {
 "dead": SubResource("Animation_72m0h")
 }
 
-[node name="Goblin" type="CharacterBody2D" node_paths=PackedStringArray("detectionArea", "healthDisplay", "graphic", "aliveShape", "deadShape", "animation")]
+[node name="Goblin" type="CharacterBody2D" node_paths=PackedStringArray("detectionArea", "healthDisplay", "graphic", "aliveShape", "deadShape", "animation", "UnderSourceContainer")]
 texture_filter = 1
 collision_layer = 2
 collision_mask = 11
@@ -358,6 +360,7 @@ airAttackActions = Array[Object]([null])
 detectionArea = NodePath("DetectArea")
 healthDisplay = NodePath("ColorRect")
 Speed = 48.0
+Deaccel = 200.0
 graphic = NodePath("Node2D/Troll")
 aliveShape = NodePath("AliveShape")
 deadShape = NodePath("DeadShape")
@@ -365,7 +368,10 @@ animationTimings = Array[Object]([SubResource("Resource_81avh"), SubResource("Re
 onJumpSound = SubResource("Resource_ovqhc")
 onLandSound = SubResource("Resource_5qj4k")
 animation = NodePath("AnimationPlayer")
+UnderSourceContainer = NodePath("UnderEffects")
 faction = 2
+
+[node name="UnderEffects" type="Node2D" parent="."]
 
 [node name="Node2D" type="Node2D" parent="."]
 position = Vector2(0, -16)

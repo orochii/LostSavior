@@ -5,7 +5,7 @@ public partial class Event_StartGame : Event {
     public override async void Execute()
     {
         //
-        Game.Player.CancelAction(0);
+        Game.Player.CancelAction(0,true);
         await ToSignal(GetTree(), "process_frame");
         Game.Player.SetAction("sitting", 1.0f);
         GD.Print("Starting this thing wow.");

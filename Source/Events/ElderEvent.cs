@@ -6,7 +6,7 @@ public partial class ElderEvent : Event
 	[Export] BaseCard objectiveCard;
 	[Export] InventoryItem[] shopItems;
 	public override async void Execute() {
-		Game.Player.CancelAction(0);
+		Game.Player.CancelAction(0,true);
         await ToSignal(GetTree(), "process_frame");
 		Game.State.OnHold = true;
 		//

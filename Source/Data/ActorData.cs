@@ -13,6 +13,7 @@ public partial class ActorData : Resource {
 	[Export] public Action[] defaultAirActions;
     [Export] public Action[] defaultUpActions;
 	[Export] public Action[] defaultDownActions;
+    [Export] public Action dashAction;
     [ExportCategory("Starting Setup")]
     [Export] [Range(1,GameState.MAX_LEVEL)] public int StartingLevel = 1;
     [Export] public EquipItem[] StartingEquipment;
