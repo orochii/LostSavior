@@ -15,6 +15,7 @@ force = Vector2(0, 0)
 forceDuration = 0.0
 effect = ExtResource("3_rxnr5")
 OffsetAndRotation = Vector3(15, -16, 0)
+SpawnPositionIndex = -1
 FlipH = false
 FlipV = false
 
@@ -29,6 +30,7 @@ force = Vector2(0, 0)
 forceDuration = 0.0
 effect = ExtResource("3_rxnr5")
 OffsetAndRotation = Vector3(15, -16, 0)
+SpawnPositionIndex = -1
 FlipH = false
 FlipV = false
 
@@ -43,6 +45,7 @@ force = Vector2(0, 0)
 forceDuration = 0.0
 effect = ExtResource("3_rxnr5")
 OffsetAndRotation = Vector3(15, -16, 0)
+SpawnPositionIndex = -1
 FlipH = false
 FlipV = false
 
@@ -57,6 +60,7 @@ force = Vector2(0, 0)
 forceDuration = 0.0
 effect = ExtResource("3_rxnr5")
 OffsetAndRotation = Vector3(15, -16, 0)
+SpawnPositionIndex = -1
 FlipH = false
 FlipV = false
 
@@ -71,6 +75,7 @@ force = Vector2(0, 0)
 forceDuration = 0.0
 effect = ExtResource("3_rxnr5")
 OffsetAndRotation = Vector3(15, -16, 0)
+SpawnPositionIndex = -1
 FlipH = false
 FlipV = false
 
@@ -85,6 +90,7 @@ force = Vector2(0, 0)
 forceDuration = 0.0
 effect = ExtResource("3_rxnr5")
 OffsetAndRotation = Vector3(15, -16, 0)
+SpawnPositionIndex = -1
 FlipH = false
 FlipV = false
 
@@ -99,6 +105,7 @@ force = Vector2(0, 0)
 forceDuration = 0.0
 effect = ExtResource("3_rxnr5")
 OffsetAndRotation = Vector3(4, 0, 90)
+SpawnPositionIndex = -1
 FlipH = false
 FlipV = false
 
@@ -113,6 +120,7 @@ force = Vector2(0, 0)
 forceDuration = 0.0
 effect = ExtResource("3_rxnr5")
 OffsetAndRotation = Vector3(4, 0, 90)
+SpawnPositionIndex = -1
 FlipH = false
 FlipV = false
 
@@ -127,6 +135,7 @@ force = Vector2(0, 0)
 forceDuration = 0.0
 effect = ExtResource("3_rxnr5")
 OffsetAndRotation = Vector3(9, -25, -55)
+SpawnPositionIndex = -1
 FlipH = false
 FlipV = false
 
@@ -141,6 +150,7 @@ force = Vector2(0, 0)
 forceDuration = 0.0
 effect = ExtResource("3_rxnr5")
 OffsetAndRotation = Vector3(9, -25, -55)
+SpawnPositionIndex = -1
 FlipH = false
 FlipV = false
 

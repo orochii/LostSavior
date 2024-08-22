@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using Godot;
 
 public enum EFaction { NONE, PLAYER, ENEMY }
 
-[GlobalClass]
 public partial class BaseCharacter : CharacterBody2D, IDamageable
 {
     public bool IsGrounded => isGrounded;
@@ -22,6 +22,7 @@ public partial class BaseCharacter : CharacterBody2D, IDamageable
 	[Export] CollisionShape2D aliveShape;
 	[Export] CollisionShape2D deadShape;
     [Export] public AnimationTiming[] animationTimings;
+    [Export] public Node2D[] spawnLocations;
     [Export] public AudioEntry onJumpSound;
     [Export] public AudioEntry onLandSound;
     [Export] public AnimationPlayer animation;
@@ -126,7 +127,11 @@ public partial class BaseCharacter : CharacterBody2D, IDamageable
             if (!isGrounded || (!IsActing())) velocity.X = horz * Speed;
             else velocity.X = Mathf.MoveToward(Velocity.X, 0, Deaccel*(float)delta);
             if (isGrounded) moveState = "walk";
-            if (!IsActing()) graphic.FlipH = horz < 0;
+            if (!IsActing()) {
+                var s = graphic.Scale;
+                s.X = horz;
+                graphic.Scale = s; //horz < 0
+            }
         }
         else
         {
@@ -227,7 +232,7 @@ public partial class BaseCharacter : CharacterBody2D, IDamageable
         return (lastAction==GetDashingAction()) && actionDelay >= 0;
 	}
     public int GetHorzDirection() {
-		return graphic.FlipH ? -1 : 1;
+		return (int)graphic.Scale.X; // ? -1 : 1
 	}
 	protected Action lastAction = null;
 	protected void RefreshAnimation(double delta) {
@@ -312,4 +317,10 @@ public partial class BaseCharacter : CharacterBody2D, IDamageable
     protected virtual Action GetDashingAction() {
 		return null;
 	}
+    public Node2D GetSpawnLocation(int idx) {
+        GD.Print(Name, " shoot from ", idx, " max ", spawnLocations.Length);
+        if (spawnLocations==null) return this;
+        if (idx < 0 || idx >= spawnLocations.Length) return this;
+        return spawnLocations[idx];
+    }
 }

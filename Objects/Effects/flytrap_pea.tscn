@@ -1,0 +1,50 @@
+[gd_scene load_steps=9 format=3 uid="uid://b2t8ydesvefwl"]
+
+[ext_resource type="Script" path="res://Source/Character/Effects/Effect.cs" id="1_3alee"]
+[ext_resource type="Script" path="res://Source/Audio/AudioEntry.cs" id="2_a0q3y"]
+[ext_resource type="AudioStream" uid="uid://1j1tqctdy3th" path="res://Audio/SFX/flare_explode.ogg" id="3_sv42t"]
+[ext_resource type="AudioStream" uid="uid://dsjc7kf4fxllu" path="res://Audio/SFX/flare_shot.ogg" id="4_3riwd"]
+[ext_resource type="Texture2D" uid="uid://bvmyyn4knmnfa" path="res://Graphics/Effects/bullet.png" id="5_0kqmg"]
+
+[sub_resource type="Resource" id="Resource_xjdd3"]
+script = ExtResource("2_a0q3y")
+id = null
+stream = ExtResource("3_sv42t")
+volume = 0.0
+pitch = 1.0
+
+[sub_resource type="Resource" id="Resource_4dhrd"]
+script = ExtResource("2_a0q3y")
+id = null
+stream = ExtResource("4_3riwd")
+volume = 0.0
+pitch = 2.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8mfbl"]
+size = Vector2(24, 6)
+
+[node name="FlytrapPea" type="Area2D"]
+texture_filter = 1
+collision_layer = 2
+collision_mask = 19
+script = ExtResource("1_3alee")
+AdjustToSourceRotation = true
+speed = Vector2(320, 0)
+AlwaysActive = true
+KillAfterEffect = true
+onSpawnSound = SubResource("Resource_xjdd3")
+onHitSound = SubResource("Resource_4dhrd")
+MaxLife = 0.5
+damageFormula = 1
+damageBase = 5
+
+[node name="Sprite" type="Sprite2D" parent="."]
+light_mask = 0
+texture = ExtResource("5_0kqmg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-3, 0)
+shape = SubResource("RectangleShape2D_8mfbl")
+
+[connection signal="body_entered" from="." to="." method="OnBodyEntered"]
+[connection signal="body_exited" from="." to="." method="OnBodyExited"]

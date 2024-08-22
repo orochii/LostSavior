@@ -127,7 +127,7 @@ public partial class Player : BaseCharacter, IDamageable
 		if (damage > 0) {
 			int defense = DamageFormulas.CalculateDefense(this, damageFormula);
 			damage -= defense;
-			if (damage < 0) damage = 0;
+			if (damage < 1) damage = 1;
 		}
 		Game.State.ChangeHealth(-damage);
 		Game.DamagePop(GlobalPosition, damage);

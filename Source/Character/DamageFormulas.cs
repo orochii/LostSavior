@@ -23,9 +23,9 @@ public static class DamageFormulas {
 			case EDamageFormula.BASE:
 				return 0;
 			case EDamageFormula.PHYSICAL:
-				return source.GetCon() * 2;
+				return source.GetCon();
 			case EDamageFormula.MAGICAL:
-				return source.GetInt() * 2;
+				return source.GetInt();
 			default:
 				return 0;
 		}

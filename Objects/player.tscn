@@ -1101,7 +1101,7 @@ _data = {
 "disappear": SubResource("Animation_2ktih")
 }
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("levelUpAnimation", "gameoverAnimation", "CardContainer", "InteractIndicator", "graphic", "walkParticles", "aliveShape", "deadShape", "animation", "UnderSourceContainer")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("levelUpAnimation", "gameoverAnimation", "CardContainer", "InteractIndicator", "graphic", "walkParticles", "aliveShape", "deadShape", "spawnLocations", "animation", "UnderSourceContainer")]
 texture_filter = 1
 collision_layer = 16
 collision_mask = 9
@@ -1118,6 +1118,7 @@ walkParticles = NodePath("Pivot/GroundParticles")
 aliveShape = NodePath("Alive")
 deadShape = NodePath("Dead")
 animationTimings = Array[Object]([SubResource("Resource_l4y18"), SubResource("Resource_uck1u"), SubResource("Resource_un4c1"), SubResource("Resource_hdk2r"), SubResource("Resource_jad16")])
+spawnLocations = []
 onJumpSound = SubResource("Resource_8fay5")
 onLandSound = SubResource("Resource_u54nt")
 animation = NodePath("AnimationPlayer")

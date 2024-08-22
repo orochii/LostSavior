@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=4 uid="uid://db0c5ftapdirs"]
+[gd_scene load_steps=47 format=4 uid="uid://db0c5ftapdirs"]
 
 [ext_resource type="Texture2D" uid="uid://d1oidtyp5v6kh" path="res://Graphics/Backgrounds/mountain.png" id="1_4vfh8"]
 [ext_resource type="Script" path="res://Source/World/World.cs" id="1_mlylc"]
@@ -33,6 +33,7 @@
 [ext_resource type="Resource" uid="uid://d3r74pf5m36f2" path="res://Data/Items/Equip/Knife.tres" id="29_uwiee"]
 [ext_resource type="Resource" uid="uid://co00aym26y5uu" path="res://Data/Items/Equip/Robe.tres" id="30_4fclx"]
 [ext_resource type="Resource" uid="uid://f3rigqlnv831" path="res://Data/Items/Potion.tres" id="31_ex08y"]
+[ext_resource type="PackedScene" uid="uid://khoweesrmbi7" path="res://Objects/Enemies/flytrap.tscn" id="34_p8fgx"]
 
 [sub_resource type="Resource" id="Resource_ouyhc"]
 script = ExtResource("2_b7h8r")
@@ -429,6 +430,7 @@ id = "underground_cave"
 music = SubResource("Resource_abhwt")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Locations/UndegroundCave"]
+visible = false
 polygon = PackedVector2Array(120, 96, 208, 176, 112, 512, -152, 544, -512, 536, -1008, 544, -1360, 776, -1576, 696, -1560, 464, -1040, 256, -488, 160, -128, 160)
 
 [node name="GoblinSpawner" type="Node2D" parent="Locations/UndegroundCave"]
@@ -439,10 +441,6 @@ EnemyTemplate = ExtResource("11_udk5o")
 
 [node name="Node2D" type="Node2D" parent="Locations/UndegroundCave/GoblinSpawner"]
 position = Vector2(0.836047, -5.50239)
-
-[node name="Node2D2" type="Node2D" parent="Locations/UndegroundCave/GoblinSpawner"]
-position = Vector2(4.80999, -1.72248)
-scale = Vector2(1.038, 0.803828)
 
 [node name="Node2D3" type="Node2D" parent="Locations/UndegroundCave/GoblinSpawner"]
 position = Vector2(2.89902, -3.49282)
@@ -456,20 +454,26 @@ scale = Vector2(0.610206, 0.839713)
 position = Vector2(14.1694, -12.2966)
 scale = Vector2(0.610206, 0.839713)
 
-[node name="Node2D6" type="Node2D" parent="Locations/UndegroundCave/GoblinSpawner"]
-position = Vector2(17.9696, -2.44019)
-scale = Vector2(0.610206, 0.839713)
-
 [node name="Node2D7" type="Node2D" parent="Locations/UndegroundCave/GoblinSpawner"]
 position = Vector2(21.4441, -7.47397)
 scale = Vector2(0.540717, 0.92823)
 
-[node name="Node2D8" type="Node2D" parent="Locations/UndegroundCave/GoblinSpawner"]
-position = Vector2(20.6189, -8.31358)
-scale = Vector2(0.540717, 0.92823)
+[node name="FlytrapSpawner" type="Node2D" parent="Locations/UndegroundCave"]
+position = Vector2(-1053.5, 541)
+scale = Vector2(46.05, 20.9)
+script = ExtResource("16_x5fx1")
+EnemyTemplate = ExtResource("34_p8fgx")
 
-[node name="Node2D9" type="Node2D" parent="Locations/UndegroundCave/GoblinSpawner"]
-position = Vector2(21.2486, -12.6982)
+[node name="Node2D2" type="Node2D" parent="Locations/UndegroundCave/FlytrapSpawner"]
+position = Vector2(4.80999, -1.72248)
+scale = Vector2(1.038, 0.803828)
+
+[node name="Node2D6" type="Node2D" parent="Locations/UndegroundCave/FlytrapSpawner"]
+position = Vector2(17.9696, -2.44019)
+scale = Vector2(0.610206, 0.839713)
+
+[node name="Node2D8" type="Node2D" parent="Locations/UndegroundCave/FlytrapSpawner"]
+position = Vector2(20.6189, -8.31358)
 scale = Vector2(0.540717, 0.92823)
 
 [node name="Tutorial0" type="Area2D" parent="Locations/UndegroundCave"]

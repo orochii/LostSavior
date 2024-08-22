@@ -3,6 +3,7 @@ using Godot.Collections;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Threading;
 
 public partial class Enemy : BaseCharacter, IDamageable
 {
@@ -19,6 +20,8 @@ public partial class Enemy : BaseCharacter, IDamageable
 	[Export] float AggroMemoryCooldown = 2f;
 	[Export] float DetectMemoryCooldown = 5f;
 	[Export] float FollowDistance = 16f;
+	//[Export] float CheckAttackLength = 32f;
+	[Export] Vector2 MaxAttackDeltas = new Vector2(32,32);
 	[Export] Control healthDisplay;
 	private int currentHealth;
 	private Node2D lastTarget;
@@ -30,6 +33,9 @@ public partial class Enemy : BaseCharacter, IDamageable
 	private ShaderMaterial _healthMaterial = null;
 	Tween _healthTween = null;
     //
+	public Node2D GetLastTarget() {
+		return lastTarget;
+	}
     public override void _Ready()
     {
         base._Ready();
@@ -37,18 +43,10 @@ public partial class Enemy : BaseCharacter, IDamageable
 		detectionArea.BodyEntered += OnBodySeen;
 		detectionArea.BodyExited += OnBodyUnseen;
 		if (healthDisplay.Material != null) {
-			/*var refMat = healthDisplay.Material as ShaderMaterial;
-			_healthMaterial = new ShaderMaterial();
-			_healthMaterial.Shader = refMat.Shader;*/
 			_healthMaterial = healthDisplay.Material.Duplicate(true) as ShaderMaterial;
 			healthDisplay.Material = _healthMaterial;
 		}
 		if (graphic.Material != null) {
-			/*var refMat = graphic.Material as ShaderMaterial;
-			var graphicMat = new ShaderMaterial();
-			graphicMat.Shader = refMat.Shader;
-			graphicMat.SetShaderParameter("width", refMat.GetShaderParameter("width"));
-			graphicMat.SetShaderParameter("height", refMat.GetShaderParameter("height"));*/
 			graphic.Material = graphic.Material.Duplicate(true) as Material;
 			
 		}
@@ -103,19 +101,25 @@ public partial class Enemy : BaseCharacter, IDamageable
 		}
 		// Execute actions.
 		ProcessGroundMove(delta, horz, vert, jump, jumpHeld);
-		ProcessAttack(delta,attack,attackActions[0]);
+		ProcessAttack(delta,attack,GetAttackAction(attackActions));
 		RefreshAnimation(delta);
 		detectionArea.Scale = new Vector2(GetHorzDirection(), 1);
 	}
-	private bool CheckAttack(int cachedDir) {
-		var _exclude = new Array<Rid>{GetRid()};
-		var dirHorz = 32*cachedDir;
-		if (DoQuery(new Vector2(0, 0),new Vector2(dirHorz,0),_exclude)) return true;
-		for (int i = 1; i <= 2; i++) {
-			var oY = i * 4;
-			if (DoQuery(new Vector2(0, oY), new Vector2(dirHorz,oY*2),_exclude)) return true;
-			if (DoQuery(new Vector2(0,-oY), new Vector2(dirHorz,-oY*2),_exclude)) return true;
+	private Action GetAttackAction(Action[] actions) {
+		if (actions.Length > actionCounter) {
+			var action = actions[actionCounter];
+			return action;
 		}
+		return null;
+	}
+	private bool CheckAttack(int cachedDir) {
+		if (lastTarget==null) return false;
+		var _exclude = new Array<Rid>{GetRid()};
+		var dirTarget = lastTarget.GlobalPosition - GlobalPosition;
+		dirTarget.X = Math.Clamp(dirTarget.X, -MaxAttackDeltas.X, MaxAttackDeltas.X);
+		dirTarget.Y = Math.Clamp(dirTarget.Y, -MaxAttackDeltas.Y, MaxAttackDeltas.Y);
+		if (DoQuery(new Vector2(0, 0),dirTarget,_exclude)) return true;
+		//CheckAttackLength
 		return false;
 	}
 	private bool DoQuery(Vector2 offset, Vector2 direction, Array<Rid> exclude) {
@@ -176,7 +180,7 @@ public partial class Enemy : BaseCharacter, IDamageable
 		if (damage > 0) {
 			int defense = DamageFormulas.CalculateDefense(this, damageFormula);
 			damage -= defense;
-			if (damage < 0) damage = 0;
+			if (damage < 1) damage = 1;
 			OnBodySeen(source);
 		}
 		ChangeHealth(-damage);

@@ -24,6 +24,7 @@ force = Vector2(0, 0)
 forceDuration = 0.0
 effect = ExtResource("2_7huv1")
 OffsetAndRotation = Vector3(0, 0, 0)
+SpawnPositionIndex = -1
 FlipH = false
 FlipV = false
 
@@ -344,14 +345,14 @@ _data = {
 "dead": SubResource("Animation_72m0h")
 }
 
-[node name="Goblin" type="CharacterBody2D" node_paths=PackedStringArray("detectionArea", "healthDisplay", "graphic", "aliveShape", "deadShape", "animation", "UnderSourceContainer")]
+[node name="Goblin" type="CharacterBody2D" node_paths=PackedStringArray("detectionArea", "healthDisplay", "graphic", "aliveShape", "deadShape", "spawnLocations", "animation", "UnderSourceContainer")]
 texture_filter = 1
 collision_layer = 2
 collision_mask = 11
 floor_max_angle = 1.13446
 floor_snap_length = 8.0
 script = ExtResource("1_rkvoy")
-MaxHealth = 40
+MaxHealth = 32
 Str = 10
 Con = 2
 RewardExp = 10
@@ -365,6 +366,7 @@ graphic = NodePath("Node2D/Troll")
 aliveShape = NodePath("AliveShape")
 deadShape = NodePath("DeadShape")
 animationTimings = Array[Object]([SubResource("Resource_81avh"), SubResource("Resource_j5wua")])
+spawnLocations = [NodePath("Node2D")]
 onJumpSound = SubResource("Resource_ovqhc")
 onLandSound = SubResource("Resource_5qj4k")
 animation = NodePath("AnimationPlayer")

@@ -15,6 +15,7 @@ public partial class Action : Resource
     // Effect spawn
     [Export] public PackedScene effect;
     [Export] public Vector3 OffsetAndRotation = new Vector3(0,0,0);
+    [Export] public int SpawnPositionIndex = -1;
     [Export] public bool FlipH = false;
     [Export] public bool FlipV = false;
     public void Execute(BaseCharacter p) {

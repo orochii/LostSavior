@@ -16,6 +16,7 @@ force = Vector2(128, 0)
 forceDuration = 0.0
 effect = ExtResource("1_fjthh")
 OffsetAndRotation = Vector3(0, 0, 0)
+SpawnPositionIndex = -1
 FlipH = false
 FlipV = false
 
@@ -30,6 +31,7 @@ force = Vector2(128, 0)
 forceDuration = 0.2
 effect = ExtResource("3_gtlel")
 OffsetAndRotation = Vector3(0, 0, 0)
+SpawnPositionIndex = -1
 FlipH = false
 FlipV = false
 
@@ -44,6 +46,7 @@ force = Vector2(256, 0)
 forceDuration = 0.2
 effect = ExtResource("1_fjthh")
 OffsetAndRotation = Vector3(0, 0, 0)
+SpawnPositionIndex = -1
 FlipH = false
 FlipV = false
 
@@ -58,6 +61,7 @@ force = Vector2(0, 0)
 forceDuration = 0.0
 effect = ExtResource("1_fjthh")
 OffsetAndRotation = Vector3(-8, -16, 90)
+SpawnPositionIndex = -1
 FlipH = false
 FlipV = false
 
@@ -72,6 +76,7 @@ force = Vector2(0, 0)
 forceDuration = 0.0
 effect = ExtResource("1_fjthh")
 OffsetAndRotation = Vector3(-4, -16, -90)
+SpawnPositionIndex = -1
 FlipH = false
 FlipV = true
 

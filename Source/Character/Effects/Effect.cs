@@ -1,10 +1,12 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 public partial class Effect : Node2D
 {
 	[Export] bool FollowSource;
+	[Export] bool AdjustToSourceRotation;
 	[Export] bool UnderSource;
 	[Export] Vector2 speed;
 	[Export] bool AlwaysActive;
@@ -22,6 +24,9 @@ public partial class Effect : Node2D
 	Action origin = null;
 	float timer = 0;
 	Vector2 offset;
+	private Node2D GetSourcePos() {
+		return source.GetSpawnLocation(origin.SpawnPositionIndex);
+	}
     internal void Setup(BaseCharacter src, Action _action)
     {
 		source = src;
@@ -41,6 +46,13 @@ public partial class Effect : Node2D
 		// Position over source.
 		offset = new Vector2(_action.OffsetAndRotation.X, _action.OffsetAndRotation.Y);
 		RotationDegrees = _action.OffsetAndRotation.Z * dir;
+		GD.Print("Rotation ", RotationDegrees);
+		if (AdjustToSourceRotation) {
+			var rot = GetSourcePos().GlobalRotationDegrees;
+			if (dir < 0) rot = rot - 180;
+			RotationDegrees+= rot;
+			GD.Print("RotationAdjusted ", RotationDegrees);
+		}
 		// Face the right direction.
 		var s = Scale;
 		s.X = dir;
@@ -51,7 +63,7 @@ public partial class Effect : Node2D
     }
 	public void InitPosition() {
 		var _off = new Vector2(offset.X * Scale.X, offset.Y);
-		GlobalPosition = source.GlobalPosition + _off;
+		GlobalPosition = GetSourcePos().GlobalPosition + _off;
 	}
 	public void UpdatePosition(double delta) {
 		if (FollowSource) {
