@@ -43,11 +43,11 @@ public partial class Player : BaseCharacter, IDamageable
 			jumpHeld = Input.IsActionPressed("jump");
 			attack = Input.IsActionJustPressed("attack");
 			if (CanHold()) attack = Input.IsActionPressed("attack");
+			// Process cards
+			ProcessCards(delta);
+			// Process dash
+			ProcessDash();
 		}
-		// Process cards
-		ProcessCards(delta);
-		// Process dash
-		ProcessDash();
         // Execute attacks
 		FindClosestEvent();
 		if (attack && CheckCloseEvents()) {
@@ -207,6 +207,7 @@ public partial class Player : BaseCharacter, IDamageable
 		}
 	}
 	private bool CheckCloseEvents() {
+		if (!CanMove()) return false;
 		if (_closestEvent != null) {
 			_closestEvent.Execute();
 			return true;

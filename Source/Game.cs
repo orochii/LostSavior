@@ -114,9 +114,9 @@ public partial class Game : Control
 		// Viewport size
 		viewport.Size2DOverride = screenSize;
 		// UI: set parent and canvas scale
-		Canvas.Scale = new Vector2(scale,scale);
-		UIParent.AnchorRight = 1f / scale;
-		UIParent.AnchorBottom= 1f / scale;
+		//Canvas.Scale = new Vector2(scale,scale);
+		//UIParent.AnchorRight = 1f / scale;
+		//UIParent.AnchorBottom= 1f / scale;
 	}
 	private void CenterWindow() {
 		var screenPosition = DisplayServer.ScreenGetPosition();

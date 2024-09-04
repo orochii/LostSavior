@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 public class GameState {
     const int BASE_EXP = 20;
-    const int RAISE_EXP = 10;
+    const int RAISE_EXP = 30;
     public const int MAX_LEVEL = 99;
     const int MAX_ITEMS = 99;
     const int MAX_MONEY = 999999;
@@ -292,7 +292,7 @@ public class GameState {
         int lastExp = 0;
         for (int level = 0; level < MAX_LEVEL; level++) {
             // Calculate new level's experience.
-            int levelExp = BASE_EXP + ((level * level * 3 / 2) * RAISE_EXP);
+            int levelExp = BASE_EXP + ((level * level) * RAISE_EXP);
             // Set up curve.
             ExpList[level] = lastExp + levelExp;
             lastExp = ExpList[level];

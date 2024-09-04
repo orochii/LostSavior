@@ -5,13 +5,18 @@ using System.Collections.Generic;
 public partial class EnemySpawner : Node2D
 {
 	[Export] public PackedScene EnemyTemplate;
+	[Export] public int SpawnsPerFrame = 2;
 	BaseCharacter[] livingEnemies;
+	bool _busy;
 	public override void _Ready()
 	{
 		var children = GetChildren();
 		livingEnemies = new BaseCharacter[children.Count];
 	}
-	public void Respawn() {
+	public async void Respawn() {
+		if (_busy==true) return;
+		_busy = true;
+		int remainingSpawns = SpawnsPerFrame;
 		var children = GetChildren();
 		for (int i = 0; i < children.Count; i++) {
 			var c = children[i] as Node2D;
@@ -26,9 +31,16 @@ public partial class EnemySpawner : Node2D
 					Game.World.AddChild(newEnemy);
 					newEnemy.GlobalPosition = c.GlobalPosition;
 					livingEnemies[i] = newEnemy;
+					remainingSpawns -= 1;
+					if (remainingSpawns <= 0) {
+						//await ToSignal(GetTree(), "process_frame");
+						await ToSignal(GetTree().CreateTimer(1.1f, false), SceneTreeTimer.SignalName.Timeout);
+						remainingSpawns = SpawnsPerFrame;
+					}
 				}
 			}
 		}
+		_busy = false;
 	}
 	public void Clear() {
 		GD.Print("Clearing " + Name + "@" + GetParent().Name);

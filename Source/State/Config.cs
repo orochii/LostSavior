@@ -61,7 +61,6 @@ public class Config {
         AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("BGM"),ConvertUtils.PercToDb(data.VolumeBGM));
         AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("SFX"),ConvertUtils.PercToDb(data.VolumeSFX));
         AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("AMB"),ConvertUtils.PercToDb(data.VolumeAMB));
-        GD.Print(AudioServer.GetBusVolumeDb(AudioServer.GetBusIndex("Master")));
     }
     private void RefreshScale() {
         var size = SCREEN_SIZES[data.ScreenSize];

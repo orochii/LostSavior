@@ -103,22 +103,16 @@ public partial class BaseCharacter : CharacterBody2D, IDamageable
             }
             canJump = CoyoteTime;
         }
-        if (vert > 0) { // holding Down
-            dropDownTimer += (float)delta;
-            if (dropDownTimer > 0.5f){
-                GD.Print("Drop down!");
-                DropDown();
-                dropDownTimer = 0;
-            }
-        } else {
-            dropDownTimer = 0;
-        }
         if (jumpRequest > 0 && canJump > 0 && !IsActing())
         {
-            CancelAction(0f,true);
-            velocity.Y = JumpVelocity;
-            canJump = 0;
-            if (onJumpSound != null) AudioManager.PlaySound2D(GlobalPosition, onJumpSound);
+            if (vert > 0 && CheckDropDown()) { // holding Down
+                DropDown();
+            } else {
+                CancelAction(0f,true);
+                velocity.Y = JumpVelocity;
+                canJump = 0;
+                if (onJumpSound != null) AudioManager.PlaySound2D(GlobalPosition, onJumpSound);
+            }
             jumpRequest = 0;
         }
 
@@ -177,9 +171,11 @@ public partial class BaseCharacter : CharacterBody2D, IDamageable
 			actionDelay -= (float)delta;
 			return;
 		}
-		if (attack && action != null) {
-			ExecuteAction(action);
-		}
+        if (CanMove()) {
+            if (attack && action != null) {
+                ExecuteAction(action);
+            }
+        }
 	}
     public void ExecuteAction(Action action) {
         lastAction = action;
@@ -219,7 +215,7 @@ public partial class BaseCharacter : CharacterBody2D, IDamageable
     public void CancelAction(float delay, bool unsetAction=false) {
 		dropDownTimer = 0;
         actionDelay = delay;
-		actionState = "default";
+		if(CanMove()) actionState = "default";
 		actionCounter = 0;
 		if (unsetAction) lastAction = null;
         _delayedSpawn = null;
@@ -294,7 +290,9 @@ public partial class BaseCharacter : CharacterBody2D, IDamageable
         if(aliveShape != null) aliveShape.Disabled = true;
 		if(deadShape != null) deadShape.Disabled = false;
 		SetAction("dead", 0);
-		if(animation != null) animation.Play("dead");
+		if(animation != null) {
+            if (animation.HasAnimation("dead")) animation.Play("dead");
+        }
     }
     public void Revive() {
         CollisionLayer = _origCollLayers;
@@ -305,6 +303,18 @@ public partial class BaseCharacter : CharacterBody2D, IDamageable
     public virtual void GetStatus()
     {
         
+    }
+    private bool CheckDropDown() {
+        var spaceState = GetWorld2D().DirectSpaceState;
+		Vector2 from = GlobalPosition;
+		Vector2 to = from + (Vector2.Down * 4f);
+		var query = PhysicsRayQueryParameters2D.Create(from, to);
+		query.CollisionMask = 0b1000;
+		var result = spaceState.IntersectRay(query);
+		if (result.Count > 0) {
+			return true;
+		}
+		return false;
     }
     private async void DropDown() {
         // Disable collision with layer 4
@@ -318,7 +328,6 @@ public partial class BaseCharacter : CharacterBody2D, IDamageable
 		return null;
 	}
     public Node2D GetSpawnLocation(int idx) {
-        GD.Print(Name, " shoot from ", idx, " max ", spawnLocations.Length);
         if (spawnLocations==null) return this;
         if (idx < 0 || idx >= spawnLocations.Length) return this;
         return spawnLocations[idx];

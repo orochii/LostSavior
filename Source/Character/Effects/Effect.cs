@@ -1,7 +1,6 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 public partial class Effect : Node2D
 {
@@ -9,6 +8,7 @@ public partial class Effect : Node2D
 	[Export] bool AdjustToSourceRotation;
 	[Export] bool UnderSource;
 	[Export] Vector2 speed;
+	[Export] Vector2 acceleration;
 	[Export] bool AlwaysActive;
 	[Export] Vector2 effectTimeRange = new Vector2(0.1f,0.15f);
 	[Export] bool KillAfterEffect;
@@ -23,6 +23,7 @@ public partial class Effect : Node2D
 	BaseCharacter source = null;
 	Action origin = null;
 	float timer = 0;
+	Vector2 currentSpeed;
 	Vector2 offset;
 	private Node2D GetSourcePos() {
 		return source.GetSpawnLocation(origin.SpawnPositionIndex);
@@ -43,16 +44,17 @@ public partial class Effect : Node2D
 		} else {
 			source.GetParent().AddChild(this);
 		}
+		//
+		currentSpeed = speed;
 		// Position over source.
 		offset = new Vector2(_action.OffsetAndRotation.X, _action.OffsetAndRotation.Y);
 		RotationDegrees = _action.OffsetAndRotation.Z * dir;
-		GD.Print("Rotation ", RotationDegrees);
 		if (AdjustToSourceRotation) {
 			var rot = GetSourcePos().GlobalRotationDegrees;
 			if (dir < 0) rot = rot - 180;
 			RotationDegrees+= rot;
-			GD.Print("RotationAdjusted ", RotationDegrees);
 		}
+		RotationDegrees += (float)GD.RandRange(_action.RotationVariance.X, _action.RotationVariance.Y);
 		// Face the right direction.
 		var s = Scale;
 		s.X = dir;
@@ -70,7 +72,8 @@ public partial class Effect : Node2D
 			InitPosition();
 		}
 		else {
-			var move = speed * (float)delta;
+			currentSpeed += acceleration * (float)delta;
+			var move = currentSpeed * (float)delta;
 			move.X = move.X * Scale.X;
 			GlobalPosition += move.Rotated(Rotation);
 		}

@@ -1,32 +1,38 @@
 using Godot;
-using Godot.Collections;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Threading;
 
 public partial class Enemy : BaseCharacter, IDamageable
 {
+	public struct AIOutputs {
+		public float horz;
+		public float vert;
+		public bool jump;
+		public bool jumpHeld;
+		public bool attack;
+		public Action[] actions;
+	}
+	//
 	[Export][Range(1,999999)] int MaxHealth = 10;
 	[Export][Range(1,999)] int Str = 1;
 	[Export][Range(1,999)] int Con = 1;
 	[Export][Range(1,999)] int Int = 1;
 	[Export] int RewardExp = 2;
 	[Export] int RewardMoney = 5;
-	[Export] public Action[] attackActions;
-	[Export] public Action[] airAttackActions;
+	[Export] public BaseEnemyState[] chaseStates;
+	private Dictionary<string,BaseEnemyState> _chaseStates = new Dictionary<string,BaseEnemyState>();
 	[Export] Area2D detectionArea;
 	[Export] float ReactionCooldown = 0.6f;
 	[Export] float AggroMemoryCooldown = 2f;
 	[Export] float DetectMemoryCooldown = 5f;
-	[Export] float FollowDistance = 16f;
-	//[Export] float CheckAttackLength = 32f;
-	[Export] Vector2 MaxAttackDeltas = new Vector2(32,32);
 	[Export] Control healthDisplay;
 	private int currentHealth;
 	private Node2D lastTarget;
 	private List<Node2D> brainTargets = new List<Node2D>();
+	private Vector2 originalPos;
 	private Vector2 brainTargetPos;
+	public Vector2 BrainTargetPos => brainTargetPos;
 	private float reactionTimer;
 	private float lastTargetMemory;
 	private float brainTargetCooldown;
@@ -39,6 +45,7 @@ public partial class Enemy : BaseCharacter, IDamageable
     public override void _Ready()
     {
         base._Ready();
+		originalPos = GlobalPosition;
 		currentHealth = MaxHealth;
 		detectionArea.BodyEntered += OnBodySeen;
 		detectionArea.BodyExited += OnBodyUnseen;
@@ -50,13 +57,13 @@ public partial class Enemy : BaseCharacter, IDamageable
 			graphic.Material = graphic.Material.Duplicate(true) as Material;
 			
 		}
+		InitializeStates();
     }
-    public override void _PhysicsProcess(double delta) {
-		float horz = 0;
-		float vert = 0;
-		bool jump = false;
-		bool jumpHeld = true;
-		bool attack = false;
+	private void InitializeStates() {
+		foreach (var s in chaseStates) _chaseStates.Add(s.id, s);
+	}
+	public override void _PhysicsProcess(double delta) {
+		AIOutputs outputs = new AIOutputs();
 		if (CanMove()) {
 			// Detection update.
 			if (brainTargets.Count > 0) {
@@ -72,23 +79,9 @@ public partial class Enemy : BaseCharacter, IDamageable
 			// Movement brain.
 			if (brainTargetCooldown > 0) {
 				brainTargetCooldown -= (float)delta;
-				var cachedDir = GetHorzDirection();
-				//Move
-				var deltaPos = brainTargetPos - GlobalPosition;
-				var reqDir = Math.Sign(deltaPos.X);
-				if (Math.Abs(deltaPos.X) > FollowDistance || reqDir != cachedDir) {
-					horz = reqDir;
-					cachedDir = reqDir;
-				}
-				if(reactionTimer > 0) reactionTimer -= (float)delta;
-				else {
-					//Jump and Attack
-					attack = CheckAttack(cachedDir);
-					if (!attack) jump = CheckJump(cachedDir);
-					//
-				}
+				outputs = UpdateChaseBrain(delta, outputs);
 			} else {
-				// Regular patrol/wander. TODO
+				outputs = UpdatePatrolBrain(delta, outputs);
 			}
 			// Forget the dead (?).
 			brainTargets.RemoveAll((n) => {
@@ -100,29 +93,72 @@ public partial class Enemy : BaseCharacter, IDamageable
 			});
 		}
 		// Execute actions.
-		ProcessGroundMove(delta, horz, vert, jump, jumpHeld);
-		ProcessAttack(delta,attack,GetAttackAction(attackActions));
+		ProcessGroundMove(delta, outputs.horz, outputs.vert, outputs.jump, outputs.jumpHeld);
+		ProcessAttack(delta,outputs.attack,GetAttackAction(outputs.actions));
 		RefreshAnimation(delta);
 		detectionArea.Scale = new Vector2(GetHorzDirection(), 1);
 	}
-	private Action GetAttackAction(Action[] actions) {
-		if (actions.Length > actionCounter) {
-			var action = actions[actionCounter];
+	private AIOutputs UpdatePatrolBrain(double delta, AIOutputs outputs) {
+		// Regular patrol/wander. TODO
+		return outputs;
+	}
+	public bool IsReactionCooldown() {
+		return reactionTimer > 0;
+	}
+	private string currentChaseState = "";
+	private float currentChaseStateTimer = 0f;
+	public float ChaseStateTimer=>currentChaseStateTimer;
+	public BaseEnemyState GetCurrentChaseState() {
+		if (_chaseStates.TryGetValue(currentChaseState, out var state)) return state;
+		return null;
+	}
+	public void ChangeChaseState(string newStateId, double delta) {
+		var curr = GetCurrentChaseState();
+		if (curr != null) curr.Exit(this, delta);
+		currentChaseState = newStateId;
+		currentChaseStateTimer = 0f;
+		var newState = GetCurrentChaseState();
+		if (newState != null) newState.Enter(this, delta);
+	}
+	private AIOutputs UpdateChaseBrain(double delta, AIOutputs outputs) {
+		if(reactionTimer > 0) reactionTimer -= (float)delta;
+		currentChaseStateTimer += (float)delta;
+		//
+		var curr = GetCurrentChaseState();
+		if (curr == null) {
+			ChangeChaseState(chaseStates[0].id, delta);
+		} else {
+			outputs = curr.Update(this, delta, outputs);
+		}
+		//
+		return outputs;
+	}
+	private Action GetAttackAction(Action[] selectedActions) {
+		if (selectedActions == null) return null;
+		if (selectedActions.Length > actionCounter) {
+			var action = selectedActions[actionCounter];
 			return action;
 		}
 		return null;
 	}
-	private bool CheckAttack(int cachedDir) {
+	public bool CheckTargetDelta(Vector2 maxDeltas) {
 		if (lastTarget==null) return false;
-		var _exclude = new Array<Rid>{GetRid()};
 		var dirTarget = lastTarget.GlobalPosition - GlobalPosition;
-		dirTarget.X = Math.Clamp(dirTarget.X, -MaxAttackDeltas.X, MaxAttackDeltas.X);
-		dirTarget.Y = Math.Clamp(dirTarget.Y, -MaxAttackDeltas.Y, MaxAttackDeltas.Y);
+		if (Math.Abs(dirTarget.X) > maxDeltas.X) return false;
+		if (Math.Abs(dirTarget.Y) > maxDeltas.Y) return false;
+		return true;
+	}
+	public bool CheckAttack(int cachedDir, Vector2 maxDeltas) {
+		if (lastTarget==null) return false;
+		if (cachedDir == 0) return false;
+		var _exclude = new Godot.Collections.Array<Rid>{GetRid()};
+		var dirTarget = lastTarget.GlobalPosition - GlobalPosition;
+		dirTarget.X = Math.Clamp(dirTarget.X, -maxDeltas.X, maxDeltas.X);
+		dirTarget.Y = Math.Clamp(dirTarget.Y, -maxDeltas.Y, maxDeltas.Y);
 		if (DoQuery(new Vector2(0, 0),dirTarget,_exclude)) return true;
-		//CheckAttackLength
 		return false;
 	}
-	private bool DoQuery(Vector2 offset, Vector2 direction, Array<Rid> exclude) {
+	private bool DoQuery(Vector2 offset, Vector2 direction, Godot.Collections.Array<Rid> exclude) {
 		var spaceState = GetWorld2D().DirectSpaceState;
 		Vector2 from = GlobalPosition + offset;
 		Vector2 to = from + direction;
@@ -141,7 +177,7 @@ public partial class Enemy : BaseCharacter, IDamageable
 		}
 		return false;
 	}
-	private bool CheckJump(int cachedDir) {
+	public bool CheckJump(int cachedDir) {
 		var spaceState = GetWorld2D().DirectSpaceState;
 		Vector2 from = GlobalPosition + new Vector2(0, -8);
 		Vector2 to = from + (new Vector2(32,0) * cachedDir);

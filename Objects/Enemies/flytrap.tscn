@@ -1,13 +1,38 @@
-[gd_scene load_steps=43 format=3 uid="uid://khoweesrmbi7"]
+[gd_scene load_steps=50 format=3 uid="uid://khoweesrmbi7"]
 
 [ext_resource type="Script" path="res://Source/Character/Enemy.cs" id="1_ys6ax"]
 [ext_resource type="PackedScene" uid="uid://b2t8ydesvefwl" path="res://Objects/Effects/flytrap_pea.tscn" id="2_4d0g0"]
+[ext_resource type="PackedScene" uid="uid://b88gkok61fpu6" path="res://Objects/Effects/slash1.tscn" id="2_awwao"]
 [ext_resource type="Script" path="res://Source/Character/Action.cs" id="3_s0cpa"]
+[ext_resource type="Script" path="res://Source/Character/Enemy/EnemyAction.cs" id="4_dpxl0"]
 [ext_resource type="Script" path="res://Source/Audio/AudioEntry.cs" id="5_7c2cx"]
+[ext_resource type="Script" path="res://Source/Character/Enemy/AttackTarget.cs" id="6_peswf"]
 [ext_resource type="Script" path="res://Source/Character/Enemy/LookTargetComponent.cs" id="7_iqbyk"]
 [ext_resource type="Shader" path="res://Source/Shaders/enemy.gdshader" id="10_nbbjh"]
 [ext_resource type="Texture2D" uid="uid://brkvdpudbtg4c" path="res://Graphics/Character/flytrap.png" id="11_6ifd6"]
 [ext_resource type="Shader" path="res://Source/Shaders/healthBar.gdshader" id="12_o0qt8"]
+
+[sub_resource type="Resource" id="Resource_2bjqf"]
+script = ExtResource("3_s0cpa")
+displayName = "Attack"
+effectSpawnDelay = 0.0
+actionDelay = 0.2
+endDelay = 0.1
+actionState = &"attack"
+force = Vector2(0, 0)
+forceDuration = 0.0
+effect = ExtResource("2_awwao")
+OffsetAndRotation = Vector3(0, 0, 0)
+RotationVariance = Vector2(0, 0)
+SpawnPositionIndex = -1
+FlipH = false
+FlipV = false
+
+[sub_resource type="Resource" id="Resource_27gj7"]
+script = ExtResource("4_dpxl0")
+MaxActionDeltas = Vector2(32, 32)
+IsGrounded = true
+Actions = Array[Object]([SubResource("Resource_2bjqf")])
 
 [sub_resource type="Resource" id="Resource_tgtav"]
 script = ExtResource("3_s0cpa")
@@ -20,6 +45,7 @@ force = Vector2(0, 0)
 forceDuration = 0.0
 effect = ExtResource("2_4d0g0")
 OffsetAndRotation = Vector3(0, 0, 0)
+RotationVariance = Vector2(0, 0)
 SpawnPositionIndex = 0
 FlipH = false
 FlipV = false
@@ -35,6 +61,7 @@ force = Vector2(0, 0)
 forceDuration = 0.0
 effect = ExtResource("2_4d0g0")
 OffsetAndRotation = Vector3(0, 0, 0)
+RotationVariance = Vector2(0, 0)
 SpawnPositionIndex = 0
 FlipH = false
 FlipV = false
@@ -44,15 +71,29 @@ script = ExtResource("3_s0cpa")
 displayName = "Attack"
 effectSpawnDelay = 0.25
 actionDelay = 1.0
-endDelay = 0.5
+endDelay = 1.0
 actionState = &"attack"
 force = Vector2(0, 0)
 forceDuration = 0.0
 effect = ExtResource("2_4d0g0")
 OffsetAndRotation = Vector3(0, 0, 0)
+RotationVariance = Vector2(0, 0)
 SpawnPositionIndex = 0
 FlipH = false
 FlipV = false
+
+[sub_resource type="Resource" id="Resource_6ox5o"]
+script = ExtResource("4_dpxl0")
+MaxActionDeltas = Vector2(320, 320)
+IsGrounded = true
+Actions = Array[Object]([SubResource("Resource_tgtav"), SubResource("Resource_bly1d"), SubResource("Resource_j31px")])
+
+[sub_resource type="Resource" id="Resource_83urh"]
+script = ExtResource("6_peswf")
+Actions = Array[Object]([SubResource("Resource_27gj7"), SubResource("Resource_6ox5o")])
+MaxDistance = 1280.0
+NextStateId = ""
+id = "attack"
 
 [sub_resource type="Resource" id="Resource_qwi34"]
 script = ExtResource("5_7c2cx")
@@ -253,8 +294,8 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8x517"]
-radius = 8.0
-height = 26.0
+radius = 11.0
+height = 38.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_11gmq"]
 radius = 5.0
@@ -401,10 +442,8 @@ Str = 17
 Con = 7
 RewardExp = 12
 RewardMoney = 2
-attackActions = Array[Object]([SubResource("Resource_tgtav"), SubResource("Resource_bly1d"), SubResource("Resource_j31px")])
-airAttackActions = Array[Object]([])
+chaseStates = Array[Object]([SubResource("Resource_83urh")])
 detectionArea = NodePath("DetectArea")
-MaxAttackDeltas = Vector2(320, 320)
 healthDisplay = NodePath("ColorRect")
 Speed = 0.0
 JumpVelocity = 0.0
@@ -446,7 +485,7 @@ baseCharacter = NodePath("../../../..")
 element = NodePath("..")
 
 [node name="AliveShape" type="CollisionShape2D" parent="."]
-position = Vector2(0, -13)
+position = Vector2(0, -19)
 shape = SubResource("CapsuleShape2D_8x517")
 
 [node name="DeadShape" type="CollisionShape2D" parent="."]
